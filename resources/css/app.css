@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.window {
+    @apply resize overflow-y-auto overflow-x-auto flex flex-col fixed
+}
+
+.glass .window {
+    @apply backdrop-blur-md outline outline-black/75 border-2 border-white/50
+}
+
+.glass .container {
+    @apply bg-white/30
+}
+
+.glass .header {
+    @apply bg-white/50
+}
+
+.brutal .window {
+    @apply outline outline-black border-2 border-white
+}
+
+.brutal .header {
+    @apply bg-white
+}
+
+.brutal .container {
+    @apply bg-white
+}
+
+.win98 .button {
+
+}
