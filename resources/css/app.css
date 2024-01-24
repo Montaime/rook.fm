@@ -7,7 +7,7 @@
 }
 
 .glass .window {
-    @apply backdrop-blur-md outline outline-black/75 border-2 border-white/50
+    @apply backdrop-blur-lg border-2 border-white/50
 }
 
 .glass .container {
@@ -19,7 +19,7 @@
 }
 
 .brutal .window {
-    @apply outline outline-black border-2 border-white
+    @apply outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
 }
 
 .brutal .header {
@@ -30,6 +30,28 @@
     @apply bg-white
 }
 
-.win98 .button {
-
+.dark .window {
+    @apply rounded-md
 }
+
+.dark .header {
+    @apply bg-gradient-to-b from-gray-300 to-black
+}
+
+.dark .window {
+    @apply bg-gray-900 text-white outline outline-black
+}
+
+.aero .window {
+    @apply rounded-md backdrop-blur-md
+}
+
+.aero .header {
+    @apply bg-gradient-to-b from-gray-300 to-black
+}
+
+.aero .window {
+    @apply bg-gray-900/50
+}
+
+

@@ -154,6 +154,7 @@ const startOpen = ref(false);
             {{uiTheme}}
             <button @click="uiTheme = 'brutal'">Brutal Theme</button>
             <button @click="uiTheme = 'glass'">Glass Theme</button>
+            <button @click="uiTheme = 'aero'">Aero Theme</button>
         </Window>
         <Window :x="900" :y="330" container-class="flex flex-col space-y-2" title="Radio">
             <h1 class="text-2xl font-bold">Montaime Radio</h1>

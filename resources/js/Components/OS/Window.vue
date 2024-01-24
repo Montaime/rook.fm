@@ -16,9 +16,13 @@ const el = ref(null)
 const { x, y, style } = useDraggable(el, {
     initialValue: { x: props.x, y: props.y}
 })
+
+const property = {
+
+}
 </script>
 <template>
-    <div :style="style + 'width:500px; box-shadow:rgba(0,0,0,0.9) 7px 7px, rgba(0,0,0,0.75) 0px 5px 10px;'" class="window">
+    <div :style="style + 'width:500px;'" class="window">
         <div ref="el" class="header flex space-x-2 p-1 justify-between select-none">
             <span class="text-sm px-1">{{ title }}</span>
             <div class="flex space-x-2">
