@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ssr
-          path: bootstrap/ssr/ssr.mjs
+          path: bootstrap/ssr/ssr.js
   #  test-php:
   #    name: Test/Lint PHP
   #    runs-on: ubuntu-latest
