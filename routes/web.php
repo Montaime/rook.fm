@@ -16,8 +16,12 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
+Route::get('/OS', function () {
     return Inertia::render('OS');
+});
+
+Route::get('/', function () {
+    return Inertia::render('Home');
 });
 
 Route::get('/posts', function () {
@@ -31,6 +35,10 @@ Route::get('/posts', function () {
 
 Route::get('/join', function () {
     return Inertia::render('Join');
+});
+
+Route::get('/mock', function () {
+    return Inertia::render('Mock');
 });
 
 Route::get('/demos:new-club', function () {

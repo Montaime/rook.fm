@@ -19,6 +19,8 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
-        "@vueuse/core": "^10.7.1"
+        "@vueuse/core": "^10.7.1",
+        "satori": "^0.10.11",
+        "satori-html": "^0.3.2"
     }
 }
