@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class MemberInvite extends Model
 {
     use HasFactory;
+
+    public function consumers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'memberships', 'code_id', 'user_id');
+    }
 }

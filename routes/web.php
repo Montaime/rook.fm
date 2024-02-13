@@ -29,7 +29,13 @@ Route::post('/early-access', function (\Illuminate\Http\Request $request) {
 
     if (!$code) return back()->withErrors(['code' => 'Invalid Code']);
 
-    return redirect(\Illuminate\Support\Facades\URL::temporarySignedRoute('register', now()->addMinutes(60), ['code' => $request->string('code')]));
+    return redirect(\Illuminate\Support\Facades\URL::temporarySignedRoute(
+        'register',
+        now()->addMinutes(60),
+        [
+            'code' => $code->code
+        ]
+    ));
 });
 
 Route::post('/chat/send', function (\Illuminate\Http\Request $request) {

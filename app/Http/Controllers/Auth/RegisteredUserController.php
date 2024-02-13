@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\MemberInvite;
+use App\Models\Membership;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -19,9 +21,11 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/Register', [
+            'code' => $request->string('code')
+        ]);
     }
 
     /**
@@ -37,11 +41,28 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $code = MemberInvite::query()->where('code', '=', $request->string('code'))->first();
+
+        if (!$code) {
+            return back()->withErrors(['code' => 'Invalid Code']);
+        }
+
+        if ($code->consumers()->count() >= $code->uses) {
+            return back()->withErrors(['code' => 'This code already in use']);
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $ms = new Membership();
+        $ms->tier = 1;
+        $ms->club_id = 1;
+        $ms->user_id = $user->id;
+        $ms->code_id = $code->id;
+        $ms->save();
 
         event(new Registered($user));
 
