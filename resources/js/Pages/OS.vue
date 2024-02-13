@@ -109,7 +109,7 @@ const tabClick = (name) => {
 }
 </script>
 <template>
-    <div class="root flex flex-col h-screen w-screen overflow-hidden bg-cover" :style="`background-image: url('${activeTheme}')`">
+    <div id="root" class="flex flex-col h-screen w-screen overflow-hidden bg-cover" :style="`background-image: url('${activeTheme}')`">
         <div class="invisible grow overflow-hidden">
             <div class="h-full text-white w-full grid grid-flow-row grid-rows-12 gap-4 p-0.5">
                 <div @click="d_timeS = 0" class="flex flex-col items-center space-y-1 w-8 h-fit p-2 px-10 border border-black bg-cyan-400/50 border-dashed">
@@ -191,7 +191,7 @@ const tabClick = (name) => {
         </div>
         <p class="text-4xl cursor-pointer font-bold mt-4">Click Anywhere To Unlock</p>
     </div>
-    <div v-if="clicked" @mousedown="zHighest++" :class="uiTheme" class="relative z-0">
+    <div v-if="clicked" @mousedown="zHighest++" class="relative z-0">
         <Window v-for="(w, key) in windows" v-model="windows[key]" :z-highest="zHighest" :x="Math.floor(Math.random() * 450) + 50" :y="Math.floor(Math.random() * 450) + 50" :container-class="w.style" :title="key">
             <component :is="cMap[key]"/>
         </Window>
