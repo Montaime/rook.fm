@@ -73,7 +73,7 @@ task('launch', [
     'artisan:route:cache',      // |
     'artisan:optimize',         // | Laravel specific steps
     'artisan:migrate',          // |
-    'artisan:tenants:migrate',  // |
+    //'artisan:tenants:migrate',  // |
     //'artisan:update',         // |
     'deploy:symlink',
     'deploy:unlock',
