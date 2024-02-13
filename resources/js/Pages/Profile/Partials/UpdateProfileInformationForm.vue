@@ -4,6 +4,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
+import {getUser} from "../../../util.js";
+import route from "ziggy-js";
 
 defineProps({
     mustVerifyEmail: {
@@ -14,7 +16,7 @@ defineProps({
     },
 });
 
-const user = usePage().props.auth.user;
+const user = getUser();
 
 const form = useForm({
     name: user.name,

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,13 +16,37 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/OS', function () {
-    return Inertia::render('OS');
+Route::get('/', function () {
+    return auth()->check() ? Inertia::render('OS') : Inertia::render('Home');
 });
 
-Route::get('/', function () {
-    return Inertia::render('Home');
+Route::post('/early-access', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'code' => ['required', 'string']
+    ]);
+
+    $code = \App\Models\MemberInvite::query()->where('code', '=', $request->string('code'))->first();
+
+    if (!$code) return back()->withErrors(['code' => 'Invalid Code']);
+
+    return redirect(\Illuminate\Support\Facades\URL::temporarySignedRoute('register', now()->addMinutes(60), ['code' => $request->string('code')]));
 });
+
+Route::post('/chat/send', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'message' => ['required', 'max:240']
+    ]);
+
+    $msg = new \App\Models\ChatMessage();
+    $msg->user_id = $request->user()->id;
+    $msg->message = $request->string('message');
+    $msg->save();
+
+    \App\Events\ChatMessageCreated::dispatch(
+        $request->string('message'),
+        $request->user()
+    );
+})->middleware(['auth']);
 
 Route::get('/posts', function () {
     $posts = \App\Models\Post::all()->load(['author']);
@@ -65,6 +89,7 @@ Route::post('/demos:new-club', function (\Illuminate\Http\Request $request) {
 Route::get('/demos:new-post', function () {
     return Inertia::render('Demo/NewPost');
 });
+
 Route::post('/demos:new-post', function (\Illuminate\Http\Request $request) {
     $request->validate([
         'name' => 'required',
@@ -93,20 +118,16 @@ Route::get('/generate', function () {
         $a = rand(pow(10, 3), pow(10, 4) - 1);
         $b = rand(pow(10, 3), pow(10, 4) - 1);
         $c = rand(pow(10, 3), pow(10, 4) - 1);
-        return "MONT-${a}-${b}-${c}";
+        return "MERE-${a}-${b}-${c}";
     }
 
     $codes = [];
-    for ($i = 0; $i < 100; $i++) {
+    for ($i = 0; $i < 200; $i++) {
         $codes[] = g();
     }
 
     return $codes;
 });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

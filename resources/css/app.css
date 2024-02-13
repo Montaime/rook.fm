@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 .window {
-    @apply resize overflow-y-auto overflow-x-auto flex flex-col fixed
+    @apply flex flex-col fixed
+}
+
+.window > .container {
+    @apply resize overflow-y-auto overflow-x-auto
 }
 
 .glass .window {
@@ -40,6 +44,14 @@
 
 .brutal .container {
     @apply bg-white
+}
+
+.brutal textarea {
+    @apply border-2 border-black rounded-sm
+}
+
+.brutal .chatbox {
+    @apply border-2 border-black rounded-sm
 }
 
 .dark .window {
