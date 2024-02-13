@@ -24,7 +24,7 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: 'app-key',
     cluster: '',
-    wsHost: 'rook.fm',
+    wsHost: 'rook.fm:6001',
     wsPort: '6001',
     forceTLS: false,
     enabledTransports: ['ws', 'wss'],
