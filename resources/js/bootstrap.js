@@ -26,6 +26,7 @@ window.Echo = new Echo({
     cluster: '',
     wsHost: 'rook.fm',
     wsPort: 6001,
+    wssPort: 6002,
     forceTLS: false,
     enabledTransports: ['ws', 'wss'],
 });
