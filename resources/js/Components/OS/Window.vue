@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import { useDraggable } from '@vueuse/core'
 
 const props = defineProps({
@@ -19,12 +19,18 @@ const { x, y, style } = useDraggable(el, {
     initialValue: { x: props.x, y: props.y}
 })
 
+const resize = ref(null);
+
+onMounted(() => {
+    resize.value.style.height = resize.value.clientHeight + 'px';
+});
+
 const window = defineModel()
 
 const visible = ref(props.visible)
 </script>
 <template>
-    <div @mousedown="z = zHighest + 1" v-show="window.visibility === 2" :style="style + 'z-index:' + z + ';'" class="window">
+    <div @mousedown="z = zHighest + 1" :style="style + 'z-index:' + z + ';'" class="window" :class="{'invisible': window.visibility !== 2}">
         <div ref="el" class="header flex space-x-2 p-1 justify-between select-none">
             <span class="text-sm px-1">{{ title }}</span>
             <div class="flex space-x-2">
@@ -40,6 +46,6 @@ const visible = ref(props.visible)
                 </svg>
             </div>
         </div>
-        <div :style="'width:500px; min-width:200px; min-height:50px;'" class="container flex flex-col space-y-2 p-2 grow" :class="containerClass"><slot/></div>
+        <div ref="resize" :style="'width:500px; min-width:200px; min-height:50px;'" class="container relative flex flex-col space-y-2 p-2 grow" :class="containerClass"><slot/></div>
     </div>
 </template>

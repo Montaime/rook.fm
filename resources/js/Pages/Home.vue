@@ -14,7 +14,7 @@ const submit = () => form.post('/early-access');
         <div class="flex flex-col justify-end max-w-6xl w-full grow">
             <img :src="logo" alt="Rook FM">
             <h2 class="text-5xl font-bold mt-4">Reticulating Splines...</h2>
-            <p class="font-xl">You Rook.FM personal operating system is still installing critical updates.</p>
+            <p class="font-xl">Your Rook.FM personal operating system is still installing critical updates.</p>
             <h2 class="text-3xl font-bold mt-4">Skip the Line</h2>
             <p class="font-xl">Got an early access code?</p>
             <div>

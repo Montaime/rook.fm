@@ -54,6 +54,10 @@
     @apply border-2 border-black rounded-sm
 }
 
+.brutal .button {
+    @apply border-2 border-black
+}
+
 .dark .window {
     @apply rounded-md
 }

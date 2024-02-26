@@ -49,7 +49,7 @@ Route::post('/chat/send', function (\Illuminate\Http\Request $request) {
     $msg->save();
 
     \App\Events\ChatMessageCreated::dispatch(
-        $request->string('message'),
+        $msg,
         $request->user()
     );
 })->middleware(['auth']);

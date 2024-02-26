@@ -25,32 +25,37 @@ const windows = ref({
         style: 'items-center',
         x: 0,
         y: 0,
-        z: 0
+        z: 0,
+        resizable: false
     }),
     'Settings': ref({
         visibility: WState.Closed,
         style: 'divide-y',
         x: 0,
         y: 0,
-        z: 0
+        z: 0,
+        resizable: false
     }),
     'Radio': ref({
         visibility: WState.Open,
         x: 0,
         y: 0,
-        z: 0
+        z: 0,
+        resizable: false
     }),
     'Blog': ref({
         visibility: WState.Closed,
         x: 0,
         y: 0,
-        z: 0
+        z: 0,
+        resizable: false
     }),
     'Chat': ref({
         visibility: WState.Closed,
         x: 0,
         y: 0,
-        z: 0
+        z: 0,
+        resizable: false
     }),
 });
 
@@ -107,6 +112,11 @@ const tabClick = (name) => {
         windows.value[name].visibility = WState.Minimized
     }
 }
+
+const openW = (name) => {
+    windows.value[name].visibility = 2;
+    windows.value[name].z = ++zHighest.value;
+}
 </script>
 <template>
     <div id="root" class="flex flex-col h-screen w-screen overflow-hidden bg-cover" :style="`background-image: url('${activeTheme}')`">
@@ -148,11 +158,11 @@ const tabClick = (name) => {
                     </div>
                 </Link>
                 <StartLink title="Programs" >
-                    <button @click="windows['Chat'].visibility = 2" class="px-2 py-1 rounded-t-md hover:bg-gray-300 text-left">Chat</button>
-                    <button @click="windows['Blog'].visibility = 2" class="px-2 py-1 hover:bg-gray-300 text-left">Blog</button>
-                    <button @click="windows['About'].visibility = 2" class="px-2 py-1 hover:bg-gray-300 text-left">About</button>
-                    <button @click="windows['Settings'].visibility = 2" class="px-2 py-1 hover:bg-gray-300 text-left">Settings</button>
-                    <button @click="windows['Radio'].visibility = 2" class="px-2 py-1 rounded-b-md hover:bg-gray-300 text-left">Radio</button>
+                    <button @click="openW('Chat')" class="px-2 py-1 rounded-t-md hover:bg-gray-300 text-left">Chat</button>
+                    <button @click="openW('Blog')" class="px-2 py-1 hover:bg-gray-300 text-left">Blog</button>
+                    <button @click="openW('About')" class="px-2 py-1 hover:bg-gray-300 text-left">About</button>
+                    <button @click="openW('Settings')" class="px-2 py-1 hover:bg-gray-300 text-left">Settings</button>
+                    <button @click="openW('Radio')" class="px-2 py-1 rounded-b-md hover:bg-gray-300 text-left">Radio</button>
                 </StartLink>
                 <StartLink v-if="false" title="Documents">
                     <p>woah</p>
@@ -161,14 +171,14 @@ const tabClick = (name) => {
                 <StartLink title="Log Off" @click="logout"/>
             </div>
             <div class="flex items-center space-x-2 !ml-0">
-                <div @click="startOpen = !startOpen" class="flex space-x-1 items-center py-0.5 px-2 shadow rounded-md border-y border-t-white border-b-gray-300 bg-gradient-to-b from-gray-50 to-gray-200">
+                <div @click="startOpen = !startOpen" class="flex space-x-1 items-center py-0.5 px-2 shadow cursor-pointer rounded-md border-y border-t-white border-b-gray-300 bg-gradient-to-b from-gray-50 to-gray-200">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
                         <path d="M14 1.75a.75.75 0 0 0-.89-.737l-7.502 1.43a.75.75 0 0 0-.61.736v2.5c0 .018 0 .036.002.054V9.73a1 1 0 0 1-.813.983l-.58.11a1.978 1.978 0 0 0 .741 3.886l.603-.115c.9-.171 1.55-.957 1.55-1.873v-1.543l-.001-.043V6.3l6-1.143v3.146a1 1 0 0 1-.813.982l-.584.111a1.978 1.978 0 0 0 .74 3.886l.326-.062A2.252 2.252 0 0 0 14 11.007V1.75Z" />
                     </svg>
                     <span>Start</span>
                 </div>
                 <div class="py-2.5 border-x-[0.05rem] rounded border-gray-500"></div>
-                <div @contextmenu.stop="tabMenu" v-for="(tab, name) in windowsLaunched" @click="tabClick(name)" class="flex space-x-1 items-center py-0.5 px-2 shadow rounded-md border-y border-t-white border-b-gray-300 bg-gradient-to-b from-gray-50 to-gray-200">
+                <div @contextmenu.stop="tabMenu" v-for="(tab, name) in windowsLaunched" @click="tabClick(name)" class="flex cursor-pointer space-x-1 items-center py-0.5 px-2 shadow rounded-md border-y border-t-white border-b-gray-300 bg-gradient-to-b from-gray-50 to-gray-200">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
                         <path fill-rule="evenodd" d="M2 12V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Zm1.5-5.5V12a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V6.5A.5.5 0 0 0 12 6H4a.5.5 0 0 0-.5.5Zm.75-1.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM7 4a.75.75 0 1 1-1.5 0A.75.75 0 0 1 7 4Zm1.25.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
                     </svg>

@@ -15,21 +15,22 @@ class ChatMessageCreated implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public array $user;
-//    public ChatMessage $message;
-    public string $crap = 'default crap';
+    public array $message;
 
     /**
      * Create a new event instance.
      */
 //    public function __construct(User $user, ChatMessage $message)
-    public function __construct(string $crap, User $user)
+    public function __construct(ChatMessage $msg, User $user)
     {
         $this->user = [
             'id' => $user->id,
             'name' => $user->name,
         ];
-//        $this->message = $message;
-        $this->crap = $crap;
+        $this->message = [
+            'content' => $msg->message,
+            'created_at' => $msg->created_at
+        ];
     }
 
     /**
