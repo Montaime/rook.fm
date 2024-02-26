@@ -24,7 +24,7 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: 'app-key',
     cluster: '',
-    wsHost: import.meta.env.VITE_PUSHER_HOST,
+    wsHost: 'rook.fm',
     wsPort: 6001,
     wssPort: 6002,
     forceTLS: false,
