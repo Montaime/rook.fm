@@ -43,7 +43,7 @@ const windows = ref({
         z: 0,
         resizable: false
     }),
-    'Blog': ref({
+    'Clubs': ref({
         visibility: WState.Closed,
         x: 0,
         y: 0,
@@ -63,7 +63,7 @@ const cMap = {
     'About': About,
     'Settings': Settings,
     'Radio': Radio,
-    'Blog': Blog,
+    'Clubs': Blog,
     'Chat': Chatroom,
 }
 
@@ -159,7 +159,7 @@ const openW = (name) => {
                 </Link>
                 <StartLink title="Programs" >
                     <button @click="openW('Chat')" class="px-2 py-1 rounded-t-md hover:bg-gray-300 text-left">Chat</button>
-                    <button @click="openW('Blog')" class="px-2 py-1 hover:bg-gray-300 text-left">Blog</button>
+                    <button @click="openW('Clubs')" class="px-2 py-1 hover:bg-gray-300 text-left">Clubs</button>
                     <button @click="openW('About')" class="px-2 py-1 hover:bg-gray-300 text-left">About</button>
                     <button @click="openW('Settings')" class="px-2 py-1 hover:bg-gray-300 text-left">Settings</button>
                     <button @click="openW('Radio')" class="px-2 py-1 rounded-b-md hover:bg-gray-300 text-left">Radio</button>

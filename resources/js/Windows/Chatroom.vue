@@ -15,8 +15,10 @@ onBeforeMount(() => {
                 content: e.message.content,
                 created_at: e.message.created_at,
                 type: isAuthenticated() ? (getUser().id === e.user.id ? 'SEND' : '') : ''
-            })
+            });
 
+            // TODO: toggle autoscroll
+            base.value.parentElement.scrollTop = base.value.parentElement.scrollHeight;
         });
 })
 
@@ -34,8 +36,6 @@ const sendMessage = () => {
     }).then(() => {
         msg.value = '';
         sending.value = false;
-
-        base.value.parentElement.scrollTop = base.value.parentElement.scrollHeight;
     })
 }
 
