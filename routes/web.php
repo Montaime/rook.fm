@@ -21,12 +21,21 @@ Route::get('/', function () {
     return auth()->check() ? Inertia::render('OS') : Inertia::render('Home');
 });
 
-Route::get('/clubs', function () {
+Route::get('/clubs', function (\Illuminate\Http\Request $request) {
+    $q = \App\Models\Post::query()->orderBy('published_at', 'DESC');
+
+    if (auth()->check() && !in_array($request->user()->id, [1, 10])) {
+        $q->where('published_at', '<', now());
+    }
+
+    $posts = $q->get();
+
+    $posts->map(function ($p) {
+        $p->files = \Illuminate\Support\Facades\Storage::disk('public')->files('posts/' . $p->id);
+    });
+
     return [
-        'posts' => \App\Models\Post::query()
-            ->where('published_at', '<', now())
-            //->whereDate('published_at', '<', now()->timestamp)
-            ->get()
+        'posts' => $posts,
     ];
 });
 
@@ -42,10 +51,21 @@ Route::post('/posts/new', function (\Illuminate\Http\Request $request) {
     $post->title = $request->string('title');
     $post->slug = Str::slug($request->string('title'));
     $post->content = $request->string('content');
+    $post->blurb = $request->string('blurb');
     $post->author_id = $request->user()->id;
     $post->club_id = 1;
     $post->published_at = $request->string('published_at', now());
     $post->save();
+
+    $files = $request->file('files');
+    if($request->hasFile('files')) {
+        foreach ($files as $file) {
+            $name = $file->getClientOriginalName();
+            $ext = $file->guessClientExtension();
+            $id = $post->id;
+            $file->storeAs("posts/$id", "$name", 'public');
+        }
+    }
 
     // unrelated but $request->fingerprint(); what is this?
 

@@ -27,6 +27,7 @@ return new class extends Migration
                 ->restrictOnDelete();
 
             $table->mediumText('content');
+            $table->mediumText('blurb')->nullable();
 
             $table->timestamp('published_at');
             $table->softDeletes();
