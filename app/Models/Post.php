@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Post extends Model
 {
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
+
     use HasFactory;
 
     public function author(): BelongsTo

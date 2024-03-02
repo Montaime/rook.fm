@@ -21,6 +21,37 @@ Route::get('/', function () {
     return auth()->check() ? Inertia::render('OS') : Inertia::render('Home');
 });
 
+Route::get('/clubs', function () {
+    return [
+        'posts' => \App\Models\Post::query()
+            ->where('published_at', '<', now())
+            //->whereDate('published_at', '<', now()->timestamp)
+            ->get()
+    ];
+});
+
+Route::post('/posts/new', function (\Illuminate\Http\Request $request) {
+    if (!in_array($request->user()->id, [1, 10])) return back()->withErrors(['permission' => 'You are not authorized to perform this action']);
+
+    $request->validate([
+        'title' => 'required',
+        'content' => 'required',
+    ]);
+
+    $post = new \App\Models\Post();
+    $post->title = $request->string('title');
+    $post->slug = Str::slug($request->string('title'));
+    $post->content = $request->string('content');
+    $post->author_id = $request->user()->id;
+    $post->club_id = 1;
+    $post->published_at = $request->string('published_at', now());
+    $post->save();
+
+    // unrelated but $request->fingerprint(); what is this?
+
+    return back();
+})->middleware(['auth']);
+
 Route::post('/early-access', function (\Illuminate\Http\Request $request) {
     $request->validate([
         'code' => ['required', 'string']
@@ -97,26 +128,6 @@ Route::post('/chat/send', function (\Illuminate\Http\Request $request) {
 //    return Inertia::render('Demo/NewPost');
 //});
 //
-//Route::post('/demos:new-post', function (\Illuminate\Http\Request $request) {
-//    $request->validate([
-//        'name' => 'required',
-//        'description' => 'required',
-//        'owner_id' => 'required',
-//    ]);
-//
-//    $club = new \App\Models\Post();
-//    $club->title = $request->string('name');
-//    $club->slug = $request->string('slug');
-//    $club->content = $request->string('content');
-//    $club->author_id = $request->integer('author_id');
-//    $club->club_id = $request->integer('club_id');
-//    $club->published_at = $request->integer('published_at');
-//    $club->save();
-//
-//    // unrelated but $request->fingerprint(); what is this?
-//
-//    return $club;
-//});
 
 //Route::get('/generate', function () {
 //
