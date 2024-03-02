@@ -105,7 +105,7 @@ const filename = (path) => {
     <div v-else-if="currentPost !== null" class="flex flex-col items-center">
         <span @click="currentPost = null" class="w-fit cursor-pointer underline italic">Back</span>
         <h2 class="font-bold text-2xl">{{ blog[currentPost].title }}</h2>
-        <div v-html="blog[currentPost].content"></div>
+        <TipTap :editable="false" v-model="blog[currentPost].content"/>
         <details v-if="blog[currentPost].files.length > 0" class="flex flex-col items-center space-y-2 border-2 border-neutral-100 p-2 w-full">
             <summary class="font-bold text-lg uppercase cursor-pointer">Attachments</summary>
             <div v-for="file in blog[currentPost].files" class="flex flex-col space-y-2">

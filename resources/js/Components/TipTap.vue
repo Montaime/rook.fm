@@ -1,5 +1,5 @@
 <script setup>
-import {EditorContent, useEditor,} from '@tiptap/vue-3'
+import {EditorContent, useEditor} from '@tiptap/vue-3'
 import {ref, watch} from "vue";
 import {StarterKit} from "@tiptap/starter-kit";
 
@@ -76,15 +76,11 @@ watch(props.modelvalue, () => {
                 </button>
             </div>
         </div>
-        <editor-content class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-neutral-600 prose-ui !prose-invert" :class="{'p-3 bg-neutral-100/50 rounded': editable}" :editor="editor" />
+        <editor-content class="w-full prose-ul:list-disc prose-ul:list-inside prose-ol:list-decimal prose-ol:list-inside prose-p:p-1 prose-blockquote:pl-2 prose-blockquote:border-l-2 prose-blockquote:border-l-neutral-600 prose-neutral !prose-invert" :class="{'p-3 bg-neutral-100/50 rounded': editable}" :editor="editor" />
         <pre v-if="source" class="p-2 text-xs w-full overflow-x-auto">{{ modelValue }}</pre>
     </div>
 </template>
 <style>
-div[data-youtube-video] > iframe {
-    @apply rounded-lg aspect-video h-[20rem]
-}
-
 .rounded > .ProseMirror {
     padding: 0.5rem 0.75rem !important;
 }
