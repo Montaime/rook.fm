@@ -24,13 +24,13 @@ const datetime = ref(new Date());
                 <StartSubLink @click="openW('About')">About</StartSubLink>
                 <StartSubLink @click="openW('Settings')">Settings</StartSubLink>
                 <StartSubLink @click="openW('Radio')">Radio</StartSubLink>
-                <StartSubLink @click="openW('Feedback')">Feedback</StartSubLink>
-                <StartSubLink @click="openW('Events')">
-                    <div class="flex space-x-1 items-center">
-                        <span>Events</span>
-                        <span class="rounded text-white font-bold bg-red-500 text-xs px-1 py-0.5">NEW</span>
-                    </div>
-                </StartSubLink>
+<!--                <StartSubLink @click="openW('Feedback')">Feedback</StartSubLink>-->
+<!--                <StartSubLink @click="openW('Events')">-->
+<!--                    <div class="flex space-x-1 items-center">-->
+<!--                        <span>Events</span>-->
+<!--                        <span class="rounded text-white font-bold bg-red-500 text-xs px-1 py-0.5">NEW</span>-->
+<!--                    </div>-->
+<!--                </StartSubLink>-->
             </StartLink>
             <StartLink v-if="false" title="Documents">
                 <p>woah</p>
