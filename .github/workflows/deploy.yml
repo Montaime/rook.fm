@@ -23,13 +23,13 @@ jobs:
         run: tar -czvf assets.tar.gz public/build/
 
       - name: Upload build files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: assets
           path: assets.tar.gz
 
       - name: Upload SSR file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ssr
           path: bootstrap/ssr/ssr.js
@@ -46,7 +46,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Download build assets
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: assets
           path: public
@@ -55,7 +55,7 @@ jobs:
         run: tar -xzvf public/assets.tar.gz
 
       - name: Download SSR file
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ssr
           path: boostrap/ssr
