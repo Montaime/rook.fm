@@ -1,9 +1,12 @@
 <script setup>
-import poolbg from "@/../assets/wesley-tingey-9-OCsKoyQlk-unsplash.jpg"
-import vol3 from "@/../assets/vol3.png"
-import marble from "@/../assets/mere.png"
+import poolbg from "../../assets/wesley-tingey-9-OCsKoyQlk-unsplash.jpg"
+import vol3 from "../../assets/vol3.png"
+import marble from "../../assets/mere.png"
+import {$$$} from "../util.js";
 
 const theme = (css, img) => {
+    $$$.theme.wallpaper = img;
+    $$$.theme.style = css;
     document.body.className = 'font-sans antialiased ' + css;
     document.getElementById('root').style.backgroundImage = 'url(' + img + ')';
 }
