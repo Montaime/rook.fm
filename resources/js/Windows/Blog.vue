@@ -140,7 +140,7 @@ const clubs = computed(() => {
             </div>
         </div>
     </div>
-    <div class="flex flex-col items-center w-full text-center">
+    <div v-else class="flex flex-col items-center w-full text-center">
         <div>You are not a member of any artist clubs</div>
         <input type="text" placeholder="xxxx-xxxx-xxxx-xxxx" class="text-center hidden"/>
         <button @click="redeem" class="underline hidden">Redeem Code</button>
