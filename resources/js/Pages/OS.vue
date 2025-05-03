@@ -47,7 +47,7 @@ const smallSizeClicked = ref(false);
                 </svg>
             </div>
             <p class="text-4xl cursor-pointer bg-white/50 p-4 rounded-md font-bold mt-4">Hey!</p>
-            <p class="text-2xl cursor-pointer p-4 bg-white/50 rounded-md m-4">rook.fm for mobile is current unfinished, some features may not work as expected or may not be included. We are working hard to bring a great mobile experience to users.</p>
+            <p class="text-2xl cursor-pointer p-4 bg-white/50 rounded-md m-4">rook.fm mobile is VERY unfinished & far more stable on a desktop web browser (Chrome/Firefox/Safari). Things WILL be a little broken (as a treat)<br/>🛠️  Please report anything weird to help us out 💖</p>
             <button class="rounded-md bg-white/50 px-4 py-2">I Understand</button>
         </div>
         <div v-if="!clicked" @click="clicked = true" class="flex flex-col cursor-pointer items-center justify-center absolute inset-0 backdrop-blur-md z-10">

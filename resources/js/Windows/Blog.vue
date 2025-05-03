@@ -53,9 +53,11 @@ const refreshPosts = () => {
 }
 
 onBeforeMount(() => {
-    let clubs = getUser().clubs
-    currentBlog.value = clubs[clubs.length - 1].id
-    refreshPosts();
+    let keys = Object.keys(clubs.value);
+    if (keys.length > 0) {
+        currentBlog.value = keys[keys.length - 1]|0;
+        refreshPosts();
+    }
 })
 
 const isImage = (path) => extCheck(path, ['png', 'gif', 'jpg', 'jpeg'])
@@ -66,8 +68,8 @@ const filename = (path) => path.split('/').pop();
 
 const clubs = computed(() => {
     let list = {};
-    getUser().memberships.map(c => list[c.id] = c);
-    getUser().clubs.map(c => list[c.id] = c);
+    getUser().memberships.map(c => list[c.id|0] = c);
+    getUser().clubs.map(c => list[c.id|0] = c);
     return list;
 });
 
@@ -79,7 +81,7 @@ const clubs = computed(() => {
 // }
 </script>
 <template>
-    <div v-if="!isAuthenticated() || getUser().clubs?.length > 0">
+    <div v-if="!isAuthenticated() || Object.keys(clubs).length > 0">
         <div class="flex justify-between items-center">
             <select @change="refreshPosts" v-model="currentBlog" class="font-bold text-2xl bg-transparent border-none focus:ring-0">
                 <option v-for="club in clubs" class="text-sm font-base" :value="club.id">{{ club.name }}</option>
@@ -142,6 +144,7 @@ const clubs = computed(() => {
     </div>
     <div v-else class="flex flex-col items-center w-full text-center">
         <div>You are not a member of any artist clubs</div>
+        {{clubs}}
         <input type="text" placeholder="xxxx-xxxx-xxxx-xxxx" class="text-center hidden"/>
         <button @click="redeem" class="underline hidden">Redeem Code</button>
     </div>
