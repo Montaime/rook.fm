@@ -5,7 +5,18 @@ import {useDateFormat} from "@vueuse/core";
 
 const chat = ref([]);
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
+    fetch('/chat').then(res => res.json()).then(data => {
+        for (let m in data) {
+            chat.value.push({
+                user: data[m].author.name,
+                content: data[m].message,
+                created_at: data[m].created_at,
+                type: isAuthenticated() ? (getUser().id === data[m].user_id ? 'SEND' : '') : ''
+            });
+        }
+    })
+
     //Echo.leaveAllChannels();
     Echo.channel('chatroom')
         .listen('ChatMessageCreated', (e) => {
