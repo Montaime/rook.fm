@@ -16,12 +16,8 @@ const props = defineProps({
 const el = ref(null)
 
 const { x, y, style } = useDraggable(el, {
-    initialValue: { x: props.x, y: props.y}
-})
+    initialValue: { x: props.x, y: props.y},
 
-const dTL = ref(null)
-const { dTLx, dTLy, dTLstyle } = useDraggable(dTL, {
-    initialValue: { x: props.x, y: props.y}
 })
 
 const resize = ref(null);
@@ -45,8 +41,8 @@ const visible = ref(props.visible)
 <!--            <div ref="dB" class="absolute -bottom-1 cursor-ns-resize w-full py-1 bg-green-500"></div>-->
 <!--            <div ref="dL" class="absolute -left-1 cursor-ew-resize h-full px-1 bg-green-500"></div>-->
 <!--            <div ref="dR" class="absolute -right-1 cursor-ew-resize h-full px-1 bg-green-500"></div>-->
-            <div ref="el" class="header flex space-x-2 justify-between select-none">
-                <div class="flex space-x-1.5 px-2 items-center">
+            <div class="header flex space-x-2 justify-between select-none">
+                <div ref="el" class="flex space-x-1.5 px-2 items-center grow">
                     <span class="text-sm py-1">{{ title }}</span>
                     <svg v-if="title === 'Radio'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
                         <path d="M10.5 3.75a.75.75 0 0 0-1.264-.546L5.203 7H2.667a.75.75 0 0 0-.7.48A6.985 6.985 0 0 0 1.5 10c0 .887.165 1.737.468 2.52.111.29.39.48.7.48h2.535l4.033 3.796a.75.75 0 0 0 1.264-.546V3.75ZM16.45 5.05a.75.75 0 0 0-1.06 1.061 5.5 5.5 0 0 1 0 7.778.75.75 0 0 0 1.06 1.06 7 7 0 0 0 0-9.899Z" />
@@ -55,7 +51,7 @@ const visible = ref(props.visible)
                 </div>
                 <div class="hidden md:flex">
                     <div class="p-1 hover:bg-white/50">
-                        <svg @click.stop="window.visibility = 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <svg @click="window.visibility = 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                             <path fill-rule="evenodd" d="M4 10a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 10Z" clip-rule="evenodd" />
                         </svg>
                     </div>
@@ -66,7 +62,7 @@ const visible = ref(props.visible)
                         </svg>
                     </div>
                     <div class="p-1 hover:bg-white/50">
-                        <svg @click.stop="window.visibility = 0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <svg @click="window.visibility = 0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                             <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                         </svg>
                     </div>

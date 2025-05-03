@@ -30,7 +30,11 @@ const time = useDateFormat(useNow(), 'YYYY/MM/DD');
     <div class="relative z-10 flex select-none m-2 justify-between items-center">
         <div ref="menu" v-show="$$$.desktop.startMenuOpen" class="start flex flex-col space-y-2 absolute bottom-12 left-0 p-2 w-64">
             <Link href="/profile" class="flex cursor-pointer w-full rounded items-center space-x-2 p-2">
-                <div class="rounded-full p-5 bg-gradient-to-b from-gray-400 to-gray-600 h-fit"></div>
+                <div class="rounded-full p-2 bg-gradient-to-b from-gray-400 to-gray-600 h-fit text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6">
+                        <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+                    </svg>
+                </div>
                 <div class="flex flex-col leading-none">
                     <span class="font-bold text-lg">{{ isAuthenticated() ? getUser().name : 'Anonymous' }}</span>
                     <span class="text-small">{{ isAuthenticated() ? 'User' : 'Guest' }}</span>
@@ -38,7 +42,7 @@ const time = useDateFormat(useNow(), 'YYYY/MM/DD');
             </Link>
             <StartLink title="Programs">
                 <StartSubLink @click="openW('Chat')">Chat</StartSubLink>
-                <StartSubLink @click="openW('Clubs')">Clubs</StartSubLink>
+                <StartSubLink @click="openW('Fanclubs')">Clubs</StartSubLink>
                 <StartSubLink @click="openW('About')">About</StartSubLink>
                 <StartSubLink @click="openW('Settings')">Settings</StartSubLink>
                 <StartSubLink @click="openW('Radio')">Radio</StartSubLink>

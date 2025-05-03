@@ -38,7 +38,7 @@ export const cMap = {
     'About': About,
     'Settings': Settings,
     'Radio': Radio,
-    'Clubs': Blog,
+    'Fanclubs': Blog,
     'Chat': Chatroom,
     'Events': Events,
     'Submit': Submit,
@@ -74,7 +74,7 @@ export const $$$ = reactive({
             z: 0,
             resizable: false
         }),
-        'Clubs': ref({
+        'Fanclubs': ref({
             visibility: WindowState.Closed,
             x: 0,
             y: 0,

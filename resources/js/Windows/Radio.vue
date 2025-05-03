@@ -93,7 +93,7 @@ const pauseClick = () => {
         </div>
         <div class="flex w-full bg-black rounded h-20">
             <div class="flex space-x-1 items-end justify-between px-2 py-2 w-full">
-                <span v-for="n in 40" class="bg-white pl-1" :style="`height: ${playing ? 2 + Math.trunc((Math.sin(n * 0.2 + frames/5) + 1) * (Math.sin(n * 3 + frames) + 1) * 4 + (Math.sin(n - frames/20) + 1) * 9) : 4}px`"></span>
+                <span v-for="n in 30" class="bg-white pl-1 grow" :style="`height: ${playing ? 2 + Math.trunc((Math.sin(n * 0.2 + frames/5) + 1) * (Math.sin(n * 3 + frames) + 1) * 4 + (Math.sin(n - frames/20) + 1) * 9) : 4}px`"></span>
             </div>
         </div>
     </div>
@@ -110,20 +110,7 @@ const pauseClick = () => {
         </div>
         <span class="font-mono">{{ pretty(duration) }}</span>
     </div>
-    <div class="marqueebox relative flex overflow-x-hidden w-full rounded bg-black font-mono text-white">
-        <div class="marquee whitespace-nowrap" aria-hidden="true">
-            <span class="mx-4">{{ song }}</span>
-            <span class="mx-4">{{ song }}</span>
-            <span class="mx-4">{{ song }}</span>
-            <span class="mx-4">{{ song }}</span>
-        </div>
-        <div class="absolute top-0 marquee2 whitespace-nowrap" aria-hidden="true">
-            <span class="mx-4">{{ song }}</span>
-            <span class="mx-4">{{ song }}</span>
-            <span class="mx-4">{{ song }}</span>
-            <span class="mx-4">{{ song }}</span>
-        </div>
-    </div>
+    <marquee class="marqueebox flex w-full rounded bg-black font-mono text-white">{{ song }}</marquee>
 </template>
 <style scoped>
 .marquee {

@@ -51,7 +51,7 @@ const openMembers = ref(!true);
 // TOOD: show faded message while sending and no responde/confirmation/echo fom server yet!!
 </script>
 <template>
-    <div class="flex divide-x min-h-64">
+    <div class="flex divide-x px-2">
         <div class="flex flex-col space-y-1 p-2 pl-0" v-if="openChannels">
             <div class="px-2 py-1 rounded-md leading-tight bg-white/50">
                 <h2 class="font-bold">#lounge</h2>
@@ -62,7 +62,7 @@ const openMembers = ref(!true);
                 <p class="text-sm">Talk about what's on the radio</p>
             </div>
         </div>
-        <div class="flex flex-col grow">
+        <div class="flex flex-col grow h-64 overflow-y-auto">
             <div ref="base" class="grow justify-self-end flex flex-col space-y-1">
                 <div class="!hidden flex items-center justify-center !border-none">
                     <span class="border-t w-full"></span>
@@ -74,10 +74,11 @@ const openMembers = ref(!true);
                 </div>
                 <div v-for="(post, index) in chat" class="flex flex-col space-x-2" :class="{'self-end items-end': post.type === 'SEND'}">
                     <span class="text-xs"><span class="font-bold">{{ post.user }}</span> at {{ useDateFormat(new Date(post.created_at), 'HH:mm').value }}</span>
-                    <p :class="{'italic text-gray-500': post.type === 'SYSTEM', '!bg-yellow-400': post.type === 'SEND'}" class="px-2 py-1 mt-0.5 rounded-md w-fit bg-blue-200">{{ post.content }}</p>
+                    <p :class="{'italic text-gray-500': post.type === 'SYSTEM', '!bg-yellow-400': post.type === 'SEND'}" class="px-2 py-1 mt-0.5 rounded-md w-fit bg-blue-200 break-all">{{ post.content }}</p>
                 </div>
+                <div class="py-1"></div>
             </div>
-            <div v-if="isAuthenticated()" class="flex items-stretch space-x-2 sticky bottom-0 pt-2">
+            <div v-if="isAuthenticated()" class="flex items-stretch space-x-2 sticky bottom-0">
                 <input v-model="msg" @keydown="keypress" class="chatbox grow" type="text" placeholder="Say something nice..."/>
                 <button :disabled="sending" class="bg-white px-2 border button" @click="sendMessage">Send</button>
             </div>

@@ -5,20 +5,22 @@ import {getUser} from "@/util.js";
 
 const editing = ref(false);
 
-const newPost = useForm({
-    name: '',
+const form = useForm({
+    name: getUser().name,
     type: '',
-    data: '',
-    reproduction: '',
+    subject: '',
+    content: '',
+    userAgent: window.navigator.userAgent
 })
 
 const submitted = ref(false);
 
 const submit = () => {
-    newPost.post('/posts/new', {
+    form.post('/feedback/new', {
         onSuccess: () => {
-            newPost.type = '';
-            newPost.data = '';
+            form.type = '';
+            form.content = '';
+            form.subject = '';
 
             submitted.value = true;
         },
@@ -38,17 +40,14 @@ const submit = () => {
     <div v-else class="y space-y-2 items-center w-full text-center">
         <h2>Got any suggestions? Maybe found a bug or two that needs squashing? Let us know!</h2>
         <!--    <input type="text" placeholder="Your Name"/>-->
-        <input type="text" readonly :value="getUser().name" class="bg-white/50 w-full"/>
-        <select v-model="newPost.type" class="w-full">
+        <input v-model="form.name" type="text" readonly class="bg-white/50 w-full"/>
+        <select v-model="form.type" class="w-full">
             <option selected hidden value="">What is the nature of your inquiry?</option>
             <option value="bug">I am reporting a bug</option>
             <option value="suggestion">I am making a suggestion</option>
         </select>
-        <textarea rows="10" placeholder="What's the deal?" class="resize-none w-full"></textarea>
-        <label v-if="newPost.type === 'bug'" class="flex space-x-2 items-center w-full">
-            <input type="checkbox"/>
-            <span>I understand I will also submit information such as my browser and operating system to help the dev team with testing</span>
-        </label>
+        <input v-model="form.subject" type="text" class="w-full" placeholder="Subject"/>
+        <textarea v-model="form.content" rows="10" placeholder="What's the deal?" class="resize-none w-full"></textarea>
         <button @click="submitted = true" class="w-full text-center underline italic">Submit</button>
     </div>
 </template>

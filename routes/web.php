@@ -72,29 +72,21 @@ Route::post('/club/{club:id}/posts/new', function (\Illuminate\Http\Request $req
 
 Route::post('/feedback/new', function (\Illuminate\Http\Request $request) {
     $request->validate([
-        'title' => 'required',
+        'name' => 'required',
+        'type' => 'required',
         'content' => 'required',
     ]);
 
-    $post = new \App\Models\Post();
-    $post->title = $request->string('title');
-    $post->slug = Str::slug($request->string('title'));
-    $post->content = $request->string('content');
-    $post->blurb = $request->string('blurb');
-    $post->author_id = $request->user()->id;
-    $post->club_id = $club->id;
-    $post->published_at = $request->string('published_at', now());
-    $post->save();
 
-    $files = $request->file('files');
-    if($request->hasFile('files')) {
-        foreach ($files as $file) {
-            $name = $file->getClientOriginalName();
-            $ext = $file->guessClientExtension();
-            $id = $post->id;
-            $file->storeAs("posts/$id", "$name", 'public');
-        }
-    }
+
+    $post = new \App\Models\Feedback();
+
+    if (auth()->check()) $post->user_id = $request->user()->id;
+    $post->name = $request->string('title');
+
+    $post->type = $request->string('title');
+    $post->content = $request->string('content');
+    $post->save();
 
     return back();
 })->middleware(['auth']);
