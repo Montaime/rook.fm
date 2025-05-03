@@ -188,3 +188,10 @@
 }
 
 /* </editor-fold> */
+
+details,
+details summary {
+    padding-left:0;
+    background-image:none;
+    -webkit-appearance:none;
+}
