@@ -3,24 +3,30 @@ import StartLink from "./StartLink.vue";
 import StartSubLink from "./StartSubLink.vue";
 import {Link} from '@inertiajs/vue3'
 import {$$$, getUser, isAuthenticated, openW, logout, windowsLaunched} from "../util.js";
-import {ref, useTemplateRef} from "vue";
+import {useTemplateRef} from "vue";
 import WindowTab from "./WindowTab.vue";
 import {onClickOutside, useDateFormat, useEventListener, useNow} from '@vueuse/core'
 
 const menu = useTemplateRef('menu');
+const start = useTemplateRef('start');
 
 const { cancel, trigger } = onClickOutside(
     menu,
     (event) => {
         $$$.desktop.startMenuOpen = false
     },
-    { controls: true },
+    {
+        controls: true,
+        ignore: [start]
+    },
 )
 
 useEventListener('mousedown', (e) => {
-    if (!$$$.desktop.startMenuOpen) return;
-    cancel()
-    trigger(e)
+    if (start.value.contains(e.target)) {
+        cancel()
+    } else {
+        trigger(e)
+    }
 })
 
 const date = useDateFormat(useNow(), 'hh:mm A');
@@ -40,7 +46,7 @@ const time = useDateFormat(useNow(), 'YYYY/MM/DD');
                     <span class="text-small">{{ isAuthenticated() ? 'User' : 'Guest' }}</span>
                 </div>
             </Link>
-            <StartLink title="Programs">
+            <StartLink class="hidden md:flex" title="Programs">
                 <StartSubLink @click="openW('Chat')">Chat</StartSubLink>
                 <StartSubLink @click="openW('Fanclubs')">Clubs</StartSubLink>
                 <StartSubLink @click="openW('About')">About</StartSubLink>
@@ -61,15 +67,17 @@ const time = useDateFormat(useNow(), 'YYYY/MM/DD');
             <StartLink title="Log Off" @click="logout"/>
         </div>
         <div class="taskbar flex items-center space-x-2 justify-between grow p-1.5 z-10">
-            <div class="flex items-center space-x-2 !ml-0">
+            <div ref="start" class="flex items-center space-x-2 !ml-0">
                 <div @click="$$$.desktop.startMenuOpen = !$$$.desktop.startMenuOpen" class="taskbar-tab flex space-x-1 items-center py-0.5 px-2 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
                         <path d="M14 1.75a.75.75 0 0 0-.89-.737l-7.502 1.43a.75.75 0 0 0-.61.736v2.5c0 .018 0 .036.002.054V9.73a1 1 0 0 1-.813.983l-.58.11a1.978 1.978 0 0 0 .741 3.886l.603-.115c.9-.171 1.55-.957 1.55-1.873v-1.543l-.001-.043V6.3l6-1.143v3.146a1 1 0 0 1-.813.982l-.584.111a1.978 1.978 0 0 0 .74 3.886l.326-.062A2.252 2.252 0 0 0 14 11.007V1.75Z" />
                     </svg>
                     <span>Start</span>
                 </div>
-                <div class="py-2.5 border-x-[0.05rem] rounded border-gray-500"></div>
-                <WindowTab v-for="(tab, name) in windowsLaunched" :name="name"/>
+                <div class="hidden md:flex">
+                    <div class="py-2.5 border-x-[0.05rem] rounded border-gray-500"></div>
+                    <WindowTab v-for="(tab, name) in windowsLaunched" :name="name"/>
+                </div>
             </div>
             <div class="md:hidden"></div>
             <div class="px-2">
