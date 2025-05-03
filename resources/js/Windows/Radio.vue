@@ -110,7 +110,7 @@ const pauseClick = () => {
         </div>
         <span class="font-mono">{{ pretty(duration) }}</span>
     </div>
-    <marquee class="marqueebox flex w-full rounded bg-black font-mono text-white">{{ song }}</marquee>
+    <span class="marqueebox flex w-full rounded bg-black font-mono text-white px-2">{{ song }}</span>
 </template>
 <style scoped>
 .marquee {

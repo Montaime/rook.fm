@@ -9,7 +9,7 @@ const form = useForm({
     name: getUser().name,
     type: '',
     subject: '',
-    content: '',
+    description: '',
     userAgent: window.navigator.userAgent
 })
 
@@ -19,7 +19,7 @@ const submit = () => {
     form.post('/feedback/new', {
         onSuccess: () => {
             form.type = '';
-            form.content = '';
+            form.description = '';
             form.subject = '';
 
             submitted.value = true;
@@ -47,7 +47,7 @@ const submit = () => {
             <option value="suggestion">I am making a suggestion</option>
         </select>
         <input v-model="form.subject" type="text" class="w-full" placeholder="Subject"/>
-        <textarea v-model="form.content" rows="10" placeholder="What's the deal?" class="resize-none w-full"></textarea>
-        <button @click="submitted = true" class="w-full text-center underline italic">Submit</button>
+        <textarea v-model="form.description" rows="10" placeholder="What's the deal?" class="resize-none w-full"></textarea>
+        <button @click="submit" class="w-full text-center underline italic">Submit</button>
     </div>
 </template>

@@ -74,19 +74,21 @@ Route::post('/feedback/new', function (\Illuminate\Http\Request $request) {
     $request->validate([
         'name' => 'required',
         'type' => 'required',
-        'content' => 'required',
+        'description' => 'required',
     ]);
 
+    $feedback = new \App\Models\Feedback();
 
+    if (auth()->check()) $feedback->user_id = $request->user()->id;
+    $feedback->name = $request->string('name');
 
-    $post = new \App\Models\Feedback();
-
-    if (auth()->check()) $post->user_id = $request->user()->id;
-    $post->name = $request->string('title');
-
-    $post->type = $request->string('title');
-    $post->content = $request->string('content');
-    $post->save();
+    $feedback->type = $request->string('type');
+    $feedback->subject = $request->string('subject');
+    $feedback->description = $request->string('description');
+    $feedback->data = json_encode([
+        'agent' => $request->string('userAgent')
+    ]);
+    $feedback->save();
 
     return back();
 })->middleware(['auth']);
