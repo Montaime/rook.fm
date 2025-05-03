@@ -51,7 +51,7 @@ const openMembers = ref(!true);
 // TOOD: show faded message while sending and no responde/confirmation/echo fom server yet!!
 </script>
 <template>
-    <div class="flex divide-x">
+    <div class="flex divide-x min-h-64">
         <div class="flex flex-col space-y-1 p-2 pl-0" v-if="openChannels">
             <div class="px-2 py-1 rounded-md leading-tight bg-white/50">
                 <h2 class="font-bold">#lounge</h2>
@@ -77,7 +77,7 @@ const openMembers = ref(!true);
                     <p :class="{'italic text-gray-500': post.type === 'SYSTEM', '!bg-yellow-400': post.type === 'SEND'}" class="px-2 py-1 mt-0.5 rounded-md w-fit bg-blue-200">{{ post.content }}</p>
                 </div>
             </div>
-            <div v-if="isAuthenticated()" class="flex items-stretch space-x-2 sticky bottom-0">
+            <div v-if="isAuthenticated()" class="flex items-stretch space-x-2 sticky bottom-0 pt-2">
                 <input v-model="msg" @keydown="keypress" class="chatbox grow" type="text" placeholder="Say something nice..."/>
                 <button :disabled="sending" class="bg-white px-2 border button" @click="sendMessage">Send</button>
             </div>
