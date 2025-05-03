@@ -21,26 +21,24 @@ Route::get('/', function () {
     return auth()->check() ? Inertia::render('OS') : Inertia::render('Home');
 });
 
-Route::get('/clubs', function (\Illuminate\Http\Request $request) {
-    $q = \App\Models\Post::query()->orderBy('published_at', 'DESC');
+Route::get('/club/{club:id}', function (\Illuminate\Http\Request $request, \App\Models\Club $club) {
+    $club->load(['posts' => function($q) use ($request, $club) {
+        $q->latest('published_at');
 
-    if (auth()->check() && !in_array($request->user()->id, [1, 10])) {
-        $q->where('published_at', '<', now());
-    }
+        if (auth()->check() && !in_array($request->user()->id, [1, $club->owner_id])) {
+            $q->where('published_at', '<', now());
+        }
+    }]);
 
-    $posts = $q->get();
-
-    $posts->map(function ($p) {
+    $club->posts->map(function ($p) {
         $p->files = \Illuminate\Support\Facades\Storage::disk('public')->files('posts/' . $p->id);
     });
 
-    return [
-        'posts' => $posts,
-    ];
+    return $club;
 });
 
-Route::post('/posts/new', function (\Illuminate\Http\Request $request) {
-    if (!in_array($request->user()->id, [1, 10])) return back()->withErrors(['permission' => 'You are not authorized to perform this action']);
+Route::post('/club/{club:id}/posts/new', function (\Illuminate\Http\Request $request, \App\Models\Club $club) {
+    // TODO: post authorization
 
     $request->validate([
         'title' => 'required',
@@ -53,7 +51,7 @@ Route::post('/posts/new', function (\Illuminate\Http\Request $request) {
     $post->content = $request->string('content');
     $post->blurb = $request->string('blurb');
     $post->author_id = $request->user()->id;
-    $post->club_id = 1;
+    $post->club_id = $club->id;
     $post->published_at = $request->string('published_at', now());
     $post->save();
 
@@ -68,6 +66,35 @@ Route::post('/posts/new', function (\Illuminate\Http\Request $request) {
     }
 
     // unrelated but $request->fingerprint(); what is this?
+
+    return back();
+})->middleware(['auth']);
+
+Route::post('/feedback/new', function (\Illuminate\Http\Request $request) {
+    $request->validate([
+        'title' => 'required',
+        'content' => 'required',
+    ]);
+
+    $post = new \App\Models\Post();
+    $post->title = $request->string('title');
+    $post->slug = Str::slug($request->string('title'));
+    $post->content = $request->string('content');
+    $post->blurb = $request->string('blurb');
+    $post->author_id = $request->user()->id;
+    $post->club_id = $club->id;
+    $post->published_at = $request->string('published_at', now());
+    $post->save();
+
+    $files = $request->file('files');
+    if($request->hasFile('files')) {
+        foreach ($files as $file) {
+            $name = $file->getClientOriginalName();
+            $ext = $file->guessClientExtension();
+            $id = $post->id;
+            $file->storeAs("posts/$id", "$name", 'public');
+        }
+    }
 
     return back();
 })->middleware(['auth']);
@@ -115,13 +142,13 @@ Route::post('/chat/send', function (\Illuminate\Http\Request $request) {
 //    ]);
 //});
 
-//Route::get('/join', function () {
-//    return Inertia::render('Join');
-//});
-//
-//Route::get('/mock', function () {
-//    return Inertia::render('Mock');
-//});
+Route::get('/join', function () {
+    return Inertia::render('Join');
+});
+
+Route::get('/mock', function () {
+    return Inertia::render('Mock');
+});
 
 //Route::get('/demos:new-club', function () {
 //    return Inertia::render('Demo/NewClub');

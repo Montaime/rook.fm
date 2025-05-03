@@ -2,15 +2,33 @@
 import StartLink from "./StartLink.vue";
 import StartSubLink from "./StartSubLink.vue";
 import {Link} from '@inertiajs/vue3'
-import {$$$, getUser, isAuthenticated, openW, tabClick, logout, windowsLaunched} from "../util.js";
-import {ref} from "vue";
+import {$$$, getUser, isAuthenticated, openW, logout, windowsLaunched} from "../util.js";
+import {ref, useTemplateRef} from "vue";
 import WindowTab from "./WindowTab.vue";
+import {onClickOutside, useDateFormat, useEventListener, useNow} from '@vueuse/core'
 
-const datetime = ref(new Date());
+const menu = useTemplateRef('menu');
+
+const { cancel, trigger } = onClickOutside(
+    menu,
+    (event) => {
+        $$$.desktop.startMenuOpen = false
+    },
+    { controls: true },
+)
+
+useEventListener('mousedown', (e) => {
+    if (!$$$.desktop.startMenuOpen) return;
+    cancel()
+    trigger(e)
+})
+
+const date = useDateFormat(useNow(), 'hh:mm A');
+const time = useDateFormat(useNow(), 'YYYY/MM/DD');
 </script>
 <template>
     <div class="relative z-10 flex select-none m-2 justify-between items-center">
-        <div v-show="$$$.desktop.startMenuOpen" class="start flex flex-col space-y-2 absolute bottom-12 left-0 p-2 w-64">
+        <div ref="menu" v-show="$$$.desktop.startMenuOpen" class="start flex flex-col space-y-2 absolute bottom-12 left-0 p-2 w-64">
             <Link href="/profile" class="flex cursor-pointer w-full rounded items-center space-x-2 p-2">
                 <div class="rounded-full p-5 bg-gradient-to-b from-gray-400 to-gray-600 h-fit"></div>
                 <div class="flex flex-col leading-none">
@@ -24,13 +42,13 @@ const datetime = ref(new Date());
                 <StartSubLink @click="openW('About')">About</StartSubLink>
                 <StartSubLink @click="openW('Settings')">Settings</StartSubLink>
                 <StartSubLink @click="openW('Radio')">Radio</StartSubLink>
-<!--                <StartSubLink @click="openW('Feedback')">Feedback</StartSubLink>-->
-<!--                <StartSubLink @click="openW('Events')">-->
-<!--                    <div class="flex space-x-1 items-center">-->
-<!--                        <span>Events</span>-->
-<!--                        <span class="rounded text-white font-bold bg-red-500 text-xs px-1 py-0.5">NEW</span>-->
-<!--                    </div>-->
-<!--                </StartSubLink>-->
+                <StartSubLink @click="openW('Feedback')">Feedback</StartSubLink>
+                <StartSubLink @click="openW('Events')">
+                    <div class="flex space-x-1 items-center">
+                        <span>Events</span>
+                        <span class="rounded text-white font-bold bg-red-500 text-xs px-1 py-0.5">NEW</span>
+                    </div>
+                </StartSubLink>
             </StartLink>
             <StartLink v-if="false" title="Documents">
                 <p>woah</p>
@@ -49,10 +67,11 @@ const datetime = ref(new Date());
                 <div class="py-2.5 border-x-[0.05rem] rounded border-gray-500"></div>
                 <WindowTab v-for="(tab, name) in windowsLaunched" :name="name"/>
             </div>
+            <div class="md:hidden"></div>
             <div class="px-2">
-                <div class="flex space-x-2 items-end leading-none">
-                    <span>{{ datetime.toLocaleTimeString() }}</span>
-                    <span>{{ datetime.toDateString() }}</span>
+                <div class="flex flex-col text-sm space-x-2 items-end leading-none">
+                    <span>{{ time }}</span>
+                    <span>{{ date }}</span>
                 </div>
             </div>
         </div>

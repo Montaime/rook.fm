@@ -6,7 +6,7 @@
     @apply flex flex-col
 }
 
-.window > .container {
+.window > .container.resizable {
     @apply resize overflow-y-auto overflow-x-auto
 }
 
@@ -85,7 +85,7 @@
 }
 
 .neu .startsublink {
-    @apply hover:bg-gray-300
+    @apply hover:bg-gray-300 last:rounded-b-md first:rounded-t-md
 }
 
 .neu .taskbar-tab {

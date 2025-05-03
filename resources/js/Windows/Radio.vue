@@ -1,10 +1,10 @@
 <script setup>
 import {onBeforeUnmount, onMounted, ref} from "vue";
-import {set} from "@vueuse/core";
 
 const duration = ref(1);
 const progress = ref(0);
 const song = ref('Rook FM');
+const art = ref(null);
 
 const muted = ref(false)
 const playing = ref(false)
@@ -34,6 +34,7 @@ const fetchStream = async (setSource = false) => {
     duration.value = np.now_playing.duration;
     progress.value = np.now_playing.elapsed;
     song.value = np.now_playing.song.text;
+    art.value = np.now_playing.song.art;
 
     if (setSource) {
         audio.value.src = np.station.listen_url;
@@ -86,12 +87,14 @@ const pauseClick = () => {
             <input class="w-24" @input="setVol" v-model.number="volume" min="0" max="1" step="0.01" type="range"/>
         </div>
     </div>
-    <div class="flex w-full bg-black rounded">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="text-white p-1 w-16 h-16 shrink-0">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 7.5 16.5-4.125M12 6.75c-2.708 0-5.363.224-7.948.655C2.999 7.58 2.25 8.507 2.25 9.574v9.176A2.25 2.25 0 0 0 4.5 21h15a2.25 2.25 0 0 0 2.25-2.25V9.574c0-1.067-.75-1.994-1.802-2.169A48.329 48.329 0 0 0 12 6.75Zm-1.683 6.443-.005.005-.006-.005.006-.005.005.005Zm-.005 2.127-.005-.006.005-.005.005.005-.005.005Zm-2.116-.006-.005.006-.006-.006.005-.005.006.005Zm-.005-2.116-.006-.005.006-.005.005.005-.005.005ZM9.255 10.5v.008h-.008V10.5h.008Zm3.249 1.88-.007.004-.003-.007.006-.003.004.006Zm-1.38 5.126-.003-.006.006-.004.004.007-.006.003Zm.007-6.501-.003.006-.007-.003.004-.007.006.004Zm1.37 5.129-.007-.004.004-.006.006.003-.004.007Zm.504-1.877h-.008v-.007h.008v.007ZM9.255 18v.008h-.008V18h.008Zm-3.246-1.87-.007.004L6 16.127l.006-.003.004.006Zm1.366-5.119-.004-.006.006-.004.004.007-.006.003ZM7.38 17.5l-.003.006-.007-.003.004-.007.006.004Zm-1.376-5.116L6 12.38l.003-.007.007.004-.004.007Zm-.5 1.873h-.008v-.007h.008v.007ZM17.25 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Zm0 4.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
-        </svg>
-        <div class="flex space-x-1 items-end justify-between px-2 py-2 w-full">
-            <span v-for="n in 40" class="bg-white pl-1" :style="`height: ${playing ? 2 + Math.trunc((Math.sin(n * 0.2 + frames/5) + 1) * (Math.sin(n * 3 + frames) + 1) * 4 + (Math.sin(n - frames/20) + 1) * 9) : 4}px`"></span>
+    <div class="flex items-center space-x-2">
+        <div class="shrink-0">
+            <img :src="art" alt="" class="h-20 w-20 rounded"/>
+        </div>
+        <div class="flex w-full bg-black rounded h-20">
+            <div class="flex space-x-1 items-end justify-between px-2 py-2 w-full">
+                <span v-for="n in 40" class="bg-white pl-1" :style="`height: ${playing ? 2 + Math.trunc((Math.sin(n * 0.2 + frames/5) + 1) * (Math.sin(n * 3 + frames) + 1) * 4 + (Math.sin(n - frames/20) + 1) * 9) : 4}px`"></span>
+            </div>
         </div>
     </div>
     <div class="flex items-center text-sm space-x-1 px-1">
@@ -102,7 +105,7 @@ const pauseClick = () => {
             <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm14.024-.983a1.125 1.125 0 0 1 0 1.966l-5.603 3.113A1.125 1.125 0 0 1 9 15.113V8.887c0-.857.921-1.4 1.671-.983l5.603 3.113Z" clip-rule="evenodd" />
         </svg>
         <span class="font-mono">{{ pretty(progress) }}</span>
-        <div class="flex items-center h-fit p-0.5 rounded-full bg-gray-200 w-full">
+        <div class="flex items-center h-fit p-0.5 rounded-full bg-gray-200 shadow-md w-full">
             <div class="h-fit rounded-full bg-blue-500 p-1" :style="`width: ${ progress / duration * 100 }%`"></div>
         </div>
         <span class="font-mono">{{ pretty(duration) }}</span>

@@ -5,6 +5,7 @@ import {$$$, cMap} from "../util.js";
 import Taskbar from "../Components/Taskbar.vue";
 
 const clicked = ref(false);
+const smallSizeClicked = ref(false);
 </script>
 <template>
     <div :class="$$$.theme.style">
@@ -39,6 +40,16 @@ const clicked = ref(false);
             </div>
             <Taskbar/>
         </div>
+        <div v-if="!smallSizeClicked" @click="smallSizeClicked = true" class="flex flex-col md:hidden items-center justify-center text-center absolute inset-0 backdrop-blur-lg z-50">
+            <div class="cursor-pointer rounded-full p-8 bg-white/50 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 shrink-0">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                </svg>
+            </div>
+            <p class="text-4xl cursor-pointer bg-white/50 p-4 rounded-md font-bold mt-4">Hey!</p>
+            <p class="text-2xl cursor-pointer p-4 bg-white/50 rounded-md m-4">rook.fm for mobile is current unfinished, some features may not work as expected or may not be included. We are working hard to bring a great mobile experience to users.</p>
+            <button class="rounded-md bg-white/50 px-4 py-2">I Understand</button>
+        </div>
         <div v-if="!clicked" @click="clicked = true" class="flex flex-col cursor-pointer items-center justify-center absolute inset-0 backdrop-blur-md z-10">
             <div class="cursor-pointer rounded-full p-8 bg-white/50 shadow-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 shrink-0">
@@ -47,7 +58,7 @@ const clicked = ref(false);
             </div>
             <p class="text-4xl cursor-pointer font-bold mt-4">Click Anywhere To Unlock</p>
         </div>
-        <div v-if="clicked" @mousedown="$$$.desktop.zHighest++" class="relative z-0">
+        <div v-if="clicked" @mousedown="$$$.desktop.zHighest++" class="absolute z-0 inset-0 md:bg-transparent y space-y-4 md:space-y-4 overflow-y-auto p-2 pb-16 md:p-0">
             <Window v-for="(w, key) in $$$.windows" v-model="$$$.windows[key]" :z-highest="$$$.desktop.zHighest" :x="Math.floor(Math.random() * 450) + 50" :y="Math.floor(Math.random() * 450) + 50" :container-class="w.style" :title="key">
                 <component :is="cMap[key]"/>
             </Window>

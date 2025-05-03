@@ -33,7 +33,7 @@ onMounted(async () => {
 })
 </script>
 <template>
-    <div class="flex p-4 h-screen" :style="`background-image:url(${vista});`">
+    <div class="flex p-4 h-screen bg-cover" :style="`background-image:url(${vista});`">
         <div ref="x" class="flex w-full h-fit text-white border border-black shadow-xl bg-gradient-to-b from-black/10 via-white/80 via-30% to-white/10 to-[31%] rounded-md backdrop-blur-md">
             <div class="flex flex-col w-full relative border border-white/40 rounded-md p-2 pt-0 bg-gradient-to-b from-blue-950/80 via-blue-900/20 via-30% to-black/0 to-[31%]">
                 <div class="flex justify-self-end w-fit border border-t-0 border-white/40 rounded-md rounded-t-none">

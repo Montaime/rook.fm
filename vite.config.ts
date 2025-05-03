@@ -20,6 +20,9 @@ export default defineConfig({
     ssr: {
         noExternal: ['@inertiajs/server'],
     },
+    server: {
+        cors: true
+    },
     optimizeDeps: { exclude: ["fsevents"] },
 
 });
