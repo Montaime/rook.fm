@@ -1,5 +1,5 @@
 <script setup>
-import {onBeforeMount, ref} from "vue";
+import {computed, onBeforeMount, ref} from "vue";
 import {getUser, isAuthenticated} from "../util.js";
 import {useForm} from "@inertiajs/vue3";
 import TipTap from "./../Components/TipTap.vue";
@@ -62,13 +62,20 @@ const isImage = (path) => extCheck(path, ['png', 'gif', 'jpg', 'jpeg'])
 const isAudio = (path) => extCheck(path, ['mp3', 'wav'])
 const isVideo = (path) => extCheck(path, ['mp4'])
 const extCheck = (path, extensions) => extensions.includes(path.split('.').pop());
-const filename = (path) => path.split('/').pop()
+const filename = (path) => path.split('/').pop();
+
+const clubs = computed(() => {
+    let list = [];
+    getUser().memberships.map(c => list.push(c));
+    getUser().clubs.map(c => list.push(c));
+    return list;
+})
 </script>
 <template>
     <div v-if="!isAuthenticated() || getUser().clubs?.length > 0">
         <div class="flex justify-between items-center">
             <select @change="refreshPosts" v-model="currentBlog" class="font-bold text-2xl bg-transparent border-none focus:ring-0">
-                <option v-for="club in $page.props.user.clubs" class="text-sm font-base" :value="club.id">{{ club.name }}</option>
+                <option v-for="club in clubs" class="text-sm font-base" :value="club.id">{{ club.name }}</option>
             </select>
             <div class="flex space-x-2">
                 <div v-if="isAuthenticated() && info && (getUser().id === info.owner_id)" @click="editing = true" class="underline w-fit cursor-pointer">New Post</div>
