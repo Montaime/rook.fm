@@ -1,7 +1,7 @@
 import {router, usePage} from "@inertiajs/vue3";
 import route from 'ziggy-js'
 import {computed, reactive, ref} from "vue";
-import poolbg from "../assets/wesley-tingey-9-OCsKoyQlk-unsplash.jpg"
+import poolbg from "../assets/wallpapers/pool.jpg"
 import About from "@/Windows/About.vue";
 import Settings from "@/Windows/Settings.vue";
 import Radio from "@/Windows/Radio.vue";

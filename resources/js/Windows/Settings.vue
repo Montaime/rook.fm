@@ -1,7 +1,7 @@
 <script setup>
-import poolbg from "../../assets/wesley-tingey-9-OCsKoyQlk-unsplash.jpg"
-import vol3 from "../../assets/vol3.png"
-import marble from "../../assets/mere.png"
+import poolbg from "../../assets/wallpapers/pool.jpg"
+import vol3 from "../../assets/wallpapers/vol3.jpg"
+import marble from "../../assets/wallpapers/mere.jpg"
 import {$$$} from "../util.js";
 import {useStorage} from "@vueuse/core";
 
