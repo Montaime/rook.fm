@@ -18,22 +18,22 @@ onBeforeMount(async () => {
         }
         msgs = msgs.reverse();
         chat.value.push(...msgs);
-    })
 
-    //Echo.leaveAllChannels();
-    Echo.channel('chatroom')
-        .listen('ChatMessageCreated', (e) => {
-            //console.log(e);
-            chat.value.push({
-                user: e.user.name,
-                content: e.message.content,
-                created_at: e.message.created_at,
-                type: isAuthenticated() ? (getUser().id === e.user.id ? 'SEND' : '') : ''
+        //Echo.leaveAllChannels();
+        Echo.channel('chatroom')
+            .listen('ChatMessageCreated', (e) => {
+                //console.log(e);
+                chat.value.push({
+                    user: e.user.name,
+                    content: e.message.content,
+                    created_at: e.message.created_at,
+                    type: isAuthenticated() ? (getUser().id === e.user.id ? 'SEND' : '') : ''
+                });
+
+                // TODO: toggle autoscroll
+                base.value.parentElement.scrollTop = base.value.parentElement.scrollHeight;
             });
-
-            // TODO: toggle autoscroll
-            base.value.parentElement.scrollTop = base.value.parentElement.scrollHeight;
-        });
+    })
 })
 
 const sending = ref(false);
