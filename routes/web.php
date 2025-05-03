@@ -40,6 +40,8 @@ Route::get('/club/{club:id}', function (\Illuminate\Http\Request $request, \App\
 Route::post('/club/{club:id}/posts/new', function (\Illuminate\Http\Request $request, \App\Models\Club $club) {
     // TODO: post authorization
 
+   if ($request->user()->id !== $club->owner_id) abort(403);
+
     $request->validate([
         'title' => 'required',
         'content' => 'required',

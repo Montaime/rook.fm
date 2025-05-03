@@ -6,6 +6,7 @@ import TipTap from "./../Components/TipTap.vue";
 import {useDateFormat} from "@vueuse/core";
 
 const blog = ref([]);
+const info = ref([]);
 
 const currentPost = ref(null);
 const currentBlog = ref(null);
@@ -45,7 +46,10 @@ const submit = () => {
 const refreshPosts = () => {
     if (currentBlog.value === null) return;
 
-    fetch('/club/' + currentBlog.value).then(res => res.json()).then(data => blog.value = data.posts)
+    fetch('/club/' + currentBlog.value).then(res => res.json()).then(data => {
+        info.value = data;
+        blog.value = data.posts;
+    })
 }
 
 onBeforeMount(() => {
@@ -67,7 +71,7 @@ const filename = (path) => path.split('/').pop()
                 <option v-for="club in $page.props.user.clubs" class="text-sm font-base" :value="club.id">{{ club.name }}</option>
             </select>
             <div class="flex space-x-2">
-                <div v-if="isAuthenticated() && [1, 10].includes(getUser().id)" @click="editing = true" class="underline w-fit cursor-pointer">New Post</div>
+                <div v-if="isAuthenticated() && info && (getUser().id === info.owner_id)" @click="editing = true" class="underline w-fit cursor-pointer">New Post</div>
                 <div @click="refreshPosts" class="underline w-fit cursor-pointer">Refresh</div>
             </div>
         </div>
