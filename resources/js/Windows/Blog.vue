@@ -65,7 +65,7 @@ const extCheck = (path, extensions) => extensions.includes(path.split('.').pop()
 const filename = (path) => path.split('/').pop();
 
 const clubs = computed(() => {
-    let list = [];
+    let list = {};
     getUser().memberships.map(c => list[c.id] = c);
     getUser().clubs.map(c => list[c.id] = c);
     return list;
