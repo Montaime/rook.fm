@@ -38,7 +38,7 @@ Route::get('/club/{club:id}', function (\Illuminate\Http\Request $request, \App\
 });
 
 Route::get('/chat', function (\Illuminate\Http\Request $request) {
-    return \App\Models\ChatMessage::query()->latest()->with(['author'])->limit(10)->get();
+    return \App\Models\ChatMessage::query()->latest()->with(['author'])->limit(10)->get()->reverse();
 });
 
 Route::post('/club/{club:id}/posts/new', function (\Illuminate\Http\Request $request, \App\Models\Club $club) {
