@@ -7,14 +7,17 @@ const chat = ref([]);
 
 onBeforeMount(async () => {
     fetch('/chat').then(res => res.json()).then(data => {
+        let msgs = [];
         for (let m in data) {
-            chat.value.push({
+            msgs.push({
                 user: data[m].author.name,
                 content: data[m].message,
                 created_at: data[m].created_at,
                 type: isAuthenticated() ? (getUser().id === data[m].user_id ? 'SEND' : '') : ''
             });
         }
+        msgs = msgs.reverse();
+        chat.value.push(...msgs);
     })
 
     //Echo.leaveAllChannels();
