@@ -74,7 +74,7 @@ const time = useDateFormat(useNow(), 'YYYY/MM/DD');
                     </svg>
                     <span>Start</span>
                 </div>
-                <div class="hidden md:flex">
+                <div class="hidden md:flex items-center space-x-2">
                     <div class="py-2.5 border-x-[0.05rem] rounded border-gray-500"></div>
                     <WindowTab v-for="(tab, name) in windowsLaunched" :name="name"/>
                 </div>
