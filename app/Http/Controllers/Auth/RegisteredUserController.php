@@ -59,7 +59,7 @@ class RegisteredUserController extends Controller
 
         $ms = new Membership();
         $ms->tier = 1;
-        $ms->club_id = 1;
+        $ms->club_id = $code->club_id;
         $ms->user_id = $user->id;
         $ms->code_id = $code->id;
         $ms->save();
