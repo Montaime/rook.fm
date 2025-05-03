@@ -69,7 +69,14 @@ const clubs = computed(() => {
     getUser().memberships.map(c => list.push(c));
     getUser().clubs.map(c => list.push(c));
     return list;
-})
+});
+
+// const code = useForm({
+//
+// });
+// const redeem = () => {
+//
+// }
 </script>
 <template>
     <div v-if="!isAuthenticated() || getUser().clubs?.length > 0">
@@ -133,8 +140,9 @@ const clubs = computed(() => {
             </div>
         </div>
     </div>
-    <div v-else class="y items-center w-full text-center">
+    <div class="flex flex-col items-center w-full text-center">
         <div>You are not a member of any artist clubs</div>
-        <div class="underline">Redeem Code</div>
+        <input type="text" placeholder="xxxx-xxxx-xxxx-xxxx" class="text-center hidden"/>
+        <button @click="redeem" class="underline hidden">Redeem Code</button>
     </div>
 </template>
