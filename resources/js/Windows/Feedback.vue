@@ -1,12 +1,12 @@
 <script setup>
 import {ref} from "vue";
 import {useForm} from "@inertiajs/vue3";
-import {getUser} from "@/util.js";
+import {getUser, isAuthenticated} from "@/util.js";
 
 const editing = ref(false);
 
 const form = useForm({
-    name: getUser().name,
+    name: isAuthenticated() ? getUser().name : '',
     type: '',
     subject: '',
     description: '',
@@ -40,7 +40,7 @@ const submit = () => {
     <div v-else class="y space-y-2 items-center w-full text-center">
         <h2>Got any suggestions? Maybe found a bug or two that needs squashing? Let us know!</h2>
         <!--    <input type="text" placeholder="Your Name"/>-->
-        <input v-model="form.name" type="text" readonly class="bg-white/50 w-full"/>
+        <input v-model="form.name" type="text" placeholder="Name" :readonly="isAuthenticated()" class="w-full" :class="{'bg-white/50': isAuthenticated()}"/>
         <select v-model="form.type" class="w-full">
             <option selected hidden value="">What is the nature of your inquiry?</option>
             <option value="bug">I am reporting a bug</option>

@@ -18,7 +18,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return auth()->check() ? Inertia::render('OS') : Inertia::render('Home');
+    return Inertia::render('OS');
 });
 
 Route::get('/club/{club:id}', function (\Illuminate\Http\Request $request, \App\Models\Club $club) {
@@ -85,8 +85,12 @@ Route::post('/feedback/new', function (\Illuminate\Http\Request $request) {
 
     $feedback = new \App\Models\Feedback();
 
-    if (auth()->check()) $feedback->user_id = $request->user()->id;
-    $feedback->name = $request->string('name');
+    if (auth()->check()) {
+        $feedback->user_id = $request->user()->id;
+        $feedback->name = $request->user()->name;
+    } else {
+        $feedback->name = $request->string('name');
+    }
 
     $feedback->type = $request->string('type');
     $feedback->subject = $request->string('subject');
@@ -97,7 +101,7 @@ Route::post('/feedback/new', function (\Illuminate\Http\Request $request) {
     $feedback->save();
 
     return back();
-})->middleware(['auth']);
+});
 
 Route::post('/early-access', function (\Illuminate\Http\Request $request) {
     $request->validate([

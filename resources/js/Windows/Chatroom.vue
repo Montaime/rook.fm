@@ -2,6 +2,8 @@
 import {onBeforeMount, ref} from "vue";
 import {getUser, isAuthenticated} from "../util.js";
 import {useDateFormat} from "@vueuse/core";
+import {Link} from "@inertiajs/vue3";
+import route from "ziggy-js";
 
 const chat = ref([]);
 
@@ -76,8 +78,8 @@ const openMembers = ref(!true);
                 <p class="text-sm">Talk about what's on the radio</p>
             </div>
         </div>
-        <div class="flex flex-col grow h-64 overflow-y-auto">
-            <div ref="base" class="grow justify-self-end flex flex-col space-y-1">
+        <div class="flex flex-col grow h-64">
+            <div ref="base" class="grow justify-self-end flex flex-col space-y-1 overflow-y-auto">
                 <div class="!hidden flex items-center justify-center !border-none">
                     <span class="border-t w-full"></span>
                     <span class="w-full text-center">January 1st, 2000</span>
@@ -95,6 +97,9 @@ const openMembers = ref(!true);
             <div v-if="isAuthenticated()" class="flex items-stretch space-x-2 sticky bottom-0">
                 <input v-model="msg" @keydown="keypress" class="chatbox grow" type="text" placeholder="Say something nice..."/>
                 <button :disabled="sending" class="bg-white px-2 border button" @click="sendMessage">Send</button>
+            </div>
+            <div class="text-center" v-else>
+                <span><Link :href="route('register')" class="underline">Sign up</Link> to chat with others</span>
             </div>
         </div>
         <div class="flex flex-col grow" v-if="openChannels">

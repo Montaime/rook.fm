@@ -4,6 +4,8 @@ import {getUser, isAuthenticated} from "../util.js";
 import {useForm} from "@inertiajs/vue3";
 import TipTap from "./../Components/TipTap.vue";
 import {useDateFormat} from "@vueuse/core";
+import {Link} from "@inertiajs/vue3";
+import route from "ziggy-js";
 
 const blog = ref([]);
 const info = ref([]);
@@ -68,20 +70,22 @@ const filename = (path) => path.split('/').pop();
 
 const clubs = computed(() => {
     let list = {};
-    getUser().memberships.map(c => list[c.id|0] = c);
-    getUser().clubs.map(c => list[c.id|0] = c);
+    if (isAuthenticated()) {
+        getUser().memberships.map(c => list[c.id|0] = c);
+        getUser().clubs.map(c => list[c.id|0] = c);
+    }
     return list;
 });
 
 // const code = useForm({
 //
 // });
-// const redeem = () => {
-//
-// }
+const redeem = () => {
+
+}
 </script>
 <template>
-    <div v-if="!isAuthenticated() || Object.keys(clubs).length > 0">
+    <div v-if="isAuthenticated() || Object.keys(clubs).length > 0">
         <div class="flex justify-between items-center">
             <select @change="refreshPosts" v-model="currentBlog" class="font-bold text-2xl bg-transparent border-none focus:ring-0">
                 <option v-for="club in clubs" class="text-sm font-base" :value="club.id">{{ club.name }}</option>
@@ -144,7 +148,7 @@ const clubs = computed(() => {
     </div>
     <div v-else class="flex flex-col items-center w-full text-center">
         <div>You are not a member of any artist clubs</div>
-        {{clubs}}
+        <div v-if="!isAuthenticated()"><Link :href="route('register')" class="underline">Sign up</Link> to rook.fm with a creator code to join a fanclub!</div>
         <input type="text" placeholder="xxxx-xxxx-xxxx-xxxx" class="text-center hidden"/>
         <button @click="redeem" class="underline hidden">Redeem Code</button>
     </div>
