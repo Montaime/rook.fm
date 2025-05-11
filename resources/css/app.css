@@ -198,3 +198,7 @@ details summary {
 details summary::-webkit-details-marker {
     display:none;
 }
+
+html, body {
+  overscroll-behavior: none;
+}
