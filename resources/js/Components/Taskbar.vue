@@ -59,6 +59,12 @@ const time = useDateFormat(useNow(), 'YYYY/MM/DD');
                         <span class="rounded text-white font-bold bg-red-500 text-xs px-1 py-0.5">NEW</span>
                     </div>
                 </StartSubLink>
+                <StartSubLink @click="openW('Livestream')">
+                    <div class="flex space-x-1 items-center">
+                        <span>Livestream</span>
+                        <span class="rounded text-white font-bold bg-red-500 text-xs px-1 py-0.5">NEW</span>
+                    </div>
+                </StartSubLink>
             </StartLink>
             <StartLink v-if="false" title="Documents">
                 <p>woah</p>

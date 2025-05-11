@@ -11,6 +11,7 @@ import Events from "@/Windows/Events.vue";
 import Submit from "@/Windows/Submit.vue";
 import Feedback from "@/Windows/Feedback.vue";
 import {useStorage} from "@vueuse/core";
+import Livestream from "@/Windows/Livestream.vue";
 
 export const logout = () => {
     router.post(route('logout'));
@@ -43,6 +44,7 @@ export const cMap = {
     'Events': Events,
     'Submit': Submit,
     'Feedback': Feedback,
+    'Livestream': Livestream,
 }
 
 export const $$$ = reactive({
@@ -108,6 +110,13 @@ export const $$$ = reactive({
             y: 0,
             z: 0,
             resizable: false
+        }),
+        'Livestream': ref({
+            visibility: WindowState.Open,
+            x: 0,
+            y: 0,
+            z: 0,
+            resizable: true
         }),
     },
     desktop: {

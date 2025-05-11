@@ -14,7 +14,7 @@ const audio = ref(new Audio())
 const frames = ref(0);
 
 onMounted(async () => {
-    await fetchStream(true)
+    await fetchStream(!true)
 
     audio.value.volume = 0.75;
 
@@ -110,7 +110,7 @@ const pauseClick = () => {
         </div>
         <span class="font-mono">{{ pretty(duration) }}</span>
     </div>
-    <span class="marqueebox flex w-full rounded bg-black font-mono text-white px-2">{{ song }}</span>
+    <span class="marqueebox flex w-full rounded bg-black font-mono text-white px-2">{{ playing ? song : 'Click to Play' }}</span>
 </template>
 <style scoped>
 .marquee {
