@@ -199,6 +199,10 @@ details summary::-webkit-details-marker {
     display:none;
 }
 
+.chev > summary::-webkit-details-marker {
+    display:inline;
+}
+
 html, body {
   overscroll-behavior: none;
 }
