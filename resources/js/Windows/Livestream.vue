@@ -12,6 +12,5 @@
                     width="350" class="w-full h-[32rem]">
             </iframe>
         </details>
-
     </div>
 </template>

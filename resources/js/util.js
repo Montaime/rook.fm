@@ -111,13 +111,13 @@ export const $$$ = reactive({
             z: 0,
             resizable: false
         }),
-        'Livestream': ref({
-            visibility: WindowState.Open,
-            x: 0,
-            y: 0,
-            z: 0,
-            resizable: true
-        }),
+        // 'Livestream': ref({
+        //     visibility: WindowState.Open,
+        //     x: 0,
+        //     y: 0,
+        //     z: 0,
+        //     resizable: true
+        // }),
     },
     desktop: {
         startMenuOpen: false,
