@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -180,23 +180,69 @@ Route::get('/mock', function () {
 //});
 //
 
-//Route::get('/generate', function () {
-//
-//    function g(): string
-//    {
-//        $a = rand(pow(10, 3), pow(10, 4) - 1);
-//        $b = rand(pow(10, 3), pow(10, 4) - 1);
-//        $c = rand(pow(10, 3), pow(10, 4) - 1);
-//        return "MERE-${a}-${b}-${c}";
-//    }
-//
-//    $codes = [];
-//    for ($i = 0; $i < 200; $i++) {
-//        $codes[] = g();
-//    }
-//
-//    return $codes;
-//});
+Route::get('/generate-codes', function (Request $request) {
+    if ($request->user()->id !== 1) abort(400);
+
+    $request->validate([
+        'prefix' => ['required', 'string'],
+        'count' => ['required', 'integer'],
+        'club_id' => ['required', 'integer'],
+    ]);
+
+    $needed = $request->integer('count');
+    $checked = [];
+
+    do {
+        $codes = [];
+
+        for (; $needed > 0; $needed--) {
+            $a = rand(pow(10, 3), pow(10, 4) - 1);
+            $b = rand(pow(10, 3), pow(10, 4) - 1);
+            $c = rand(pow(10, 3), pow(10, 4) - 1);
+
+            $code = $request->string('prefix')->upper() . "-{$a}-{$b}-{$c}";
+
+            if (in_array($code, $codes) || in_array($code, $checked)) {
+                // Code already generated this batch, rewind and do this iteration again
+                $needed++;
+            } else {
+                $codes[] = $code;
+            }
+        }
+
+        $duplicates = \App\Models\MemberInvite::query()
+            ->whereIn('code', $codes)
+            ->get('code')
+            ->toArray();
+
+        for ($i = 0; $i < count($codes); $i++) {
+            if (in_array($codes[$i], $duplicates)) {
+                // If current code is already in the DB,
+                $needed++;
+            } else {
+                $checked[] = $codes[$i];
+            }
+        }
+    } while ($needed > 0);
+
+    $records = [];
+
+    for ($i = 0; $i < count($checked); $i++) {
+        $records[] = [
+            'creator_id' => $request->user()->id,
+            'club_id' => $request->integer('club_id'),
+            'code' => $checked[$i],
+            'uses' => 1
+        ];
+    }
+
+    return [
+        'succeeded' => \App\Models\MemberInvite::query()->insert($records),
+        'creator_id' => $request->user()->id,
+        'club_id' => $request->integer('club_id'),
+        'codes' => $checked
+    ];
+})->middleware(['auth']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
