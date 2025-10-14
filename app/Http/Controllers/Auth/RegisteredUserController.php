@@ -41,14 +41,17 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $code = MemberInvite::query()->where('code', '=', $request->string('code'))->first();
+        $code = null;
+        if ($request->filled('code')) {
+            $code = MemberInvite::query()->where('code', '=', $request->string('code'))->first();
 
-        if (!$code) {
-            return back()->withErrors(['code' => 'Invalid Code']);
-        }
+            if (!$code) {
+                return back()->withErrors(['code' => 'Invalid Code']);
+            }
 
-        if ($code->consumers()->count() >= $code->uses) {
-            return back()->withErrors(['code' => 'This code already in use']);
+            if ($code->consumers()->count() >= $code->uses) {
+                return back()->withErrors(['code' => 'This code already in use']);
+            }
         }
 
         $user = User::create([
@@ -57,12 +60,14 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $ms = new Membership();
-        $ms->tier = 1;
-        $ms->club_id = $code->club_id;
-        $ms->user_id = $user->id;
-        $ms->code_id = $code->id;
-        $ms->save();
+        if ($request->filled('code')) {
+            $ms = new Membership();
+            $ms->tier = 1;
+            $ms->club_id = $code->club_id;
+            $ms->user_id = $user->id;
+            $ms->code_id = $code->id;
+            $ms->save();
+        }
 
         event(new Registered($user));
 
