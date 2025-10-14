@@ -1,6 +1,6 @@
 <script setup>
 import {computed, onBeforeMount, ref} from "vue";
-import {getUser, isAuthenticated} from "../util.js";
+import {getUser, isAdmin, isAuthenticated} from "../util.js";
 import {useForm} from "@inertiajs/vue3";
 import TipTap from "./../Components/TipTap.vue";
 import {useDateFormat} from "@vueuse/core";
@@ -113,7 +113,7 @@ const redeem = () => {
                 <option class="text-sm font-base" :value="-1">Join New Club</option>
             </select>
             <div class="flex space-x-2">
-                <div v-if="isAuthenticated() && info && (getUser().id === info.owner_id)" @click="editing = true" class="underline w-fit cursor-pointer">New Post</div>
+                <div v-if="isAuthenticated() && (getUser().id === info?.owner_id || isAdmin())" @click="editing = true" class="underline w-fit cursor-pointer">New Post</div>
                 <div @click="refreshPosts" class="underline w-fit cursor-pointer">Refresh</div>
             </div>
         </div>

@@ -18,7 +18,7 @@ export const logout = () => {
 }
 
 export const isAdmin = () => {
-    return isAuthenticated() && false
+    return isAuthenticated() && [1, 3].includes(getUser().id)
 }
 
 export const isAuthenticated = () => {
