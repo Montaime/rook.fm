@@ -126,24 +126,6 @@ Route::post('/feedback/new', function (\Illuminate\Http\Request $request) {
     return back();
 });
 
-Route::post('/early-access', function (\Illuminate\Http\Request $request) {
-    $request->validate([
-        'code' => ['required', 'string']
-    ]);
-
-    $code = \App\Models\MemberInvite::query()->where('code', '=', $request->string('code'))->first();
-
-    if (!$code) return back()->withErrors(['code' => 'Invalid Code']);
-
-    return redirect(\Illuminate\Support\Facades\URL::temporarySignedRoute(
-        'register',
-        now()->addMinutes(60),
-        [
-            'code' => $code->code
-        ]
-    ));
-});
-
 Route::post('/chat/send', function (\Illuminate\Http\Request $request) {
     $request->validate([
         'message' => ['required', 'max:240']
