@@ -23,7 +23,7 @@ const { x, y, style } = useDraggable(el, {
 const resize = ref(null);
 
 onMounted(() => {
-    //resize.value.style.height = resize.value.clientHeight + 'px';
+    //if ($$$.windows[props.title].value.resizable) resize.value.style.height = resize.value.clientHeight + 'px';
 });
 
 const window = defineModel()
@@ -73,7 +73,7 @@ const visible = ref(props.visible)
                     </svg>
                 </div>
             </div>
-            <div ref="resize" :style="'min-width:200px; min-height:50px;'" class="container relative flex flex-col space-y-2 p-2 grow w-full md:w-[500px]" :class="{containerClass: true, 'hidden': window.visibility !== 2}"><slot/></div>
+            <div ref="resize" style="min-width:200px; min-height:50px;" class="container relative flex flex-col space-y-2 p-2 grow w-full md:w-[500px]" :class="{containerClass: true, 'hidden': window.visibility !== 2}"><slot/></div>
         </div>
     </div>
 </template>

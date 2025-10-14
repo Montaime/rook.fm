@@ -101,7 +101,6 @@ const redeem = () => {
             for (let club in clubs.value) {
                 if (!old.includes(clubs.value[club].id)) currentBlog.value = clubs.value[club].id
             }
-            console.log(old, clubs.value)
         }
     })
 }
