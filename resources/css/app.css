@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+.pane {
+    @apply flex flex-col bg-neutral-50 border border-t-white border-b-neutral-300 px-2 py-1 rounded-md
+}
+
+.admin button {
+    @apply text-sm rounded-md bg-neutral-100 border border-neutral-300 px-2 py-1 w-fit disabled:text-neutral-500;
+}
+
+.admin input {
+    @apply bg-neutral-200 rounded-md border-none disabled:bg-neutral-100 disabled:text-neutral-500
+}
+
+.admin .digit {
+    @apply text-neutral-400 font-mono text-sm;
+}
+
+.admin thead {
+    @apply bg-neutral-100;
+}
+
+.admin tr {
+    @apply border;
+}
+
+.admin td, th {
+    @apply px-2 border;
+}
+
 .window {
     @apply flex flex-col
 }

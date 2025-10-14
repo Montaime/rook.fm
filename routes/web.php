@@ -64,6 +64,10 @@ Route::get('/chat', function (\Illuminate\Http\Request $request) {
     return \App\Models\ChatMessage::query()->latest()->with(['author'])->limit(10)->get();
 });
 
+Route::get('/events', function (\Illuminate\Http\Request $request) {
+    return \App\Models\Events::query()->latest()->limit(10)->get();
+});
+
 Route::post('/club/{club:id}/posts/new', function (\Illuminate\Http\Request $request, \App\Models\Club $club) {
     // TODO: post authorization
 
@@ -185,103 +189,158 @@ Route::get('/mock', function () {
 //});
 //
 
-Route::get('/generate-codes', function (Request $request) {
-    if ($request->user()->id !== 1) abort(400);
 
-    return Inertia::render('Tools/Codes', [
-        'codes' => \App\Models\MemberInvite::query()->latest('id')->paginate(50)
-    ]);
-})->middleware(['auth']);
+Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/', function (Request $request) {
+        return Inertia::render('Admin/Home', [
+            'stats' => [
+                'users' => \App\Models\User::query()->count(),
+                'memberships' => \App\Models\Membership::query()->count(),
+                'codes' => \App\Models\MemberInvite::query()->count(),
+                'posts' => \App\Models\Post::query()->count(),
+                'chats' => \App\Models\ChatMessage::query()->count(),
+            ]
+        ]);
+    });
 
-Route::post('/generate-codes', function (Request $request) {
-    if ($request->user()->id !== 1) abort(400);
+    Route::get('/clubs', function (Request $request) {
+        return Inertia::render('Admin/Clubs', [
+            'clubs' => \App\Models\Club::query()
+                ->latest()
+                ->with(['owner'])
+                ->withCount(['posts'])
+                ->get(),
+        ]);
+    });
 
-    $request->validate([
-        'prefix' => ['required', 'string'],
-        'count' => ['required', 'integer'],
-        'club_id' => ['required', 'integer'],
-    ]);
+    Route::post('/clubs/new', function (Request $request) {
+        $club = new \App\Models\Club();
+        $club->name = $request->string('name');
+        $club->description = $request->string('description');
+        $club->owner_id = $request->integer('owner_id');
+        $club->save();
 
-    $needed = $request->integer('count');
+        return back();
+    });
 
-    $checked = [];
-    $init = true;
-    do {
-        $codes = [];
+    Route::get('/events', function (Request $request) {
+        return Inertia::render('Admin/Events', [
+            'events' => \App\Models\Events::query()->latest()->get(),
+        ]);
+    });
 
-        // We have a given list
-        if ($request->has('codes') && $request->input('codes') !== null && $init) {
-            // Fill the first batch with provided codes
-            $codes = $request->json('codes');
-            // The amount needed should match the provided codes, to reduce confusion
-            if (count($codes) !== $needed) abort(400);
-            // Don't generate an initial iteration when we get provided codes
-            $needed = 0;
-        }
+    Route::post('/events/new', function (Request $request) {
+        $event = new \App\Models\Events();
+        $event->name = $request->string('name');
+        $event->description = $request->string('description');
+        $event->location = $request->string('location');
+        if ($request->string('date')->toString() !== '') $event->date = $request->string('date');
+        $event->purchase_url = $request->string('purchase_url');
+        $event->info_url = $request->string('info_url');
+        $event->save();
 
-        // We've run (skipped) the first generation, don't try to load on provided codes on subsequent runs
-        $init = false;
+        return back();
+    });
 
-        // Generate codes until we need 0 more
-        for (; $needed > 0; $needed--) {
-            $a = rand(pow(10, 3), pow(10, 4) - 1);
-            $b = rand(pow(10, 3), pow(10, 4) - 1);
-            $c = rand(pow(10, 3), pow(10, 4) - 1);
+    Route::get('/codes', function (Request $request) {
+        if ($request->user()->id !== 1) abort(400);
 
-            $code = $request->string('prefix')->upper() . "-{$a}-{$b}-{$c}";
+        return Inertia::render('Admin/Codes', [
+            'codes' => \App\Models\MemberInvite::query()->latest('id')->paginate(50)
+        ]);
+    });
 
-            if (in_array($code, $codes) || in_array($code, $checked)) {
-                // Code already generated in this or another run, rewind and do this iteration again
-                $needed++;
-            } else {
-                $codes[] = $code;
+    Route::post('/codes', function (Request $request) {
+        if ($request->user()->id !== 1) abort(400);
+
+        $request->validate([
+            'prefix' => ['required', 'string'],
+            'count' => ['required', 'integer'],
+            'club_id' => ['required', 'integer'],
+        ]);
+
+        $needed = $request->integer('count');
+
+        $checked = [];
+        $init = true;
+        do {
+            $codes = [];
+
+            // We have a given list
+            if ($request->has('codes') && $request->input('codes') !== null && $init) {
+                // Fill the first batch with provided codes
+                $codes = $request->json('codes');
+                // The amount needed should match the provided codes, to reduce confusion
+                if (count($codes) !== $needed) abort(400);
+                // Don't generate an initial iteration when we get provided codes
+                $needed = 0;
             }
-        }
 
-        // Get list of codes that are already in the DB
-        $duplicates = \App\Models\MemberInvite::query()
-            ->whereIn('code', $codes)
-            ->get('code')
-            ->toArray();
+            // We've run (skipped) the first generation, don't try to load on provided codes on subsequent runs
+            $init = false;
 
-        for ($i = 0; $i < count($codes); $i++) {
-            if (in_array($codes[$i], $duplicates)) {
-                // If current code is already in the DB, we need a new one
-                $needed++;
-            } else {
-                // Otherwise this code is approved for creation
-                $checked[] = $codes[$i];
+            // Generate codes until we need 0 more
+            for (; $needed > 0; $needed--) {
+                $a = rand(pow(10, 3), pow(10, 4) - 1);
+                $b = rand(pow(10, 3), pow(10, 4) - 1);
+                $c = rand(pow(10, 3), pow(10, 4) - 1);
+
+                $code = $request->string('prefix')->upper() . "-{$a}-{$b}-{$c}";
+
+                if (in_array($code, $codes) || in_array($code, $checked)) {
+                    // Code already generated in this or another run, rewind and do this iteration again
+                    $needed++;
+                } else {
+                    $codes[] = $code;
+                }
             }
+
+            // Get list of codes that are already in the DB
+            $duplicates = \App\Models\MemberInvite::query()
+                ->whereIn('code', $codes)
+                ->get('code')
+                ->toArray();
+
+            for ($i = 0; $i < count($codes); $i++) {
+                if (in_array($codes[$i], $duplicates)) {
+                    // If current code is already in the DB, we need a new one
+                    $needed++;
+                } else {
+                    // Otherwise this code is approved for creation
+                    $checked[] = $codes[$i];
+                }
+            }
+        } while ($needed > 0);
+
+        $records = [];
+
+        for ($i = 0; $i < count($checked); $i++) {
+            $records[] = [
+                'creator_id' => $request->user()->id,
+                'club_id' => $request->integer('club_id'),
+                'code' => $checked[$i],
+                'uses' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
         }
-    } while ($needed > 0);
 
-    $records = [];
+        $query = \App\Models\MemberInvite::query()->insert($records);
 
-    for ($i = 0; $i < count($checked); $i++) {
-        $records[] = [
-            'creator_id' => $request->user()->id,
-            'club_id' => $request->integer('club_id'),
-            'code' => $checked[$i],
-            'uses' => 1,
-            'created_at' => now(),
-            'updated_at' => now()
-        ];
-    }
+        return Inertia::render('Admin/Codes', [
+            'codes' => \App\Models\MemberInvite::query()->latest('id')->paginate(50),
+            'result' => [
+                'succeeded' => $query,
+                'timestamp' => now(),
+                'prefix' => $request->string('prefix'),
+                'creator_id' => $request->user()->id,
+                'club_id' => $request->integer('club_id'),
+                'codes' => $checked
+            ]
+        ]);
+    })->middleware(['auth']);
 
-    $query = \App\Models\MemberInvite::query()->insert($records);
-
-    return Inertia::render('Tools/Codes', [
-        'codes' => \App\Models\MemberInvite::query()->latest('id')->paginate(50),
-        'result' => [
-            'succeeded' => $query,
-            'timestamp' => now(),
-            'prefix' => $request->string('prefix'),
-            'creator_id' => $request->user()->id,
-            'club_id' => $request->integer('club_id'),
-            'codes' => $checked
-        ]
-    ]);
-})->middleware(['auth']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

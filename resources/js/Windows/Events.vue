@@ -1,50 +1,34 @@
 <script setup>
-const events = [
-    {
-        name: 'YOI TOKI - A Future Funk/Vaporwave Party ft. FIBRE',
-        location: 'Chicago, IL',
-        date: 'May 10th, 2025',
-        link_purchase: '',
-        link_info: 'https://bottomlounge.com/13709-2/14351903/yoi-toki-a-future-funk-vaporwave-party-ft-fibre/',
-        image: '',
-    },
-    {
-        name: 'Critter Kickback',
-        location: 'Atlanta, GA',
-        date: 'May 11th, 2025',
-        link_purchase: '',
-        link_info: 'https://www.instagram.com/p/DJANJZoTrwu/',
-        image: '',
-    },
-    {
-        name: 'i2K: Electronic Music Festival',
-        location: 'Richmond, VA',
-        date: 'June 6th, 2025',
-        link_purchase: '',
-        link_info: 'https://www.etix.com/ticket/p/93792918/i2kelectronic-music-festival-richmond-ember-music-hall',
-        image: '',
-    },
-    {
-        name: 'Tokyo City Lights',
-        location: 'Anaheim, CA',
-        date: 'June 13th, 2025',
-        link_purchase: '',
-        link_info: 'https://concerts.livenation.com/tokyo-city-lights-anaheim-california-06-13-2025/event/09006289DE912E80',
-        image: '',
-    },
-]
+import {onBeforeMount, ref} from "vue";
+
+const events = ref([]);
+
+onBeforeMount(async () => {
+    loadEvents();
+})
+
+const loadEvents = () => {
+    fetch('/events').then(res => res.json()).then(data => {
+        events.value = data;
+    });
+}
 </script>
 <template>
-    <h2 class="font-bold text-4xl">Events</h2>
+    <div class="flex justify-between items-center space-x-2">
+        <h2 class="font-bold text-4xl">Events</h2>
+        <span class="underline cursor-pointer" @click="loadEvents">Reload</span>
+    </div>
+    <p v-if="events.length === 0" class="text-center">There are no events planned right now, but check back soon!</p>
     <div v-for="event in events" class="flex flex-col space-y-2 p-2 bg-white/50 shadow-md rounded-md">
         <div class="flex flex-col grow leading-tight">
             <span class="font-bold text-xl">{{ event.name }}</span>
-            <span>{{ event.location }}</span>
-            <span>{{ event.date }}</span>
+            <span v-if="event.location">{{ event.location }}</span>
+            <span>{{ event.date ? new Date(event.date).toLocaleString('en-US', {month: 'short', day: '2-digit', weekday: 'long',hour: '2-digit', minute: '2-digit'}) : 'TBD' }}</span>
+            <span v-if="event.description">{{ event.description }}</span>
         </div>
-        <div class="flex flex-col space-y-1 w-fit">
-            <a target="_blank" v-if="event.link_purchase" :href="event.link_purchase" class="bg-black shadow-md rounded px-2 py-1 font-bold text-white">Tickets</a>
-            <a target="_blank" v-if="event.link_info" :href="event.link_info" class="bg-black shadow-md rounded px-2 py-1 font-bold text-white">Info</a>
+        <div class="flex space-x-1 w-fit">
+            <a target="_blank" v-if="event.purchase_url" :href="event.purchase_url" class="bg-black shadow-md rounded px-2 py-1 font-bold text-white">Tickets</a>
+            <a target="_blank" v-if="event.info_url" :href="event.info_url" class="bg-black shadow-md rounded px-2 py-1 font-bold text-white">Info</a>
         </div>
     </div>
 </template>
