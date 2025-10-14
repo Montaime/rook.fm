@@ -136,15 +136,15 @@ const redeem = () => {
             <button @click="submit" class="underline">Submit</button>
             <span @click="editing = false" class="w-fit cursor-pointer underline italic">Back</span>
         </div>
-        <div v-else-if="currentPost !== null" class="flex flex-col items-center">
+        <div v-else-if="currentPost !== null" class="flex flex-col items-center overflow-y-auto overflow-x-hidden max-h-[75vh] p-2">
             <span @click="currentPost = null" class="w-fit cursor-pointer underline italic">Back</span>
             <h2 class="font-bold text-2xl">{{ blog[currentPost].title }}</h2>
             <TipTap :editable="false" v-model="blog[currentPost].content"/>
-            <details v-if="blog[currentPost].files.length > 0" class="flex flex-col items-center space-y-2 border-2 border-neutral-100 p-2 w-full">
+            <details v-if="blog[currentPost].files.length > 0" class="flex flex-col items-center space-y-2 border-2 border-neutral-100 p-2">
                 <summary class="font-bold text-lg uppercase cursor-pointer">Attachments</summary>
-                <div v-for="file in blog[currentPost].files" class="flex flex-col space-y-2">
-                    <span class="text-center bg-black rounded px-1 py-0.5 text-white font-mono">{{ filename(file) }}</span>
-                    <img class="max-h-64 max-w-64 w-auto h-auto block" v-if="isImage(file)" :src="'storage/' + file" alt=""/>
+                <div v-for="file in blog[currentPost].files" class="flex flex-col space-y-2 w-full">
+                    <span class="truncate text-center text-xs text-wrap bg-black rounded px-1 py-0.5 text-white font-mono">{{ filename(file) }}</span>
+                    <img class="max-h-full max-w-full w-auto h-auto block" v-if="isImage(file)" :src="'storage/' + file" alt=""/>
                     <audio v-else-if="isAudio(file)" controls>
                         <source :src="'storage/' + file" type="audio/mpeg"/>
                     </audio>
