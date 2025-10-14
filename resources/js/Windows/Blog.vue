@@ -6,6 +6,7 @@ import TipTap from "./../Components/TipTap.vue";
 import {useDateFormat} from "@vueuse/core";
 import {Link} from "@inertiajs/vue3";
 import route from "ziggy-js";
+import InputError from "@/Components/InputError.vue";
 
 const blog = ref([]);
 const info = ref([]);
@@ -48,6 +49,12 @@ const submit = () => {
 const refreshPosts = () => {
     if (currentBlog.value === null) return;
 
+    if (currentBlog.value === -1) {
+        info.value = [];
+        blog.value = [];
+        return;
+    }
+
     fetch('/club/' + currentBlog.value).then(res => res.json()).then(data => {
         info.value = data;
         blog.value = data.posts;
@@ -77,18 +84,34 @@ const clubs = computed(() => {
     return list;
 });
 
-// const code = useForm({
-//
-// });
+const code = useForm({
+    code: ''
+});
 const redeem = () => {
+    let old = [];
 
+    for (let club in clubs.value) {
+        old.push(clubs.value[club].id);
+    }
+
+    code.post('/membership/new', {
+        preserveScroll: true,
+        onSuccess: (e) => {
+            code.code = '';
+            for (let club in clubs.value) {
+                if (!old.includes(clubs.value[club].id)) currentBlog.value = clubs.value[club].id
+            }
+            console.log(old, clubs.value)
+        }
+    })
 }
 </script>
 <template>
-    <div v-if="isAuthenticated() || Object.keys(clubs).length > 0">
+    <div v-if="isAuthenticated() && Object.keys(clubs).length > 0">
         <div class="flex justify-between items-center">
             <select @change="refreshPosts" v-model="currentBlog" class="font-bold text-2xl bg-transparent border-none focus:ring-0">
                 <option v-for="club in clubs" class="text-sm font-base" :value="club.id">{{ club.name }}</option>
+                <option class="text-sm font-base" :value="-1">Join New Club</option>
             </select>
             <div class="flex space-x-2">
                 <div v-if="isAuthenticated() && info && (getUser().id === info.owner_id)" @click="editing = true" class="underline w-fit cursor-pointer">New Post</div>
@@ -141,15 +164,24 @@ const redeem = () => {
                 <span v-if="new Date(post.published_at) > new Date()" class="text-xs bg-red-500 rounded-full px-1 py-0.5 text-white uppercase">Unpublished</span>
                 <p><span>{{ post.blurb }}...</span> <span @click="currentPost = key" class="cursor-pointer underline italic">Read More</span></p>
             </div>
-            <div class="py-16" v-if="blog.length === 0">
+            <div class="py-16" v-if="blog.length === 0 && currentBlog !== -1">
                 <p>There are currently no posts</p>
+            </div>
+            <div class="flex flex-col items-center p-4" v-if="currentBlog === -1">
+                <input type="text" v-model="code.code" placeholder="xxxx-xxxx-xxxx-xxxx" class="text-center w-full"/>
+                <button @click="redeem" class="underline">Redeem Code</button>
+                <InputError class="mt-2" :message="code.errors.code" />
             </div>
         </div>
     </div>
     <div v-else class="flex flex-col items-center w-full text-center">
         <div>You are not a member of any artist clubs</div>
-        <div v-if="!isAuthenticated()"><Link :href="route('register')" class="underline">Sign up</Link> to rook.fm with a creator code to join a fanclub!</div>
-        <input type="text" placeholder="xxxx-xxxx-xxxx-xxxx" class="text-center hidden"/>
-        <button @click="redeem" class="underline hidden">Redeem Code</button>
+        <div class="flex flex-col items-center" v-if="isAuthenticated()">
+            <p>If you have an invite code, enter it here:</p>
+            <input type="text" v-model="code.code" placeholder="xxxx-xxxx-xxxx-xxxx" class="text-center w-full"/>
+            <button @click="redeem" class="underline">Redeem Code</button>
+            <InputError class="mt-2" :message="code.errors.code" />
+        </div>
+        <div v-else><Link :href="route('register')" class="underline">Sign up</Link> to rook.fm with a creator code to join a fanclub!</div>
     </div>
 </template>

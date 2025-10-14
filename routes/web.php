@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\MemberInvite;
+use App\Models\Membership;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -20,6 +22,27 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('OS');
 });
+
+Route::post('/membership/new', function (Request $request) {
+    $code = MemberInvite::query()->where('code', '=', $request->string('code'))->first();
+
+    if (!$code) return back()->withErrors(['code' => 'Invalid Code']);
+
+    if ($code->consumers()->count() >= $code->uses) return back()->withErrors(['code' => 'This code already in use']);
+
+    $ms = new Membership();
+    $ms->tier = 1;
+    $ms->club_id = $code->club_id;
+    $ms->user_id = $request->user()->id;
+    $ms->code_id = $code->id;
+    $ms->save();
+
+    return back();
+})->middleware(['auth']);
+
+Route::get('/clubs', function (Request $request) {
+    return $request->user()->clubs;
+})->middleware(['auth']);
 
 Route::get('/club/{club:id}', function (\Illuminate\Http\Request $request, \App\Models\Club $club) {
     $club->load(['posts' => function($q) use ($request, $club) {

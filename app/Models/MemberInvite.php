@@ -20,4 +20,9 @@ class MemberInvite extends Model
     {
         return $this->belongsToMany(User::class, 'memberships', 'code_id', 'user_id');
     }
+
+    public function club(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Club::class, 'club_id');
+    }
 }
