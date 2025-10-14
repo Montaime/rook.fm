@@ -136,7 +136,7 @@ const redeem = () => {
             <button @click="submit" class="underline">Submit</button>
             <span @click="editing = false" class="w-fit cursor-pointer underline italic">Back</span>
         </div>
-        <div v-else-if="currentPost !== null" class="flex flex-col items-center overflow-y-auto overflow-x-hidden max-h-[75vh] p-2">
+        <div v-else-if="currentPost !== null && currentBlog !== -1" class="flex flex-col items-center overflow-y-auto overflow-x-hidden max-h-[75vh] p-2">
             <span @click="currentPost = null" class="w-fit cursor-pointer underline italic">Back</span>
             <h2 class="font-bold text-2xl">{{ blog[currentPost].title }}</h2>
             <TipTap :editable="false" v-model="blog[currentPost].content"/>
