@@ -1,6 +1,6 @@
 import {router, usePage} from "@inertiajs/vue3";
 import route from 'ziggy-js'
-import {computed, reactive, ref} from "vue";
+import {computed, markRaw, reactive, ref} from "vue";
 import poolbg from "../assets/wallpapers/pool.jpg"
 import About from "@/Windows/About.vue";
 import Settings from "@/Windows/Settings.vue";
@@ -12,6 +12,7 @@ import Submit from "@/Windows/Submit.vue";
 import Feedback from "@/Windows/Feedback.vue";
 import {useStorage} from "@vueuse/core";
 import Livestream from "@/Windows/Livestream.vue";
+import {Window} from "./Window.js"
 
 export const logout = () => {
     router.post(route('logout'));
@@ -53,75 +54,52 @@ export const $$$ = reactive({
         style: useStorage('rk_theme', 'glass'),
     },
     windows: {
-        'About': ref({
-            visibility: WindowState.Closed,
+        'About': ref(new Window(markRaw(About), {
+            title: 'About',
             style: 'items-center',
-            x: 0,
-            y: 0,
-            z: 0,
             resizable: false
-        }),
-        'Settings': ref({
-            visibility: WindowState.Closed,
+        })),
+        'Settings': ref(new Window(markRaw(Settings), {
+            title: 'Settings',
             style: 'divide-y',
-            x: 0,
-            y: 0,
-            z: 0,
             resizable: false
-        }),
-        'Radio': ref({
+        })),
+        'Radio': ref(new Window(markRaw(Radio), {
+            title: 'Radio',
             visibility: WindowState.Open,
-            x: 0,
-            y: 0,
-            z: 0,
             resizable: false
-        }),
-        'Fanclubs': ref({
-            visibility: WindowState.Closed,
-            x: 0,
-            y: 0,
-            z: 0,
+        })),
+        'Fanclubs': ref(new Window(markRaw(Blog), {
+            title: 'Fanclubs',
+        })),
+        'Chat': ref(new Window(markRaw(Chatroom), {
+            title: 'Chat',
+        })),
+        'Events': ref(new Window(markRaw(Events), {
+            title: 'Events',
+            width: 400,
             resizable: false
-        }),
-        'Chat': ref({
-            visibility: WindowState.Closed,
-            x: 0,
-            y: 0,
-            z: 0,
-            resizable: false
-        }),
-        'Events': ref({
-            visibility: WindowState.Closed,
-            x: 0,
-            y: 0,
-            z: 0,
-            resizable: false
-        }),
+        })),
+        'Feedback': ref(new Window(markRaw(Feedback), {
+            title: 'Feedback',
+        })),
         // 'Submit': ref({
-        //     visibility: WindowState.Closed,
-        //     x: 0,
-        //     y: 0,
-        //     z: 0,
         //     resizable: false
         // }),
-        'Feedback': ref({
-            visibility: WindowState.Closed,
-            x: 0,
-            y: 0,
-            z: 0,
-            resizable: false
-        }),
         // 'Livestream': ref({
-        //     visibility: WindowState.Open,
-        //     x: 0,
-        //     y: 0,
-        //     z: 0,
-        //     resizable: true
+        //     visibility: WindowState.Open
         // }),
     },
     desktop: {
         startMenuOpen: false,
-        zHighest: 0
+        transforming: false,
+        zHighest: 0,
+    },
+    snap: {
+        x: 0,
+        y: 0,
+        height: 0,
+        width: 0
     }
 })
 
@@ -138,10 +116,14 @@ export const windowsLaunched = computed(() => {
 })
 
 export const tabClick = (name) => {
-    if ($$$.windows[name].visibility === WindowState.Minimized) {
-        $$$.windows[name].visibility = WindowState.Open
-    } else if ($$$.windows[name].visibility === WindowState.Open) {
-        $$$.windows[name].visibility = WindowState.Minimized
+    if ($$$.windows[name].z < $$$.desktop.zHighest) {
+        $$$.windows[name].z = ++$$$.desktop.zHighest;
+    } else {
+        if ($$$.windows[name].visibility === WindowState.Minimized) {
+            $$$.windows[name].visibility = WindowState.Open
+        } else if ($$$.windows[name].visibility === WindowState.Open) {
+            $$$.windows[name].visibility = WindowState.Minimized
+        }
     }
 }
 

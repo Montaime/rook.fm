@@ -67,7 +67,7 @@ const openMembers = ref(!true);
 // TOOD: show faded message while sending and no responde/confirmation/echo fom server yet!!
 </script>
 <template>
-    <div class="flex divide-x px-2">
+    <div class="flex divide-x px-2 h-full">
         <div class="flex flex-col space-y-1 p-2 pl-0" v-if="openChannels">
             <div class="px-2 py-1 rounded-md leading-tight bg-white/50">
                 <h2 class="font-bold">#lounge</h2>
@@ -78,7 +78,7 @@ const openMembers = ref(!true);
                 <p class="text-sm">Talk about what's on the radio</p>
             </div>
         </div>
-        <div class="flex flex-col grow h-64">
+        <div class="flex flex-col grow">
             <div ref="base" class="grow justify-self-end flex flex-col space-y-1 overflow-y-auto">
                 <div class="!hidden flex items-center justify-center !border-none">
                     <span class="border-t w-full"></span>

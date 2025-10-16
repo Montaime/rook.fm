@@ -81,7 +81,7 @@
 /* <editor-fold desc="Neumorphism Theme"> */
 
 .neu .window {
-    @apply bg-gradient-to-b from-gray-50 to-gray-300 border-2 border-[#00000000] rounded-md overflow-hidden
+    @apply bg-gradient-to-b from-gray-50 to-gray-300 border-2 border-[#00000000] rounded-md
 }
 
 .neu .container {
@@ -125,11 +125,11 @@
 /* <editor-fold desc="Brutalist Theme"> */
 
 .brutal .window {
-    @apply outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    @apply outline outline-2 outline-black border-2 border-black [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
 }
 
 .brutal .header {
-    @apply bg-white
+    @apply bg-white border-b-2 border-black;
 }
 
 .brutal .container {
