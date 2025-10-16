@@ -55,8 +55,10 @@ useEventListener(document, 'mousemove', (e) => {
             if (maximized.value) maximize();
             if (snapped.value) snap();
             w.x = e.pageX - w.width / 2;
+            w.y = 0;
 
-            startX.value = w.x;
+            cacheStartTransforms();
+            cacheTransforms();
         }
 
         w.x = startX.value + deltaX;
@@ -132,7 +134,6 @@ const endDrag = () => {
     if (dragging.value) {
         const EDGE_GAP = 50;
 
-        // //todo: window gets hidden under task bar
         if (w.y < 0) w.y = 0;
         if (w.x > b.clientWidth - EDGE_GAP) w.x = b.clientWidth - EDGE_GAP;
         if (w.x + w.width < EDGE_GAP * 2) w.x = EDGE_GAP * 2 - w.width;
@@ -204,15 +205,11 @@ const snap = () => {
     const w = window.value;
 
     if (snapped.value) {
-        w.x = w.minimX;
-        w.y = w.minimY;
-        w.width = w.minimWidth;
-        w.height = w.minimHeight;
+        transformFromCached();
     } else {
-        w.minimX = startX.value;
-        w.minimY = startY.value;
-        w.minimWidth = startWidth.value;
-        w.minimHeight = startHeight.value;
+        if (!maximized.value) {
+            cacheTransforms();
+        }
 
         w.x = $$$.snap.x;
         w.y = $$$.snap.y;
@@ -228,16 +225,10 @@ const maximize = () => {
     const w = window.value;
 
     if (maximized.value) {
-        w.x = w.minimX;
-        w.y = w.minimY;
-        w.width = w.minimWidth;
-        w.height = w.minimHeight;
+        transformFromCached();
     } else {
         if (!snapped.value) {
-            w.minimX = startX.value;
-            w.minimY = startY.value;
-            w.minimWidth = startWidth.value;
-            w.minimHeight = startHeight.value;
+            cacheTransforms();
         }
 
         w.x = 0;
@@ -249,8 +240,31 @@ const maximize = () => {
     maximized.value = !maximized.value
 }
 
+const cacheTransforms = () => {
+    const w = window.value;
+    w.minimX = startX.value;
+    w.minimY = startY.value;
+    w.minimWidth = startWidth.value;
+    w.minimHeight = startHeight.value;
+}
+
+const cacheStartTransforms = () => {
+    const w = window.value;
+    startX.value = w.x;
+    startY.value = w.y;
+    startWidth.value = w.width;
+    startHeight.value = w.height;
+}
+
+const transformFromCached = () => {
+    const w = window.value;
+    w.x = w.minimX;
+    w.y = w.minimY;
+    w.width = w.minimWidth;
+    w.height = w.minimHeight;
+}
+
 // TODO: fix snapped and maximized corner resizing
-// TODO: fix overwriting of start transforms when going from snap/maximize -> snap/maximize -> drag
 </script>
 <template>
     <div @mousedown="window.z = ++$$$.desktop.zHighest" :style="`left: ${window.x}px; top: ${window.y}px; z-index:${window.z};`" class="window-container flex flex-col md:fixed md:w-max" :class="{'md:hidden': window.visibility !== 2}">
