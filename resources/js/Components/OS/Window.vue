@@ -52,10 +52,11 @@ useEventListener(document, 'mousemove', (e) => {
 
     if (dragging.value) {
         if ((maximized.value || snapped.value) && (deltaX !== 0 || deltaY !== 0)) {
+            let oldY = w.y;
             if (maximized.value) maximize();
             if (snapped.value) snap();
             w.x = e.pageX - w.width / 2;
-            w.y = 0;
+            w.y = oldY;
 
             cacheStartTransforms();
             cacheTransforms();
