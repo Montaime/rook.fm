@@ -1,7 +1,7 @@
 <script setup>
-import {computed, nextTick, onBeforeMount, onMounted, onUnmounted, ref} from 'vue'
-import {templateRef, useDraggable, useEventListener} from '@vueuse/core'
-import {$$$, cMap, WindowState} from '@/util.js'
+import {computed, onMounted, ref} from 'vue'
+import {templateRef, useEventListener} from '@vueuse/core'
+import {$$$, WindowState} from '@/util.js'
 
 const props = defineProps({
     title: String
@@ -314,7 +314,7 @@ const transformFromCached = () => {
                     </svg>
                 </div>
             </div>
-            <div ref="content" class="container max-w-full min-w-full md:min-w-0" :style="slotStyle" :class="{[window.style ]: true, '!hidden': window.visibility !== 2, 'overflow-y-auto scroll': window.resizable}">
+            <div ref="content" class="container max-w-full min-w-full md:min-w-0" :style="slotStyle" :class="{[window.style ]: true, '!hidden': window.visibility !== 2, 'overflow-y-auto scroll': window.resizable, 'p-2': window.decoration}">
                 <component :is="window.component"/>
             </div>
         </div>
@@ -327,6 +327,6 @@ const transformFromCached = () => {
 }
 
 .container {
-    @apply relative flex flex-col space-y-2 p-2 grow w-full;
+    @apply relative flex flex-col space-y-2 grow w-full;
 }
 </style>

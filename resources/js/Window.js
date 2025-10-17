@@ -4,7 +4,7 @@ export class Window {
     id = 0;
     title = '';
 
-    decoration = 0;
+    decoration = true;
     style = '';
     visibility = WindowState.Closed;
 
@@ -31,6 +31,7 @@ export class Window {
             let fillable = [
                 'title',
                 'visibility',
+                'decoration',
                 'style',
                 'x',
                 'y',
