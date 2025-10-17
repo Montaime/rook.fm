@@ -134,8 +134,8 @@ const switchBlog = (id) => {
         <aside class="flex flex-col border-r bg-neutral-100/25 w-52 shrink-0">
             <div class="relative grow">
                 <div class="absolute inset-0 overflow-y-auto">
-                    <div v-for="club in clubs" @click="switchBlog(club.id)" class="flex items-center space-x-2 px-2 py-1 cursor-pointer" :class="{'bg-neutral-100/50': club.id === currentBlog}">
-                        <div class="size-10 rounded-full bg-blue-500"></div>
+                    <div v-for="club in clubs" @click="switchBlog(club.id)" class="flex items-center space-x-2 px-2 py-1 cursor-pointer" :class="{'bg-neutral-100/50 font-bold': club.id === currentBlog}">
+<!--                        <div class="size-10 rounded-full bg-blue-500"></div>-->
                         <span class="text-lg">{{ club.name }}</span>
                     </div>
                 </div>
