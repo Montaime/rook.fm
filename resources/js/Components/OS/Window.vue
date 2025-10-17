@@ -132,13 +132,15 @@ const endDrag = () => {
     const b = document.getElementById('bounding');
     const w = window.value;
 
+    const EDGE_GAP = 32;
+
+    if (w.y > b.clientHeight - 10) w.y = b.clientHeight - EDGE_GAP;
+    if (w.y < 0) w.y = 0;
+
+    if (w.x > b.clientWidth - EDGE_GAP) w.x = b.clientWidth - EDGE_GAP * 2;
+    if (w.x + w.width < EDGE_GAP * 2) w.x = EDGE_GAP * 2 - w.width;
+
     if (dragging.value) {
-        const EDGE_GAP = 50;
-
-        if (w.y < 0) w.y = 0;
-        if (w.x > b.clientWidth - EDGE_GAP) w.x = b.clientWidth - EDGE_GAP;
-        if (w.x + w.width < EDGE_GAP * 2) w.x = EDGE_GAP * 2 - w.width;
-
         if ($$$.snap.height > 0 && $$$.snap.width > 0) {
             if ($$$.snap.height === b.clientHeight && $$$.snap.width === b.clientWidth) {
                 maximize();
@@ -166,8 +168,9 @@ onMounted(() => {
     const b = document.getElementById('bounding');
     const RANDOM_PADDING = 25;
 
-    w.width = Math.max(500, content.value.scrollWidth);
-    w.height = Math.max(350, content.value.scrollHeight);
+    // TODO: resize observer for non resizable windows
+    w.width = Math.max(w.resizable ? 500 : 0, content.value.scrollWidth);
+    w.height = Math.max(w.resizable ? 350 : 0, content.value.scrollHeight);
 
     w.x = Math.floor(Math.random() * (b.clientWidth - w.width - RANDOM_PADDING * 2)) + RANDOM_PADDING
     w.y = Math.floor(Math.random() * (b.clientHeight - w.height - RANDOM_PADDING * 2)) + RANDOM_PADDING
@@ -195,7 +198,6 @@ onMounted(() => {
 // const visible = ref(props.visible)
 
 const slotStyle = computed(() => {
-    // return `height: ${$$$.windows[props.title].height}px; width: ${$$$.windows[props.title].width}px;`;
     return window.value.resizable ? `height: ${window.value.height - (el.value?.parentElement.clientHeight ?? 0)}px; width: ${window.value.width}px;` : '';
 });
 
