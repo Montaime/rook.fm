@@ -4,7 +4,6 @@ import {ref} from "vue";
 import {$$$, cMap} from "../util.js";
 import Taskbar from "../Components/Taskbar.vue";
 
-const clicked = ref(false);
 const smallSizeClicked = ref(false);
 </script>
 <template>
@@ -37,7 +36,7 @@ const smallSizeClicked = ref(false);
                         <span class="text-xs" style="text-shadow: #232323 1px 1px 1px">songlist.html</span>
                     </div>
                 </div>
-                <div v-if="clicked" class="absolute z-0 inset-0 y space-y-4 md:space-y-0 overflow-y-auto md:overflow-hidden p-2 md:p-0">
+                <div class="absolute z-0 inset-0 y space-y-4 md:space-y-0 overflow-y-auto md:overflow-hidden p-2 md:p-0">
                     <div :style="`left:${$$$.snap.x}px;top:${$$$.snap.y}px;height:${$$$.snap.height}px;width:${$$$.snap.width}px;`" class="absolute opacity-0" :class="{'transition-all opacity-100': $$$.snap.width > 0 || $$$.snap.height > 0}">
                         <div class="absolute inset-2 border border-neutral-200/50 bg-neutral-300/20"></div>
                     </div>
@@ -55,14 +54,6 @@ const smallSizeClicked = ref(false);
             <p class="text-4xl cursor-pointer bg-white/50 p-4 rounded-md font-bold mt-4">Hey!</p>
             <p class="text-2xl cursor-pointer p-4 bg-white/50 rounded-md m-4">rook.fm mobile is VERY unfinished & far more stable on a desktop web browser (Chrome/Firefox/Safari). Things WILL be a little broken (as a treat)<br/>🛠️  Please report anything weird to help us out 💖</p>
             <button class="rounded-md bg-white/50 px-4 py-2">I Understand</button>
-        </div>
-        <div v-if="!clicked" @click="clicked = true" class="flex flex-col cursor-pointer items-center justify-center absolute inset-0 backdrop-blur-md z-10">
-            <div class="cursor-pointer rounded-full p-8 bg-white/50 shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 shrink-0">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                </svg>
-            </div>
-            <p class="text-4xl cursor-pointer font-bold mt-4">Click Anywhere To Unlock</p>
         </div>
     </div>
 </template>
