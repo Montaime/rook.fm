@@ -54,7 +54,17 @@ Route::get('/club/{club:id}', function (\Illuminate\Http\Request $request, \App\
     }]);
 
     $club->posts->map(function ($p) {
-        $p->files = \Illuminate\Support\Facades\Storage::disk('public')->files('posts/' . $p->id);
+        $paths = \Illuminate\Support\Facades\Storage::disk('public')->files('posts/' . $p->id);
+        $files = [];
+
+        foreach ($paths as $file) $files[] = [
+            'path' => $file,
+            'size' => \Illuminate\Support\Facades\Storage::disk('public')->size($file),
+//            'mime' => \Illuminate\Support\Facades\Storage::disk('public')->mimeType($file),
+            'name' => pathinfo($file, PATHINFO_FILENAME) . '.' . pathinfo($file, PATHINFO_EXTENSION),
+        ];
+
+        $p->setAttribute('files', $files);
     });
 
     return $club;
@@ -265,6 +275,8 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
         $init = true;
         do {
             $codes = [];
+
+            // TODO@later: if given list with already sent codes, tell the user instead of regenerating more
 
             // We have a given list
             if ($request->has('codes') && $request->input('codes') !== null && $init) {

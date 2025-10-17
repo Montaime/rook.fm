@@ -71,6 +71,7 @@ export const $$$ = reactive({
         })),
         'Fanclubs': ref(new Window(markRaw(Blog), {
             title: 'Fanclubs',
+            decoration: false,
         })),
         'Chat': ref(new Window(markRaw(Chatroom), {
             title: 'Chat',

@@ -4,15 +4,13 @@ import {ref, watch} from "vue";
 import {StarterKit} from "@tiptap/starter-kit";
 
 const props = defineProps({
-    modelValue: {
-        type: String,
-        default: '',
-    },
     editable: {
         type: Boolean,
         default: true,
     }
 })
+
+const body = defineModel();
 
 const source = ref(false);
 
@@ -35,12 +33,10 @@ const editor = useEditor({
     onCreate: () => {
         editor.value.setEditable(editable.value);
     }
-})
+});
 
-watch(props.modelvalue, () => {
+watch(body, () => {
     editor.value.commands.setContent(props.modelValue, false)
-}, {
-    deep: true,
 });
 </script>
 <template>
