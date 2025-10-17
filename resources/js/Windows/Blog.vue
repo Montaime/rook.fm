@@ -196,7 +196,7 @@ const switchBlog = (id) => {
                                 </video>
                             </div>
                         </details>
-                        <span class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">Files</span>
+                        <span v-if="blog[currentPost].files.length > 0" class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">Files</span>
                         <FileList :list="blog[currentPost].files" class="w-full"/>
                     </div>
                     <div v-else class="flex flex-col divide-y">
