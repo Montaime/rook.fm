@@ -1,12 +1,10 @@
 <script setup>
 import Logo from '../Components/Logo.vue';
-import {VERSION} from '@/util.js';
-
 </script>
 <template>
     <div class="flex flex-col items-center p-4">
         <Logo/>
         <h2>Web Operating System & Funk Delivery Center</h2>
-        <span class="bg-black rounded px-1 text-white text-sm font-mono text-center">{{ VERSION }}</span>
+        <span class="bg-black rounded px-1 text-white text-sm font-mono text-center">{{ $os.VERSION }}</span>
     </div>
 </template>

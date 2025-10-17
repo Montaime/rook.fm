@@ -7,18 +7,26 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import {ZiggyVue} from "ziggy-js/dist/vue.m"
 import {createPinia} from "pinia";
 
+const APP_VERSION = 'v1.3.0';
+
 const appName = import.meta.env.VITE_APP_NAME || 'Rook FM';
-const pinia = createPinia()
+
+const pinia = createPinia();
 
 createInertiaApp({
     title: (title) => `rook.fm`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
-            .use(plugin)
+        let app = createApp({ render: () => h(App, props) });
+
+        app.config.globalProperties.$os = {
+            VERSION: APP_VERSION
+        }
+
+        return app.use(plugin)
             .use(ZiggyVue)
             .use(pinia)
-            .mount(el);
+            .mount(el)
     },
     progress: {
         color: '#4B5563',

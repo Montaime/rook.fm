@@ -31,11 +31,11 @@ const play = (sound) => {
     let full = clicked.value[0] === 'rook' && clicked.value[1] === 'f' && clicked.value[2] === 'm';
 
     if (full) {
-        audio['mmm'].currentTime = 0;
-        audio['mmm'].play();
+        audio.value['mmm'].currentTime = 0;
+        audio.value['mmm'].play();
     } else {
-        audio[sound].currentTime = 0;
-        audio[sound].play();
+        audio.value[sound].currentTime = 0;
+        audio.value[sound].play();
     }
 
     glow.value = full;
