@@ -14,6 +14,8 @@ import {useStorage} from "@vueuse/core";
 import Livestream from "@/Windows/Livestream.vue";
 import {Window} from "./Window.js"
 
+export const VERSION = 'v1.3.0';
+
 export const logout = () => {
     router.post(route('logout'));
 }
