@@ -1,6 +1,6 @@
 <script setup>
 import {computed, onMounted, ref} from 'vue'
-import {templateRef, useEventListener} from '@vueuse/core'
+import {templateRef, useEventListener, useResizeObserver} from '@vueuse/core'
 import {$$$, WindowState} from '@/util.js'
 
 const props = defineProps({
@@ -138,7 +138,7 @@ const endDrag = () => {
     if (w.y < 0) w.y = 0;
 
     if (w.x > b.clientWidth - EDGE_GAP) w.x = b.clientWidth - EDGE_GAP * 2;
-    if (w.x + w.width < EDGE_GAP * 2) w.x = EDGE_GAP * 2 - w.width;
+    if (w.x + w.width < EDGE_GAP * 2) w.x = EDGE_GAP * 3 - w.width;
 
     if (dragging.value) {
         if ($$$.snap.height > 0 && $$$.snap.width > 0) {
@@ -168,7 +168,6 @@ onMounted(() => {
     const b = document.getElementById('bounding');
     const RANDOM_PADDING = 25;
 
-    // TODO: resize observer for non resizable windows
     w.width = Math.max(w.resizable ? 500 : 0, content.value.scrollWidth);
     w.height = Math.max(w.resizable ? 350 : 0, content.value.scrollHeight);
 
@@ -266,6 +265,13 @@ const transformFromCached = () => {
     w.width = w.minimWidth;
     w.height = w.minimHeight;
 }
+
+useResizeObserver(el, (entires) => {
+    const w = window.value;
+    if (w.resizable) return;
+    w.width = entires[0].contentRect.width|0;
+    w.height = entires[0].contentRect.height|0;
+});
 
 // TODO: fix snapped and maximized corner resizing
 </script>
