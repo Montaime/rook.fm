@@ -6,20 +6,26 @@ import rook from '@/../assets/click_rook.mp3'
 import f from '@/../assets/click_f.mp3'
 import m from '@/../assets/click_m.mp3'
 import mmm from '@/../assets/click_m_long.mp3'
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
-const audio = {
-    mark: new Audio(mark),
-    rook: new Audio(rook),
-    f: new Audio(f),
-    m: new Audio(m),
-    mmm: new Audio(mmm),
-}
+const audio = ref({})
+
+onMounted(() => {
+    audio.value = {
+        mark: new Audio(mark),
+        rook: new Audio(rook),
+        f: new Audio(f),
+        m: new Audio(m),
+        mmm: new Audio(mmm),
+    }
+})
 
 const clicked = ref([]);
 const glow = ref(false);
 
 const play = (sound) => {
+    if (!audio.value.hasOwnProperty(sound) || !audio.value[sound] instanceof Audio) return;
+
     clicked.value.push(sound);
     if (clicked.value.length > 3) clicked.value.shift();
     let full = clicked.value[0] === 'rook' && clicked.value[1] === 'f' && clicked.value[2] === 'm';
