@@ -149,7 +149,7 @@ const switchBlog = (id) => {
         </aside>
         <div class="flex flex-col grow">
             <div class="flex space-x-2 justify-between items-center p-2 border-b bg-neutral-100/25 text-nowrap">
-                <h2 class="text-2xl font-bold">{{ editing ? 'New Post' : info?.name ?? '' }}</h2>
+                <h2 class="text-2xl font-bold">{{ editing ? 'New Post' : (currentPost !== null ? blog[currentPost].title : info?.name ?? '') }}</h2>
                 <button class="px-2 py-1 rounded bg-neutral-100/50" @click="editing = false" v-if="editing">Back</button>
                 <button class="px-2 py-1 rounded bg-neutral-100/50" @click="currentPost = null" v-else-if="currentPost !== null">Back</button>
                 <div v-else-if="currentBlog !== -1" class="flex space-x-2">
@@ -182,9 +182,8 @@ const switchBlog = (id) => {
                         </details>
                     </div>
                     <div v-else-if="currentPost !== null && currentBlog !== -1" class="flex flex-col items-center max-h-[75vh] p-2">
-                        <h2 class="font-bold text-2xl">{{ blog[currentPost].title }}</h2>
                         <TipTap :editable="false" v-model="blog[currentPost].content"/>
-                        <details v-if="blog[currentPost].files.length > 0" class="flex flex-col items-center space-y-2 border-2 border-neutral-100 p-2 w-full">
+                        <details v-if="blog[currentPost].files.length > 0" class="flex flex-col items-center space-y-2 border-2 border-neutral-100 p-2 w-full mt-2">
                             <summary class="font-bold text-lg uppercase cursor-pointer w-full">Attachments</summary>
                             <div v-for="file in blog[currentPost].files" class="flex flex-col space-y-2 w-full">
                                 <span v-if="canPreview(file)" class="truncate text-center text-xs text-wrap bg-black rounded px-1 py-0.5 text-white font-mono">{{ file.name }}</span>
