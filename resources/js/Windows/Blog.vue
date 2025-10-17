@@ -158,8 +158,8 @@ const switchBlog = (id) => {
                 </div>
             </div>
             <div class="relative grow">
-                <div class="absolute inset-0 overflow-y-auto">
-                    <div v-if="editing" class="flex flex-col space-y-2 p-2">
+                <div class="absolute inset-0 overflow-y-auto p-2">
+                    <div v-if="editing" class="flex flex-col space-y-2">
                         <input v-model="newPost.title" type="text" placeholder="Post Title"/>
                         <input v-model="newPost.blurb" type="text" placeholder="Short Blurb"/>
                         <label>
@@ -181,7 +181,7 @@ const switchBlog = (id) => {
                             <textarea v-model="newPost.content" class="w-full whitespace-pre text-xs bg-black/50 text-white rounded" readonly></textarea>
                         </details>
                     </div>
-                    <div v-else-if="currentPost !== null && currentBlog !== -1" class="flex flex-col items-center max-h-[75vh] p-2">
+                    <div v-else-if="currentPost !== null && currentBlog !== -1" class="flex flex-col items-center max-h-[75vh]">
                         <TipTap :editable="false" v-model="blog[currentPost].content"/>
                         <details v-if="blog[currentPost].files.length > 0" class="flex flex-col items-center space-y-2 border-2 border-neutral-100 p-2 w-full mt-2">
                             <summary class="font-bold text-lg uppercase cursor-pointer w-full">Attachments</summary>
@@ -199,7 +199,7 @@ const switchBlog = (id) => {
                         <span class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">Files</span>
                         <FileList :list="blog[currentPost].files" class="w-full"/>
                     </div>
-                    <div v-else class="flex flex-col divide-y p-2">
+                    <div v-else class="flex flex-col divide-y">
                         <div v-for="(post, key) in blog" class="leading-0 pb-1">
                             <h1 class="font-bold text-lg">{{ post.title }}</h1>
                             <p>{{ useDateFormat(post.published_at, 'MMM D YYYY h:m A').value }}</p>
