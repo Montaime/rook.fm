@@ -137,7 +137,7 @@ const endDrag = () => {
     if (w.y > b.clientHeight - 10) w.y = b.clientHeight - EDGE_GAP;
     if (w.y < 0) w.y = 0;
 
-    if (w.x > b.clientWidth - EDGE_GAP) w.x = b.clientWidth - EDGE_GAP * 2;
+    if (w.x > b.clientWidth - EDGE_GAP * 2) w.x = b.clientWidth - EDGE_GAP * 3;
     if (w.x + w.width < EDGE_GAP * 2) w.x = EDGE_GAP * 3 - w.width;
 
     if (dragging.value) {
@@ -166,7 +166,7 @@ useEventListener(document, 'blur', endDrag);
 onMounted(() => {
     const w = window.value;
     const b = document.getElementById('bounding');
-    const RANDOM_PADDING = 25;
+    const RANDOM_PADDING = 100;
 
     w.width = Math.max(w.resizable ? 500 : 0, content.value.scrollWidth);
     w.height = Math.max(w.resizable ? 350 : 0, content.value.scrollHeight);
@@ -266,11 +266,11 @@ const transformFromCached = () => {
     w.height = w.minimHeight;
 }
 
-useResizeObserver(el, (entires) => {
+useResizeObserver(el, (entries) => {
     const w = window.value;
     if (w.resizable) return;
-    w.width = entires[0].contentRect.width|0;
-    w.height = entires[0].contentRect.height|0;
+    w.width = entries[0].contentRect.width|0;
+    w.height = entries[0].contentRect.height|0;
 });
 
 // TODO: fix snapped and maximized corner resizing
