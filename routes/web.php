@@ -233,6 +233,12 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
         return back();
     });
 
+    Route::get('/feedback', function (Request $request) {
+        return Inertia::render('Admin/Feedback', [
+            'feedback' => \App\Models\Feedback::query()->latest()->get(),
+        ]);
+    });
+
     Route::get('/events', function (Request $request) {
         return Inertia::render('Admin/Events', [
             'events' => \App\Models\Events::query()->latest()->get(),
