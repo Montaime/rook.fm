@@ -47,7 +47,6 @@ const play = (sound) => {
             <div @click="play('f')" class="cursor-pointer absolute right-16 top-8 h-16 w-8"></div>
             <div @click="play('m')" class="cursor-pointer absolute right-0 top-12 h-12 w-16"></div>
         </div>
-        {{clicked}}
     </div>
 </template>
 <style scoped>
