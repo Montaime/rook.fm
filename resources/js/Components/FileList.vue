@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import prettyBytes from "pretty-bytes";
 
 const props = defineProps({
