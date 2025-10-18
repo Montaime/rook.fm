@@ -80,9 +80,9 @@ const play = (sound) => {
             <div class="absolute inset-0 overflow-hidden glow outer-glow pointer-events-none z-50" :class="{'glow-active': glow === 2}">
                 <div class="absolute rainbow opacity-80">
                     <div class="absolute h-16 top-0 w-full"></div>
-                    <div class="absolute h-16 bottom-0 w-full"></div>
-                    <div class="absolute w-16 left-0 h-full"></div>
-                    <div class="absolute w-16 right-0 h-full"></div>
+                    <div class="absolute h-16 rotate-90 origin-[center_left] left-[calc(100%-2rem)] top-8 w-full"></div>
+                    <div class="absolute h-16 -rotate-90 origin-[center_right] right-[calc(100%-2rem)] top-8 w-full"></div>
+                    <div class="absolute h-16 bottom-0 w-full rotate-180"></div>
                 </div>
             </div>
         </teleport>
@@ -101,7 +101,7 @@ const play = (sound) => {
     transition: opacity 4s ease-in, filter 3s ease-in;
 }
 
-.glow > div {
+.glow:not(.rainbow) > div {
     filter: blur(5px);
 }
 
@@ -120,21 +120,16 @@ const play = (sound) => {
 
 .rainbow > div {
     mask-size: contain;
-    background-image: linear-gradient(
-        45deg,
-        #fb0094,
-        #0000ff,
-        #00ff00,
-        #ffff00,
-        #ff0000,
-        #fb0094,
-        #0000ff,
-        #00ff00,
-        #ffff00,
-        #ff0000
-    );
-    background-size: 400%;
-    //animation: animate 20s linear infinite;
+    /**
+      * Holy fucking shit this is a PhD in CSS
+      *
+      * https://stackoverflow.com/a/63791417
+      * https://stackoverflow.com/a/51734530/8620333
+      */
+    --size: 300px;
+    background-image: repeating-linear-gradient(45deg, #ff6262, #bb55ff, #2bfcc3, #98ff2f, #ffe660, #ff3b3b var(--size));
+    background-size: calc(var(--size) / sin(45deg)) 100%;
+    animation: 2s linear infinite rainbow-cycle;
 }
 
 .outer-glow.glow-active > div {
@@ -155,15 +150,9 @@ const play = (sound) => {
     filter: blur(var(--blur));
 }
 
-@keyframes animate {
+@keyframes rainbow-cycle {
     0% {
-        background-position: 0 0;
-    }
-    50% {
-        background-position: 300% 0;
-    }
-    100% {
-        background-position: 0 0;
+        background-position: calc(var(--size) / sin(45deg)) 0;
     }
 }
 </style>
