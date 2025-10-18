@@ -5,13 +5,8 @@ import {onBeforeMount, ref} from "vue";
 const audio = ref({})
 
 onBeforeMount(() => {
-    const pages = import.meta.glob('./../../assets/jingle/*.mp3', {
-        query: '?url',
-        import: 'default',
-        eager: true
-    });
-
-    for (let page in pages) audio.value[page.substring(page.lastIndexOf('/') + 1, page.length - 4)] = new Audio(pages[page]);
+    const files = import.meta.glob('./../../assets/jingle/*.mp3', {query: '?url', import: 'default', eager: true});
+    for (let f in files) audio.value[f.substring(f.lastIndexOf('/') + 1, f.length - 4)] = new Audio(files[f]);
 })
 
 const clicked = ref([]);
