@@ -1,69 +1,124 @@
 <script setup>
 import logo_black from './../../assets/logo_banner_black.png'
-import logo from './../../assets/logo_banner.png'
-import mark from '@/../assets/click_mark.mp3'
-import rook from '@/../assets/click_rook.mp3'
-import f from '@/../assets/click_f.mp3'
-import m from '@/../assets/click_m.mp3'
-import mmm from '@/../assets/click_m_long.mp3'
-import {onMounted, ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 
 const audio = ref({})
 
-onMounted(() => {
-    audio.value = {
-        mark: new Audio(mark),
-        rook: new Audio(rook),
-        f: new Audio(f),
-        m: new Audio(m),
-        mmm: new Audio(mmm),
-    }
+onBeforeMount(() => {
+    const pages = import.meta.glob('./../../assets/jingle/*.mp3', {
+        query: '?url',
+        import: 'default',
+        eager: true
+    });
+
+    for (let page in pages) audio.value[page.substring(page.lastIndexOf('/') + 1, page.length - 4)] = new Audio(pages[page]);
 })
 
 const clicked = ref([]);
-const glow = ref(false);
+const glow = ref(0);
 
 const play = (sound) => {
-    if (!audio.value.hasOwnProperty(sound) || !audio.value[sound] instanceof Audio) return;
-
     clicked.value.push(sound);
-    if (clicked.value.length > 3) clicked.value.shift();
-    let full = clicked.value[0] === 'rook' && clicked.value[1] === 'f' && clicked.value[2] === 'm';
 
-    if (full) {
-        audio.value['mmm'].currentTime = 0;
-        audio.value['mmm'].play();
-    } else {
-        audio.value[sound].currentTime = 0;
-        audio.value[sound].play();
+    let full = false;
+    let progress = 0;
+    const TARGET = ['intro', 'rook', 'f', 'm'];
+
+    for (let i = 0; i < clicked.value.length; i++) {
+        // We're follwing the correct sequence
+        if (clicked.value[i] === TARGET[progress]) {
+            full = true;
+            progress++;
+        } else if (clicked.value[i] === 'intro') {
+            // Made a mistake, but this one was the start of the sequence
+            progress = 1;
+        } else {
+            // Full blunder, reset progress
+            full = false;
+            progress = 0;
+        }
     }
 
-    glow.value = full;
+    // If we at least followed the 'rookfm' sequence right
+    let end = clicked.value.join('').endsWith('rookfm');
+
+    // If we did 'f' immediately following 'rook' include that k syllable
+    if (sound === 'f' && clicked.value[clicked.value.length - 2] === 'rook') sound = 'kef';
+
+    // Choose the right sound source
+    sound = `${full ? 'full' : 'acapella'}_${sound}`;
+
+    // If we're at the end of either valid sequence, extend the 'm'
+    if (end) sound += 'mm';
+
+    // Safety check
+    if (!audio.value.hasOwnProperty(sound) || !audio.value[sound] instanceof Audio) {
+        clicked.value.pop();
+        return;
+    } else if (clicked.value.length >= 5) {
+        // Keep the array at a cycling length of 4
+        clicked.value.shift();
+    }
+
+    // Play sound
+    audio.value[sound].currentTime = 0;
+    audio.value[sound].play();
+
+    // Glow for either valid sequence
+    if (end) glow.value = 1;
+    if (full && end) glow.value = 2;
+    if (!end && !full) glow.value = 0;
 }
 </script>
 <template>
     <div class="relative">
         <img class="object-contain h-32 relative z-10" :src="logo_black" alt="" />
-        <div @transitionend="glow = false" class="glow absolute top-0 left-0 w-full" :class="{'glow-active': glow}">
-            <div class="h-32" :style="`mask-image: url(${logo})`"></div>
+        <div @transitionend="glow = 0" class="glow rainbow absolute top-0 left-0 w-full" :class="{'glow-active': glow > 0}">
+            <div class="h-32" :style="`mask-image: url(${logo_black})`"></div>
         </div>
+        <teleport to="body">
+            <div class="absolute inset-0 overflow-hidden glow outer-glow pointer-events-none z-50" :class="{'glow-active': glow === 2}">
+                <div class="absolute rainbow opacity-80">
+                    <div class="absolute h-16 top-0 w-full"></div>
+                    <div class="absolute h-16 bottom-0 w-full"></div>
+                    <div class="absolute w-16 left-0 h-full"></div>
+                    <div class="absolute w-16 right-0 h-full"></div>
+                </div>
+            </div>
+        </teleport>
         <div class="absolute inset-0 z-20">
-            <div @click="play('mark')" class="cursor-pointer absolute left-0 top-0 h-32 w-40"></div>
-            <div @click="play('rook')" class="cursor-pointer absolute left-40 top-8 h-16 w-44"></div>
-            <div @click="play('f')" class="cursor-pointer absolute right-16 top-8 h-16 w-8"></div>
-            <div @click="play('m')" class="cursor-pointer absolute right-0 top-12 h-12 w-16"></div>
+            <div @mousedown.left="play('intro')" class="cursor-pointer absolute left-0 top-0 h-32 w-40"></div>
+            <div @mousedown.left="play('rook')" class="cursor-pointer absolute left-40 top-8 h-16 w-44"></div>
+            <div @mousedown.left="play('f')" class="cursor-pointer absolute right-16 top-8 h-16 w-8"></div>
+            <div @mousedown.left="play('m')" class="cursor-pointer absolute right-0 top-12 h-12 w-16"></div>
         </div>
     </div>
 </template>
 <style scoped>
 .glow {
-    filter: blur(5px);
+    --blur: 20px;
     opacity: 0;
     transition: opacity 4s ease-in, filter 3s ease-in;
-    transition-delay: 250ms;
 }
 
 .glow > div {
+    filter: blur(5px);
+}
+
+.outer-glow {
+    box-shadow: inset 2rem 2rem 50px #fffa, inset -2rem -2rem 50px #fffa;
+}
+
+.outer-glow > div {
+    --blur: 30px;
+    top: -4rem;
+    left: -4rem;
+    bottom: -4rem;
+    right: -4rem;
+    transition: filter 3s ease-in, top 3s ease-in, left 3s ease-in, bottom 3s ease-in, right 3s ease-in;
+}
+
+.rainbow > div {
     mask-size: contain;
     background-image: linear-gradient(
         45deg,
@@ -79,13 +134,25 @@ const play = (sound) => {
         #ff0000
     );
     background-size: 400%;
-    animation: animate 20s linear infinite;
+    //animation: animate 20s linear infinite;
+}
+
+.outer-glow.glow-active > div {
+    transition: filter 1s ease-out, top 1s ease, left 1s ease, bottom 1s ease, right 1s ease;
+    filter: blur(var(--blur));
+    top: -2rem;
+    left: -2rem;
+    bottom: -2rem;
+    right: -2rem;
 }
 
 .glow-active {
     transition: opacity 500ms ease, filter 1s ease-out;
     opacity: 1;
-    filter: blur(20px);
+}
+
+.glow-active:not(.outer-glow) {
+    filter: blur(var(--blur));
 }
 
 @keyframes animate {
