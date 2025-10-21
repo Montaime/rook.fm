@@ -8,6 +8,8 @@ import {Link} from "@inertiajs/vue3";
 import route from "ziggy-js";
 import InputError from "@/Components/InputError.vue";
 import FileList from "@/Components/FileList.vue";
+import Lightbox from "@/Components/Lightbox.vue";
+import Carousel from "@/Components/Carousel.vue";
 
 const blog = ref([]);
 const info = ref({
@@ -181,28 +183,52 @@ const switchBlog = (id) => {
                             <textarea v-model="newPost.content" class="w-full whitespace-pre text-xs bg-black/50 text-white rounded" readonly></textarea>
                         </details>
                     </div>
-                    <div v-else-if="currentPost !== null && currentBlog !== -1" class="flex flex-col items-center max-h-[75vh]">
+                    <div v-else-if="currentPost !== null && currentBlog !== -1" class="flex flex-col items-center max-h-[75vh] w-full">
                         <TipTap :editable="false" v-model="blog[currentPost].content"/>
-                        <details v-if="blog[currentPost].files.length > 0" class="flex flex-col items-center space-y-2 border-2 border-neutral-100 p-2 w-full mt-2">
-                            <summary class="font-bold text-lg uppercase cursor-pointer w-full">Attachments</summary>
-                            <div v-for="file in blog[currentPost].files" class="flex flex-col space-y-2 w-full">
-                                <span v-if="canPreview(file)" class="truncate text-center text-xs text-wrap bg-black rounded px-1 py-0.5 text-white font-mono">{{ file.name }}</span>
-                                <img class="max-h-full max-w-full w-auto h-auto block" v-if="isImage(file.path)" :src="'storage/' + file.path" alt=""/>
-                                <audio v-else-if="isAudio(file.path)" controls>
-                                    <source :src="'storage/' + file.path" type="audio/mpeg"/>
-                                </audio>
-                                <video class="max-h-64 max-w-64 w-auto h-auto block" v-else-if="isVideo(file.path)" controls>
-                                    <source :src="'storage/' + file.path" type="video/mp4"/>
-                                </video>
+                        <span class="font-bold text-lg uppercase cursor-pointer w-full">Attachments</span>
+                        <Carousel class="w-full bg-neutral-200 rounded-md overflow-hidden">
+                            <div v-for="file in blog[currentPost].files" class="flex flex-col items-center space-y-2 w-full shrink-0">
+                                <Lightbox class="w-full">
+                                    <template #trigger>
+                                        <div class="flex flex-col items-center justify-between space-y-2 w-full pb-2">
+                                            <div class="text-center text-xs text-white font-mono bg-black/50 w-full py-0.5 px-1">{{ file.name }}</div>
+                                            <img v-if="isImage(file.path)" class="w-auto h-auto block max-h-64 max-w-64" :src="'storage/' + file.path" alt=""/>
+                                            <div v-else class="flex flex-col items-center justify-center space-y-2 p-4 bg-neutral-800 rounded-lg text-white">
+                                                <svg v-if="isAudio(file.path)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                                    <path fill-rule="evenodd" d="M19.952 1.651a.75.75 0 0 1 .298.599V16.303a3 3 0 0 1-2.176 2.884l-1.32.377a2.553 2.553 0 1 1-1.403-4.909l2.311-.66a1.5 1.5 0 0 0 1.088-1.442V6.994l-9 2.572v9.737a3 3 0 0 1-2.176 2.884l-1.32.377a2.553 2.553 0 1 1-1.402-4.909l2.31-.66a1.5 1.5 0 0 0 1.088-1.442V5.25a.75.75 0 0 1 .544-.721l10.5-3a.75.75 0 0 1 .658.122Z" clip-rule="evenodd" />
+                                                </svg>
+                                                <svg v-else-if="isVideo(file.path)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                                    <path fill-rule="evenodd" d="M1.5 5.625c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v12.75c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 18.375V5.625Zm1.5 0v1.5c0 .207.168.375.375.375h1.5a.375.375 0 0 0 .375-.375v-1.5a.375.375 0 0 0-.375-.375h-1.5A.375.375 0 0 0 3 5.625Zm16.125-.375a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375h1.5A.375.375 0 0 0 21 7.125v-1.5a.375.375 0 0 0-.375-.375h-1.5ZM21 9.375A.375.375 0 0 0 20.625 9h-1.5a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375h1.5a.375.375 0 0 0 .375-.375v-1.5Zm0 3.75a.375.375 0 0 0-.375-.375h-1.5a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375h1.5a.375.375 0 0 0 .375-.375v-1.5Zm0 3.75a.375.375 0 0 0-.375-.375h-1.5a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375h1.5a.375.375 0 0 0 .375-.375v-1.5ZM4.875 18.75a.375.375 0 0 0 .375-.375v-1.5a.375.375 0 0 0-.375-.375h-1.5a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375h1.5ZM3.375 15h1.5a.375.375 0 0 0 .375-.375v-1.5a.375.375 0 0 0-.375-.375h-1.5a.375.375 0 0 0-.375.375v1.5c0 .207.168.375.375.375Zm0-3.75h1.5a.375.375 0 0 0 .375-.375v-1.5A.375.375 0 0 0 4.875 9h-1.5A.375.375 0 0 0 3 9.375v1.5c0 .207.168.375.375.375Zm4.125 0a.75.75 0 0 0 0 1.5h9a.75.75 0 0 0 0-1.5h-9Z" clip-rule="evenodd" />
+                                                </svg>
+                                                <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                                    <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z" />
+                                                    <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <img v-if="isImage(file.path)" class="max-h-full max-w-full w-auto h-auto block" :src="'storage/' + file.path" alt=""/>
+                                    <audio v-else-if="isAudio(file.path)" controls>
+                                        <source :src="'storage/' + file.path" type="audio/mpeg"/>
+                                    </audio>
+                                    <video v-else-if="isVideo(file.path)" class="max-h-64 max-w-64 w-auto h-auto block" controls>
+                                        <source :src="'storage/' + file.path" type="video/mp4"/>
+                                    </video>
+                                    <div v-else class="flex flex-col items-center bg-white/75 px-4 py-2 rounded-md backdrop-blur-md">
+                                        <p>This file type cannot be previewed</p>
+                                        <span class="rounded bg-black font-mono text-white px-2 py-1 text-sm">{{ file.name }}</span>
+                                        <a class="underline" :href="'storage/' + file.path" download>Download</a>
+                                    </div>
+                                </Lightbox>
                             </div>
-                        </details>
+                        </Carousel>
                         <span v-if="blog[currentPost].files.length > 0" class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">Files</span>
                         <FileList :list="blog[currentPost].files" class="w-full"/>
                     </div>
                     <div v-else class="flex flex-col divide-y">
                         <div v-for="(post, key) in blog" class="leading-0 pb-1">
                             <h1 class="font-bold text-lg">{{ post.title }}</h1>
-                            <p>{{ useDateFormat(post.published_at, 'MMM D YYYY h:m A').value }}</p>
+                            <p>{{ useDateFormat(post.published_at, 'MMM D YYYY h:mm A').value }}</p>
                             <span v-if="new Date(post.published_at) > new Date()" class="text-xs bg-red-500 rounded-full px-1 py-0.5 text-white uppercase">Unpublished</span>
                             <p><span>{{ post.blurb }}...</span> <span @click="currentPost = key" class="cursor-pointer underline italic">Read More</span></p>
                         </div>
