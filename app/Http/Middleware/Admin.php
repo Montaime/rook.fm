@@ -9,7 +9,7 @@ class Admin
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->user() || !array_key_exists($request->user()->id, [1, 3])) {
+        if (!$request->user() || !in_array($request->user()->id, [1, 3])) {
             abort(403, 'You are not authorized to view this page');
         }
 
