@@ -267,8 +267,6 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
     });
 
     Route::post('/codes', function (Request $request) {
-        if ($request->user()->id !== 1) abort(400);
-
         $request->validate([
             'prefix' => ['required', 'string'],
             'count' => ['required', 'integer'],
