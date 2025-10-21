@@ -186,7 +186,7 @@ const switchBlog = (id) => {
                     <div v-else-if="currentPost !== null && currentBlog !== -1" class="flex flex-col items-center max-h-[75vh] w-full">
                         <TipTap :editable="false" v-model="blog[currentPost].content"/>
                         <span class="font-bold text-lg uppercase cursor-pointer w-full">Attachments</span>
-                        <Carousel class="w-full bg-neutral-200 rounded-md overflow-hidden">
+                        <Carousel class="w-full bg-neutral-200 rounded-md overflow-hidden flex-shrink-0">
                             <div v-for="file in blog[currentPost].files" class="flex flex-col items-center space-y-2 w-full shrink-0">
                                 <Lightbox class="w-full">
                                     <template #trigger>
