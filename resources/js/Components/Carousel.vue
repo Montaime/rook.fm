@@ -30,7 +30,7 @@ useResizeObserver(scroller, () => {
                 <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
             </svg>
         </div>
-        <div ref="scroller" class="flex w-full items-start snap-x overflow-x-hidden">
+        <div ref="scroller" class="flex w-full items-start snap-x overflow-x-scroll no-scroller snap-mandatory">
             <slot/>
         </div>
         <div v-if="page < pages - 1" @click="scroll()" class="absolute z-10 right-3 drop-shadow cursor-pointer text-white bg-neutral-700 rounded-full">
@@ -43,5 +43,9 @@ useResizeObserver(scroller, () => {
 <style scoped>
 .masked {
     mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.8) 5%, rgba(0,0,0,0.8) 95%, transparent 100%);
+}
+
+.no-scroller {
+    scrollbar-width: none;
 }
 </style>
