@@ -24,6 +24,7 @@ const scroll = (amount = 1, behavior = 'smooth') => {
 
 useResizeObserver(scroller, () => {
     scroll(0, 'auto')
+    managedScroll.value = false;
 })
 
 const onScroll = () => {
