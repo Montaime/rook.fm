@@ -36,13 +36,8 @@ const submit = () => {
 
     newPost.post(`/club/${currentBlog.value}/posts/new`, {
         onSuccess: () => {
-            newPost.title = '';
-            newPost.content = '';
-            newPost.scheduled = false;
-            newPost.published_at = null;
-
+            newPost.reset()
             editing.value = false;
-
             setTimeout(refreshPosts, 500)
         },
         onError: (e) => {
