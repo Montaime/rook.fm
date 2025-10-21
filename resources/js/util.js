@@ -75,6 +75,7 @@ export const $$$ = reactive({
         })),
         'Chat': ref(new Window(markRaw(Chatroom), {
             title: 'Chat',
+            decoration: false,
         })),
         'Events': ref(new Window(markRaw(Events), {
             title: 'Events',
