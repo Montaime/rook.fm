@@ -53,7 +53,7 @@ Route::get('/club/{club:id}', function (\Illuminate\Http\Request $request, \App\
             $q->where('published_at', '<', now());
         }
 
-        $q->latest('published_at');
+        $q->latest('published_at')->with(['comments.author']);
     }]);
 
     $club->posts->map(function ($p) {
