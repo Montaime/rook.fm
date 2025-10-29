@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* <editor-fold desc="Admin"> */
 .pane {
     @apply flex flex-col bg-neutral-50 border border-t-white border-b-neutral-300 px-2 py-1 rounded-md
 }
@@ -37,8 +38,9 @@
 .window > .container.resizable {
     @apply resize overflow-y-auto overflow-x-auto
 }
+/* </editor-fold> */
 
-/* <editor-fold desc="Neumorphism Theme"> */
+/* <editor-fold desc="Glass Theme"> */
 
 .glass .window {
     @apply backdrop-blur-lg border-2 border-white/50
@@ -69,7 +71,7 @@
 }
 
 .glass .startsubmenu {
-    @apply backdrop-blur-lg border-2 border-white/50 bg-white/50
+    @apply border-2 border-white/50 bg-white/50
 }
 
 .glass .startsublink {
