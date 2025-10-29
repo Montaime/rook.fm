@@ -7,10 +7,12 @@ const props = defineProps({
     editable: {
         type: Boolean,
         default: true,
-    }
-})
-
-const body = defineModel();
+    },
+    modelValue: {
+        type: String,
+        default: '',
+    },
+});
 
 const source = ref(false);
 
@@ -24,21 +26,38 @@ const extensions = [
     StarterKit,
     Image,
 ];
+
+const changing = ref(false);
+const mutating = ref(false);
+
 const editor = useEditor({
     extensions: extensions,
     content: props.modelValue,
     onUpdate: () => {
-        emit('update:modelValue', editor.value.getHTML())
+        if (!mutating.value) {
+            changing.value = true;
+            emit('update:modelValue', editor.value.getHTML())
+        } else {
+            mutating.value = false;
+        }
     },
     onCreate: () => {
         editor.value.setEditable(editable.value);
     }
 });
 
-watch(body, () => {
-    // TODO@later: put back
-    // editor.value.commands.setContent(props.modelValue, false)
-});
+watch(() => props.editable, (v) => {
+    if (editor.value) editor.value.setEditable(v)
+}, {immediate: true})
+
+watch(() => props.modelValue, (v) => {
+    if (!changing.value) {
+        mutating.value = true;
+        editor.value.commands.setContent(v);
+    } else {
+        changing.value = false;
+    }
+})
 </script>
 <template>
     <div class="y items-center">
