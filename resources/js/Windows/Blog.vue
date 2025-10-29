@@ -235,12 +235,18 @@ const editMode = () => {
                         <TipTap :editable="false" v-model="blog[currentPost].content"/>
                         <span class="font-bold text-lg uppercase cursor-pointer w-full">Attachments</span>
                         <Carousel class="w-full bg-neutral-200 rounded-md overflow-hidden flex-shrink-0">
-                            <div v-for="file in blog[currentPost].files" class="flex flex-col items-center space-y-2 w-full shrink-0">
-                                <Lightbox class="w-full">
+                            <div v-for="file in blog[currentPost].files" class="flex flex-col w-full shrink-0 snap-center snap-always">
+                                <div class="text-center text-xs text-white font-mono bg-black/50 w-full py-0.5 px-1">{{ file.name }}</div>
+                                <Lightbox trigger-class="h-fit w-fit p-2" class="flex justify-center items-center h-full">
                                     <template #trigger>
-                                        <div class="flex flex-col items-center justify-between space-y-2 w-full pb-2">
-                                            <div class="text-center text-xs text-white font-mono bg-black/50 w-full py-0.5 px-1">{{ file.name }}</div>
+                                        <div class="flex justify-center items-center h-full w-fit select-none">
                                             <img v-if="isImage(file.path)" class="w-auto h-auto block max-h-64 max-w-64" :src="'storage/' + file.path" alt=""/>
+                                            <div v-else-if="isVideo(file.path)" class="relative">
+                                                <div class="absolute inset-0 z-10"></div>
+                                                <video class="max-h-64 max-w-64 w-auto h-auto block">
+                                                    <source :src="'storage/' + file.path" type="video/mp4"/>
+                                                </video>
+                                            </div>
                                             <div v-else class="flex flex-col items-center justify-center space-y-2 p-4 bg-neutral-800 rounded-lg text-white">
                                                 <svg v-if="isAudio(file.path)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                                                     <path fill-rule="evenodd" d="M19.952 1.651a.75.75 0 0 1 .298.599V16.303a3 3 0 0 1-2.176 2.884l-1.32.377a2.553 2.553 0 1 1-1.403-4.909l2.311-.66a1.5 1.5 0 0 0 1.088-1.442V6.994l-9 2.572v9.737a3 3 0 0 1-2.176 2.884l-1.32.377a2.553 2.553 0 1 1-1.402-4.909l2.31-.66a1.5 1.5 0 0 0 1.088-1.442V5.25a.75.75 0 0 1 .544-.721l10.5-3a.75.75 0 0 1 .658.122Z" clip-rule="evenodd" />

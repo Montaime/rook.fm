@@ -45,7 +45,7 @@ const onScrollEnd = () => {
                 <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
             </svg>
         </div>
-        <div ref="scroller" @scroll="onScroll" @scrollend="onScrollEnd" class="flex w-full items-start snap-x overflow-x-scroll no-scroller snap-mandatory relative z-0" :class="{'pointer-events-none': managedScroll}">
+        <div ref="scroller" @scroll="onScroll" @scrollend="onScrollEnd" class="flex w-full snap-x overflow-x-scroll no-scroller snap-mandatory relative z-0" :class="{'pointer-events-none': managedScroll}">
             <slot/>
         </div>
         <div v-if="page < pages - 1" @pointerdown="scroll()" class="absolute z-10 right-3 drop-shadow cursor-pointer text-white bg-neutral-700 rounded-full">

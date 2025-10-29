@@ -1,11 +1,16 @@
 <script setup>
 import {ref} from "vue";
 
+const props = defineProps({
+    triggerClass: String,
+    containerClass: String,
+})
+
 const open = ref(false)
 </script>
 <template>
     <div>
-        <div class="cursor-pointer" @click="open = true">
+        <div class="cursor-pointer" :class="triggerClass" @click="open = true">
             <slot name="trigger"/>
         </div>
         <teleport to="body">
