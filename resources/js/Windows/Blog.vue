@@ -182,6 +182,7 @@ const sendComment = () => {
     comment.post(`/post/${blog.value[currentPost.value].id}/comments/new`, {
         onSuccess: () => {
             // TODO@1: only refresh COMMENTS on CURRENT post. post might disappear or get reordered.
+            comment.reset();
             refreshPosts();
         }
     })
