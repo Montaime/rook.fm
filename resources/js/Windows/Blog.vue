@@ -34,17 +34,36 @@ const newPost = useForm({
 const submit = () => {
     if (currentBlog.value === null) return;
 
-    newPost.post(`/club/${currentBlog.value}/posts/new`, {
-        onSuccess: () => {
-            newPost.reset()
-            editing.value = false;
-            setTimeout(refreshPosts, 500)
-        },
-        onError: (e) => {
-            console.error(e);
-            window.alert('Some issue occurred. Check console for detailed error.');
-        }
-    })
+    if (currentPost.value === null) {
+        newPost.post(`/club/${currentBlog.value}/posts/new`, {
+            onSuccess: () => {
+                newPost.reset()
+                editing.value = false;
+                refreshPosts();
+            },
+            onError: (e) => {
+                console.error(e);
+                window.alert('Some issue occurred. Check console for detailed error.');
+            }
+        })
+    } else {
+        newPost.patch(`/posts/${blog.value[currentPost.value].id}/edit`, {
+            onSuccess: () => {
+                refreshPosts();
+                newPost.reset();
+                let old = currentPost.value;
+                currentPost.value = null;
+                setTimeout(() => {
+                    editing.value = false;
+                    currentPost.value = old;
+                }, 100)
+            },
+            onError: (e) => {
+                console.error(e);
+                window.alert('Some issue occurred. Check console for detailed error.');
+            }
+        })
+    }
 }
 
 const refreshPosts = () => {
@@ -125,6 +144,33 @@ const switchBlog = (id) => {
     currentBlog.value = id;
     refreshPosts();
 }
+
+const publish = (at) => {
+    newPost.reset();
+    newPost.title = blog.value[currentPost.value].title;
+    newPost.blurb = blog.value[currentPost.value].blurb;
+    newPost.content = blog.value[currentPost.value].content;
+    newPost.published_at = at;
+
+    newPost.patch(`/posts/${blog.value[currentPost.value].id}/edit`, {
+        onSuccess: () => {
+            newPost.reset();
+            refreshPosts();
+            currentPost.value = null;
+        }
+    });
+}
+
+const editMode = () => {
+    const p = blog.value[currentPost.value];
+    newPost.reset();
+    newPost.title = p.title;
+    newPost.blurb = p.blurb;
+    newPost.content = p.content;
+    newPost.published_at = new Date(p.published_at).toISOString().slice(0, 16);
+    newPost.scheduled = !!p.published_at;
+    editing.value = true;
+}
 </script>
 <template>
     <div class="flex h-full">
@@ -145,10 +191,17 @@ const switchBlog = (id) => {
             </div>
         </aside>
         <div class="flex flex-col grow">
-            <div class="flex space-x-2 justify-between items-center p-2 border-b bg-neutral-100/25 text-nowrap">
-                <h2 class="text-2xl font-bold">{{ editing ? 'New Post' : (currentPost !== null ? blog[currentPost].title : info?.name ?? '') }}</h2>
+            <div class="flex space-x-2 justify-between items-center p-2 border-b bg-neutral-100/25">
+                <h2 class="text-2xl font-bold">{{ editing ? (currentPost === null ? 'New Post' : 'Edit Post') : (currentPost !== null ? blog[currentPost].title : info?.name ?? '') }}</h2>
                 <button class="px-2 py-1 rounded bg-neutral-100/50" @click="editing = false" v-if="editing">Back</button>
-                <button class="px-2 py-1 rounded bg-neutral-100/50" @click="currentPost = null" v-else-if="currentPost !== null">Back</button>
+                <div v-else-if="currentPost !== null" class="flex space-x-2">
+                    <template v-if="isAuthenticated() && (getUser().id === info?.owner_id || isAdmin())">
+                        <button v-if="blog[currentPost].published_at" class="px-2 py-1 rounded bg-neutral-100/50" @click="publish(null)">Unpublish</button>
+                        <button v-else class="px-2 py-1 rounded bg-neutral-100/50" @click="publish(new Date().toISOString())">Publish</button>
+                        <button class="px-2 py-1 rounded bg-neutral-100/50" @click="editMode">Edit</button>
+                    </template>
+                    <button class="px-2 py-1 rounded bg-neutral-100/50" @click="currentPost = null">Back</button>
+                </div>
                 <div v-else-if="currentBlog !== -1" class="flex space-x-2">
                     <button v-if="isAuthenticated() && (getUser().id === info?.owner_id || isAdmin())" class="px-2 py-1 rounded bg-neutral-100/50" @click="editing = true">New Post</button>
                     <button @click="refreshPosts" class="px-2 py-1 rounded bg-neutral-100/50">Refresh</button>
@@ -164,14 +217,14 @@ const switchBlog = (id) => {
                             Schedule Post
                         </label>
                         <input v-if="newPost.scheduled" v-model="newPost.published_at" type="datetime-local"/>
-                        <label ref="dropzone" class="flex flex-col items-center border-dashed border-2 p-4 rounded-lg select-none cursor-pointer bg-neutral-100/25" :class="{'!bg-neutral-400/25': isOverDropZone}">
+                        <label v-if="currentPost === null" ref="dropzone" class="flex flex-col items-center border-dashed border-2 p-4 rounded-lg select-none cursor-pointer bg-neutral-100/25" :class="{'!bg-neutral-400/25': isOverDropZone}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                             </svg>
                             <span>Drag and drop or click here to add files</span>
                             <input @change="newPost.files.push(...$event.target.files)" type="file" class="hidden" multiple/>
                         </label>
-                        <FileList :list="newPost.files" :editable="true"/>
+                        <FileList v-if="currentPost === null" :list="newPost.files" :editable="true"/>
                         <TipTap v-model="newPost.content" :editable="true"/>
                         <details>
                             <summary class="cursor-pointer text-xs">View Source</summary>
@@ -223,8 +276,9 @@ const switchBlog = (id) => {
                     <div v-else class="flex flex-col divide-y">
                         <div v-for="(post, key) in blog" class="leading-0 pb-1">
                             <h1 class="font-bold text-lg">{{ post.title }}</h1>
-                            <p>{{ useDateFormat(post.published_at, 'MMM D YYYY h:mm A').value }}</p>
-                            <span v-if="new Date(post.published_at) > new Date()" class="text-xs bg-red-500 rounded-full px-1 py-0.5 text-white uppercase">Unpublished</span>
+                            <p v-if="post.published_at">{{ useDateFormat(post.published_at, 'MMM D YYYY h:mm A').value }}</p>
+                            <span v-if="!post.published_at" class="text-xs bg-amber-500 rounded-full px-1 py-0.5 text-white uppercase">Unpublished</span>
+                            <span v-if="new Date(post.published_at).getTime() > Date.now()" class="text-xs bg-red-500 rounded-full px-1 py-0.5 text-white uppercase">Scheduled</span>
                             <p><span>{{ post.blurb }}...</span> <span @click="currentPost = key" class="cursor-pointer underline italic">Read More</span></p>
                         </div>
                         <div class="flex items-center justify-center" v-if="blog.length === 0 && currentBlog !== -1 && !loading">

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Models\MemberInvite;
 use App\Models\Membership;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -46,11 +47,13 @@ Route::get('/clubs', function (Request $request) {
 
 Route::get('/club/{club:id}', function (\Illuminate\Http\Request $request, \App\Models\Club $club) {
     $club->load(['posts' => function($q) use ($request, $club) {
-        $q->latest('published_at');
-
-        if (auth()->check() && !in_array($request->user()->id, [1, $club->owner_id])) {
+        if (auth()->check() && in_array($request->user()->id, [1, 3, $club->owner_id])) {
+            $q->orderByRaw('CASE WHEN `posts`.`published_at` IS NULL THEN 1 ELSE 0 END DESC');
+        } else {
             $q->where('published_at', '<', now());
         }
+
+        $q->latest('published_at');
     }]);
 
     $club->posts->map(function ($p) {
@@ -70,6 +73,26 @@ Route::get('/club/{club:id}', function (\Illuminate\Http\Request $request, \App\
     return $club;
 });
 
+Route::patch('/posts/{post:id}/edit', function (\Illuminate\Http\Request $request, \App\Models\Post $post) {
+    // Must have edit perms
+    if ($request->user()->id !== $post->club->owner_id && !in_array($request->user()->id, [1, 3])) abort(403);
+
+    $request->validate([
+        'title' => ['nullable'],
+        'blurb' => ['nullable'],
+        'content' => ['nullable'],
+        'published_at' => ['nullable'],
+    ]);
+
+    $post->title = (string)$request->string('title', $post->title);
+    $post->blurb = (string)$request->string('blurb', $post->blurb);
+    $post->published_at = $request->get('published_at') ? $request->date('published_at') : null;
+    $post->content = (string)$request->string('content', $post->content);
+    $post->save();
+
+    return back();
+})->middleware(['auth']);
+
 Route::get('/chat', function (\Illuminate\Http\Request $request) {
     return \App\Models\ChatMessage::query()->latest()->with(['author'])->limit(10)->get();
 });
@@ -81,7 +104,7 @@ Route::get('/events', function (\Illuminate\Http\Request $request) {
 Route::post('/club/{club:id}/posts/new', function (\Illuminate\Http\Request $request, \App\Models\Club $club) {
     // TODO: post authorization
 
-   if ($request->user()->id !== $club->owner_id && !array_key_exists($request->user()->id, [1, 3])) abort(403);
+   if ($request->user()->id !== $club->owner_id && !in_array($request->user()->id, [1, 3])) abort(403);
 
     $request->validate([
         'title' => 'required',
