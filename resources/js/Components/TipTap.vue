@@ -36,7 +36,8 @@ const editor = useEditor({
 });
 
 watch(body, () => {
-    editor.value.commands.setContent(props.modelValue, false)
+    // TODO@later: put back
+    // editor.value.commands.setContent(props.modelValue, false)
 });
 </script>
 <template>
