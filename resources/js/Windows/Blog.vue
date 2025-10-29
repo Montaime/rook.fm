@@ -171,6 +171,29 @@ const editMode = () => {
     newPost.scheduled = !!p.published_at;
     editing.value = true;
 }
+
+const comment = useForm({
+    body: ''
+});
+
+const sendComment = () => {
+    if (currentPost.value === null) return;
+
+    comment.post(`/post/${blog.value[currentPost.value].id}/comments/new`, {
+        onSuccess: () => {
+            // TODO@1: only refresh COMMENTS on CURRENT post. post might disappear or get reordered.
+            refreshPosts();
+        }
+    })
+}
+
+const deleteComment = (id) => {
+    useForm({}).delete('/comment/' + id, {
+        onSuccess: () => {
+            refreshPosts();
+        }
+    });
+}
 </script>
 <template>
     <div class="flex h-full">
@@ -278,6 +301,26 @@ const editMode = () => {
                         </Carousel>
                         <span v-if="blog[currentPost].files.length > 0" class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">Files</span>
                         <FileList :list="blog[currentPost].files" class="w-full"/>
+                        <span class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">Comments</span>
+                        <div class="flex flex-col space-y-2 px-4 py-2 w-full">
+                            <p v-if="blog[currentPost].comments.length === 0">No Comments</p>
+                            <div v-for="comment in blog[currentPost].comments" class="rounded-md bg-neutral-100/50 px-2 py-1">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex space-x-1 items-center">
+                                        <span class="font-bold">{{ comment.author.name }}</span>
+                                        <span>&middot;</span>
+                                        <span class="opacity-50 text-sm">{{ useDateFormat(comment.created_at, 'MMM D YYYY h:mm A').value }}</span>
+                                    </div>
+                                    <span v-if="isAuthenticated() && (getUser().id === info?.owner_id || isAdmin())" @click="deleteComment(comment.id)" class="text-red-500 underline cursor-pointer select-none">Delete</span>
+                                </div>
+                                <p>{{ comment.body }}</p>
+                            </div>
+                        </div>
+                        <span class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">New Comment</span>
+                        <textarea v-model="comment.body" class="w-full bg-white/50 text-black rounded" placeholder="Leave a comment..."></textarea>
+                        <div class="flex justify-end mt-1 w-full">
+                            <button @click="sendComment" class="rounded-md bg-white/50 w-fit px-2 py-1">Send</button>
+                        </div>
                     </div>
                     <div v-else class="flex flex-col divide-y">
                         <div v-for="(post, key) in blog" class="leading-0 pb-1">

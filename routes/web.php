@@ -101,10 +101,47 @@ Route::get('/events', function (\Illuminate\Http\Request $request) {
     return \App\Models\Events::query()->latest()->limit(10)->get();
 });
 
+Route::delete('/comment/{comment:id}', function (\Illuminate\Http\Request $request, \App\Models\Comment $comment) {
+
+    if ($comment->commentable_type === Post::class) {
+        $comment->load(['commentable.club']);
+
+        if (!in_array($request->user()->id, [1, 3, $comment->commentable->club->owner_id])) abort(403);
+
+        $comment->delete();
+    } else {
+        abort(400);
+    }
+
+    return back();
+})->middleware(['auth']);
+
+Route::post('/post/{post:id}/comments/new', function (\Illuminate\Http\Request $request, \App\Models\Post $post) {
+
+    $user = $request->user();
+
+    $allowed = Membership::query()
+        ->where('user_id', $user->id)
+        ->where('club_id', $post->club_id)
+        ->exists();
+
+    // Must be club member (or owner?)
+    if (!$allowed && !in_array($user->id, [1, 3, $post->club->owner_id])) abort(403);
+
+    $comment = new \App\Models\Comment();
+    $comment->body = $request->string('body');
+    $comment->commenter_id = $user->id;
+    $comment->commentable_type = Post::class;
+    $comment->commentable_id = $post->id;
+    $comment->save();
+
+    return back();
+})->middleware(['auth']);
+
 Route::post('/club/{club:id}/posts/new', function (\Illuminate\Http\Request $request, \App\Models\Club $club) {
     // TODO: post authorization
 
-   if ($request->user()->id !== $club->owner_id && !in_array($request->user()->id, [1, 3])) abort(403);
+   if (!in_array($request->user()->id, [1, 3, $club->owner_id])) abort(403);
 
     $request->validate([
         'title' => 'required',
