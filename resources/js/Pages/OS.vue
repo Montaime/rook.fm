@@ -37,7 +37,7 @@ const smallSizeClicked = ref(false);
                     </div>
                 </div>
                 <div class="absolute z-0 inset-0 y space-y-4 md:space-y-0 overflow-y-auto md:overflow-hidden p-2 md:p-0">
-                    <div :style="`left:${$$$.snap.x}px;top:${$$$.snap.y}px;height:${$$$.snap.height}px;width:${$$$.snap.width}px;`" class="absolute opacity-0" :class="{'transition-all opacity-100': $$$.snap.width > 0 || $$$.snap.height > 0}">
+                    <div :style="`left:${$$$.snap.x}px;top:${$$$.snap.y}px;height:${$$$.snap.height}px;width:${$$$.snap.width}px;`" class="absolute opacity-0 hidden md:block" :class="{'transition-all opacity-100': $$$.snap.width > 0 || $$$.snap.height > 0}">
                         <div class="absolute inset-2 border border-neutral-200/50 bg-neutral-300/20"></div>
                     </div>
                     <Window v-for="(w, key) in $$$.windows" v-model="$$$.windows[key]"/>
