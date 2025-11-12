@@ -93,8 +93,8 @@ onMounted(() => {
                 <p class="emboss text-sm py-0.5 px-4 mt-1 w-full text-center select-none">{{ log }}</p>
 
                 <template v-if="step === 0">
-                    <span class="label">Enter your code</span>
-                    <input v-model="input" class="py-0.5 px-2 emboss w-full" type="text" placeholder="Code"/>
+                    <span class="label">Enter the password</span>
+                    <input v-model="input" class="py-0.5 px-2 emboss w-full" type="text" placeholder="Password"/>
 
                     <button @click="tryCode" class="bg-neutral-300 border border-white px-2 mt-1">Submit</button>
                 </template>
