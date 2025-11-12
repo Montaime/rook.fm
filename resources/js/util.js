@@ -3,6 +3,7 @@ import route from 'ziggy-js'
 import {computed, markRaw, reactive, ref} from "vue";
 import poolbg from "../assets/wallpapers/pool.jpg"
 import About from "@/Windows/About.vue";
+import Keygen from "@/Windows/Keygen.vue";
 import Settings from "@/Windows/Settings.vue";
 import Radio from "@/Windows/Radio.vue";
 import Blog from "@/Windows/Blog.vue";
@@ -57,6 +58,12 @@ export const $$$ = reactive({
         'About': ref(new Window(markRaw(About), {
             title: 'About',
             style: 'items-center',
+            resizable: false
+        })),
+        'Keygen': ref(new Window(markRaw(Keygen), {
+            title: 'Keygen',
+            visibility: WindowState.Open,
+            style: '!p-0',
             resizable: false
         })),
         'Settings': ref(new Window(markRaw(Settings), {

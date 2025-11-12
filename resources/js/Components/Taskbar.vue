@@ -48,6 +48,7 @@ const time = useDateFormat(useNow(), 'YYYY/MM/DD');
             </Link>
             <StartLink class="hidden md:flex" title="Programs">
                 <StartSubLink @click="openW('Chat')">Chat</StartSubLink>
+                <StartSubLink @click="openW('Keygen')">Keygen</StartSubLink>
                 <StartSubLink @click="openW('Fanclubs')">Clubs</StartSubLink>
                 <StartSubLink @click="openW('About')">About</StartSubLink>
                 <StartSubLink @click="openW('Settings')">Settings</StartSubLink>
