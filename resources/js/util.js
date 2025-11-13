@@ -95,9 +95,9 @@ export const $$$ = reactive({
         // 'Submit': ref({
         //     resizable: false
         // }),
-        // 'Livestream': ref({
-        //     visibility: WindowState.Open
-        // }),
+        'Livestream': ref(new Window(markRaw(Livestream), {
+            title: 'Livestream',
+        })),
     },
     desktop: {
         startMenuOpen: false,
