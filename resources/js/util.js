@@ -62,7 +62,7 @@ export const $$$ = reactive({
         })),
         'Keygen': ref(new Window(markRaw(Keygen), {
             title: 'Keygen',
-            visibility: WindowState.Open,
+            visibility: WindowState.Closed,
             style: '!p-0',
             resizable: false
         })),
