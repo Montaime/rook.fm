@@ -16,7 +16,19 @@ host('gdps.io')
     ->setRemoteUser('deployer')
     ->setPort(22)
     ->setDeployPath('/var/www/rook.fm')
-    ->set('labels', ['stage' => 'production']);
+    ->set('branch', 'master')
+    ->setLabels([
+        'stage' => 'production',
+    ]);
+
+host('gdps.io')
+    ->setRemoteUser('deployer')
+    ->setPort(22)
+    ->setDeployPath('/var/www/staging.rook.fm')
+    ->set('branch', 'develop')
+    ->setLabels([
+        'stage' => 'staging',
+    ]);
 
 add('rsync', [
     'exclude' => [
@@ -70,11 +82,9 @@ task('launch', [
     'artisan:storage:link',     // |
     'artisan:view:cache',       // |
     'artisan:config:cache',     // |
-    'artisan:route:cache',      // |
-    'artisan:optimize',         // | Laravel specific steps
+    'artisan:route:cache',      // | Laravel specific steps
+    'artisan:optimize',         // |
     'artisan:migrate',          // |
-    //'artisan:tenants:migrate',  // |
-    //'artisan:update',         // |
     'deploy:symlink',
     'deploy:unlock',
     'deploy:cleanup',
