@@ -74,4 +74,4 @@ jobs:
         env:
           DOT_ENV: ${{ secrets.DOT_ENV }}
         run: |
-          php vendor/bin/dep launch stage=staging -vvv
+          /usr/bin/php8.2 vendor/bin/dep launch stage=staging -vvv
