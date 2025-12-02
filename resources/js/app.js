@@ -7,7 +7,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import {ZiggyVue} from "ziggy-js/dist/vue.m"
 import {createPinia} from "pinia";
 
-const APP_VERSION = 'v1.3.0-develop';
+const APP_VERSION = 'v1.4.0-develop';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Rook FM';
 
