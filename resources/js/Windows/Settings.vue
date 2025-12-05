@@ -2,6 +2,7 @@
 import poolbg from "../../assets/wallpapers/pool.jpg"
 import vol3 from "../../assets/wallpapers/vol3.jpg"
 import marble from "../../assets/wallpapers/mere.jpg"
+import hoo from "../../assets/wallpapers/hoosteen.png"
 import {$$$} from "../util.js";
 import {useStorage} from "@vueuse/core";
 
@@ -33,6 +34,13 @@ const setTheme = (css, img) => {
         <div class="flex flex-col">
             <h1 class="font-bold text-2xl">C'mere</h1>
             <p>You gotta check this out!</p>
+        </div>
+    </div>
+    <div @click="setTheme('hoo', hoo)" class="cursor-pointer flex space-x-2 py-2">
+        <div class="aspect-video p-4 rounded bg-white h-12 bg-cover" :style="`background-image: url('${hoo}');`"></div>
+        <div class="flex flex-col">
+            <h1 class="font-bold text-2xl">Who's steen?</h1>
+            <p>Mr. Hoosteen!</p>
         </div>
     </div>
 </template>

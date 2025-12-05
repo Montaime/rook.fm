@@ -14,6 +14,7 @@ import Feedback from "@/Windows/Feedback.vue";
 import {useStorage} from "@vueuse/core";
 import Livestream from "@/Windows/Livestream.vue";
 import {Window} from "./Window.js"
+import Welcome from "@/Windows/Welcome.vue";
 
 export const logout = () => {
     router.post(route('logout'));
@@ -47,6 +48,7 @@ export const cMap = {
     'Submit': Submit,
     'Feedback': Feedback,
     'Livestream': Livestream,
+    'Welcome': Welcome,
 }
 
 export const $$$ = reactive({
@@ -97,6 +99,11 @@ export const $$$ = reactive({
         // }),
         'Livestream': ref(new Window(markRaw(Livestream), {
             title: 'Livestream',
+        })),
+        'Welcome': ref(new Window(markRaw(Welcome), {
+            title: 'Welcome',
+            visibility: WindowState.Open,
+            resizable: false
         })),
     },
     desktop: {

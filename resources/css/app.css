@@ -124,6 +124,59 @@
 
 /* </editor-fold> */
 
+/* <editor-fold desc="Hoosteen Theme"> */
+.hoo {
+    @apply text-white;
+}
+
+.hoo {
+    input[type="text"], input[type="email"], input[type="password"], select, textarea {
+        @apply bg-neutral-800;
+    }
+
+    .window {
+        @apply bg-gradient-to-b from-[#121212] to-[#252525] border border-[#F8017C] rounded-md shadow-[0_0_1px_#fff,0_0_10px_#F8017CD0,0_0_40px_#F8017C50]
+    }
+
+    .container {
+        @apply bg-[#121212] rounded-b-md
+    }
+
+    .header {
+        @apply bg-gradient-to-b from-[#303030] from-[45%] via-[#202020] via-[55%] to-[#202020] rounded-t-md border-b border-black
+    }
+
+    .taskbar {
+        @apply bg-gradient-to-b from-[#303030] from-[45%] via-[#202020] via-[55%] to-[#202020] rounded-md border border-[#F8017C]
+    }
+
+    .start {
+        @apply bg-gradient-to-br from-[#303030] to-[#121212] rounded shadow-xl border border-[#F8017C]
+    }
+
+    .startlink > summary {
+        @apply bg-gradient-to-b shadow hover:shadow-lg transition-shadow from-[#202020] to-[#121212] hover:!bg-white rounded
+    }
+
+    .startprofile {
+        @apply border-y hover:bg-gradient-to-b from-gray-300 to-gray-200 border-transparent hover:border-t-gray-400 hover:border-b-white
+    }
+
+    .startsubmenu {
+        @apply shadow-md rounded bg-[#202020] border border-[#F8017C]
+    }
+
+    .startsublink {
+        @apply hover:bg-[#181818] last:rounded-b-md first:rounded-t-md
+    }
+
+    .taskbar-tab {
+        @apply shadow rounded-md border-y border-t-[#353535] border-b-[#000] bg-gradient-to-b from-[#202020] to-[#121212]
+    }
+}
+
+/* </editor-fold> */
+
 /* <editor-fold desc="Brutalist Theme"> */
 
 .brutal .window {

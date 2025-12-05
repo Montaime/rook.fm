@@ -67,7 +67,7 @@ const play = (sound) => {
 </script>
 <template>
     <div class="relative">
-        <img class="object-contain h-32 relative z-10" :src="logo_black" alt="" />
+        <img class="object-contain h-32 relative z-10 rookfm-logo" :src="logo_black" alt="" />
         <div @transitionend="glow = 0" class="glow rainbow absolute top-0 left-0 w-full" :class="{'glow-active': glow > 0}">
             <div class="h-32" :style="`mask-image: url(${logo_black})`"></div>
         </div>
@@ -90,6 +90,10 @@ const play = (sound) => {
     </div>
 </template>
 <style scoped>
+.hoo .rookfm-logo {
+    filter: invert();
+}
+
 .glow {
     --blur: 20px;
     opacity: 0;
