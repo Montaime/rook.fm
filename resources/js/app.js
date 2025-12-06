@@ -7,8 +7,9 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import {ZiggyVue} from "ziggy-js/dist/vue.m"
 import {createPinia} from "pinia";
 
-const APP_VERSION = 'v1.4.0-develop';
+const APP_VERSION = 'v1.4.0';
 
+const environment = import.meta.env;
 const appName = import.meta.env.VITE_APP_NAME || 'Rook FM';
 
 const pinia = createPinia();
@@ -20,7 +21,8 @@ createInertiaApp({
         let app = createApp({ render: () => h(App, props) });
 
         app.config.globalProperties.$os = {
-            VERSION: APP_VERSION
+            VERSION: APP_VERSION,
+            environment
         }
 
         return app.use(plugin)
