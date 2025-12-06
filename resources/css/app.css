@@ -2,33 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-/* <editor-fold desc="Admin"> */
-.pane {
-    @apply flex flex-col bg-neutral-50 border border-t-white border-b-neutral-300 px-2 py-1 rounded-md
+details,
+details summary {
+    padding-left:0;
+    background-image:none;
+    -webkit-appearance:none;
+}
+details summary::-webkit-details-marker {
+    display:none;
 }
 
-.admin button {
-    @apply text-sm rounded-md bg-neutral-100 border border-neutral-300 px-2 py-1 w-fit disabled:text-neutral-500;
+.chev > summary::-webkit-details-marker {
+    display:inline;
 }
 
-.admin input {
-    @apply bg-neutral-200 rounded-md border-none disabled:bg-neutral-100 disabled:text-neutral-500
+html, body {
+    overscroll-behavior: none;
 }
 
-.admin .digit {
-    @apply text-neutral-400 font-mono text-sm;
-}
-
-.admin thead {
-    @apply bg-neutral-100;
-}
-
-.admin tr {
-    @apply border;
-}
-
-.admin td, th {
-    @apply px-2 border;
+.polkadot {
+    --size: 1.25rem;
+    background-image: radial-gradient(black 20%, transparent 20%), radial-gradient(black 20%, transparent 20%);
+    background-position: 0 0, calc(var(--size) / 2) calc(var(--size) / 2);
+    background-size: var(--size) var(--size);
 }
 
 .window {
@@ -38,98 +34,133 @@
 .window > .container.resizable {
     @apply resize overflow-y-auto overflow-x-auto
 }
+
+.pane {
+    @apply flex flex-col bg-neutral-50 border border-t-white border-b-neutral-300 px-2 py-1 rounded-md
+}
+
+/**
+ * ------------------
+ * Themes
+ * ------------------
+ */
+
+/* <editor-fold desc="Admin"> */
+.admin {
+    button {
+        @apply text-sm rounded-md bg-neutral-100 border border-neutral-300 px-2 py-1 w-fit disabled:text-neutral-500;
+    }
+
+    input {
+        @apply bg-neutral-200 rounded-md border-none disabled:bg-neutral-100 disabled:text-neutral-500
+    }
+
+    .digit {
+        @apply text-neutral-400 font-mono text-sm;
+    }
+
+    thead {
+        @apply bg-neutral-100;
+    }
+
+    tr {
+        @apply border;
+    }
+
+    td, th {
+        @apply px-2 border;
+    }
+}
 /* </editor-fold> */
 
 /* <editor-fold desc="Glass Theme"> */
+.glass :not(#theme-reset), [data-theme-force="glass"] {
+    .window {
+        @apply backdrop-blur-lg border-2 border-white/50
+    }
 
-.glass .window {
-    @apply backdrop-blur-lg border-2 border-white/50
+    .container {
+        @apply bg-white/30
+    }
+
+    .header {
+        @apply bg-white/50
+    }
+
+    .taskbar {
+        @apply backdrop-blur-lg border-2 border-white/50 bg-white/50
+    }
+
+    .start {
+        @apply backdrop-blur-lg border-2 border-white/50 bg-white/50
+    }
+
+    .startlink > summary {
+        @apply rounded bg-gray-500/25
+    }
+
+    .startprofile {
+        @apply rounded bg-white/50
+    }
+
+    .startsubmenu {
+        @apply border-2 border-white/50 bg-white/50
+    }
+
+    .startsublink {
+        @apply hover:bg-white/50
+    }
 }
-
-.glass .container {
-    @apply bg-white/30
-}
-
-.glass .header {
-    @apply bg-white/50
-}
-
-.glass .taskbar {
-    @apply backdrop-blur-lg border-2 border-white/50 bg-white/50
-}
-
-.glass .start {
-    @apply backdrop-blur-lg border-2 border-white/50 bg-white/50
-}
-
-.glass .startlink > summary {
-    @apply rounded bg-gray-500/25
-}
-
-.glass .startprofile {
-    @apply rounded bg-white/50
-}
-
-.glass .startsubmenu {
-    @apply border-2 border-white/50 bg-white/50
-}
-
-.glass .startsublink {
-    @apply hover:bg-white/50
-}
-
 /* </editor-fold> */
 
 /* <editor-fold desc="Neumorphism Theme"> */
+.neu :not(#theme-reset), [data-theme-force="neu"] {
+    .window {
+        @apply bg-gradient-to-b from-gray-50 to-gray-300 border-2 border-[#00000000] rounded-md
+    }
 
-.neu .window {
-    @apply bg-gradient-to-b from-gray-50 to-gray-300 border-2 border-[#00000000] rounded-md
+    .container {
+        @apply bg-white/30
+    }
+
+    .header {
+        @apply bg-gradient-to-b from-gray-300 to-gray-400
+    }
+
+    .taskbar {
+        @apply bg-gradient-to-b from-gray-300 to-gray-400 rounded-md
+    }
+
+    .start {
+        @apply bg-gradient-to-br from-gray-50 to-gray-300 rounded shadow-xl
+    }
+
+    .startlink > summary {
+        @apply bg-gradient-to-b shadow hover:shadow-lg transition-shadow from-white to-gray-200 hover:!bg-white rounded
+    }
+
+    .startprofile {
+        @apply border-y hover:bg-gradient-to-b from-gray-300 to-gray-200 border-transparent hover:border-t-gray-400 hover:border-b-white
+    }
+
+    .startsubmenu {
+        @apply shadow-md rounded bg-gray-200
+    }
+
+    .startsublink {
+        @apply hover:bg-gray-300 last:rounded-b-md first:rounded-t-md
+    }
+
+    .taskbar-tab {
+        @apply shadow rounded-md border-y border-t-white border-b-gray-300 bg-gradient-to-b from-gray-50 to-gray-200
+    }
 }
-
-.neu .container {
-    @apply bg-white/30
-}
-
-.neu .header {
-    @apply bg-gradient-to-b from-gray-300 to-gray-400
-}
-
-.neu .taskbar {
-    @apply bg-gradient-to-b from-gray-300 to-gray-400 rounded-md
-}
-
-.neu .start {
-    @apply bg-gradient-to-br from-gray-50 to-gray-300 rounded shadow-xl
-}
-
-.neu .startlink > summary {
-    @apply bg-gradient-to-b shadow hover:shadow-lg transition-shadow from-white to-gray-200 hover:!bg-white rounded
-}
-
-.neu .startprofile {
-    @apply border-y hover:bg-gradient-to-b from-gray-300 to-gray-200 border-transparent hover:border-t-gray-400 hover:border-b-white
-}
-
-.neu .startsubmenu {
-    @apply shadow-md rounded bg-gray-200
-}
-
-.neu .startsublink {
-    @apply hover:bg-gray-300 last:rounded-b-md first:rounded-t-md
-}
-
-.neu .taskbar-tab {
-    @apply shadow rounded-md border-y border-t-white border-b-gray-300 bg-gradient-to-b from-gray-50 to-gray-200
-}
-
 /* </editor-fold> */
 
 /* <editor-fold desc="Hoosteen Theme"> */
-.hoo {
+.hoo :not(#theme-reset), [data-theme-force="hoo"] {
     @apply text-white;
-}
 
-.hoo {
     input[type="text"], input[type="email"], input[type="password"], select, textarea {
         @apply bg-neutral-800;
     }
@@ -174,118 +205,92 @@
         @apply shadow rounded-md border-y border-t-[#353535] border-b-[#000] bg-gradient-to-b from-[#202020] to-[#121212]
     }
 }
-
 /* </editor-fold> */
 
 /* <editor-fold desc="Brutalist Theme"> */
+.brutal:not(#theme-reset), [data-theme-force="brutal"] {
+    .window {
+        @apply outline outline-2 outline-black border-2 border-black [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    }
 
-.brutal .window {
-    @apply outline outline-2 outline-black border-2 border-black [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    .header {
+        @apply bg-white border-b-2 border-black;
+    }
+
+    .container {
+        @apply bg-white
+    }
+
+    textarea {
+        @apply border-2 border-black rounded-sm
+    }
+
+    .chatbox {
+        @apply border-2 border-black rounded-sm
+    }
+
+    .button {
+        @apply border-2 border-black
+    }
+
+    .taskbar {
+        @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    }
+
+    .start {
+        @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    }
+
+    .startlink > summary {
+        @apply bg-white outline outline-black border-2 border-white;
+    }
+
+    .startprofile {
+        @apply border-2 border-black
+    }
+
+    .startsubmenu {
+        @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    }
+
+    .startsublink {
+        @apply hover:bg-gray-300
+    }
+
+    .taskbar-tab {
+        @apply bg-white outline outline-black
+    }
 }
-
-.brutal .header {
-    @apply bg-white border-b-2 border-black;
-}
-
-.brutal .container {
-    @apply bg-white
-}
-
-.brutal textarea {
-    @apply border-2 border-black rounded-sm
-}
-
-.brutal .chatbox {
-    @apply border-2 border-black rounded-sm
-}
-
-.brutal .button {
-    @apply border-2 border-black
-}
-
-.polkadot {
-    --size: 1.25rem;
-    background-image: radial-gradient(black 20%, transparent 20%), radial-gradient(black 20%, transparent 20%);
-    background-position: 0 0, calc(var(--size) / 2) calc(var(--size) / 2);
-    background-size: var(--size) var(--size);
-}
-
-.brutal .taskbar {
-    @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
-}
-
-.brutal .start {
-    @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
-}
-
-.brutal .startlink > summary {
-    @apply bg-white outline outline-black border-2 border-white;
-}
-
-.brutal .startprofile {
-    @apply border-2 border-black
-}
-
-.brutal .startsubmenu {
-    @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
-}
-
-.brutal .startsublink {
-    @apply hover:bg-gray-300
-}
-
-.brutal .taskbar-tab {
-    @apply bg-white outline outline-black
-}
-
 /* </editor-fold> */
 
 /* <editor-fold desc="Dark Theme"> */
+.dark {
+    .window {
+        @apply rounded-md
+    }
 
-.dark .window {
-    @apply rounded-md
+    .header {
+        @apply bg-gradient-to-b from-gray-300 to-black
+    }
+
+    .window {
+        @apply bg-gray-900 text-white outline outline-black
+    }
 }
-
-.dark .header {
-    @apply bg-gradient-to-b from-gray-300 to-black
-}
-
-.dark .window {
-    @apply bg-gray-900 text-white outline outline-black
-}
-
 /* </editor-fold> */
 
 /* <editor-fold desc="Aero Theme"> */
+.aero {
+    .window {
+        @apply rounded-md backdrop-blur-md
+    }
 
-.aero .window {
-    @apply rounded-md backdrop-blur-md
+    .header {
+        @apply bg-gradient-to-b from-gray-300 to-black
+    }
+
+    .window {
+        @apply bg-gray-900/50
+    }
 }
-
-.aero .header {
-    @apply bg-gradient-to-b from-gray-300 to-black
-}
-
-.aero .window {
-    @apply bg-gray-900/50
-}
-
 /* </editor-fold> */
-
-details,
-details summary {
-    padding-left:0;
-    background-image:none;
-    -webkit-appearance:none;
-}
-details summary::-webkit-details-marker {
-    display:none;
-}
-
-.chev > summary::-webkit-details-marker {
-    display:inline;
-}
-
-html, body {
-  overscroll-behavior: none;
-}
