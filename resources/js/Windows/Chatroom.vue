@@ -92,7 +92,7 @@ const channels = {
         </div>
           <div class="relative grow">
             <div class="flex flex-col absolute inset-0 overflow-x-hidden">
-                <div class="flex items-center border-b p-2 text-nowrap space-x-2 bg-white/50">
+                <div class="flex items-center border-b p-2 text-nowrap space-x-2 chatroom-header">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 shrink-0">
                         <path fill-rule="evenodd" d="M9.493 2.852a.75.75 0 0 0-1.486-.204L7.545 6H4.198a.75.75 0 0 0 0 1.5h3.14l-.69 5H3.302a.75.75 0 0 0 0 1.5h3.14l-.435 3.148a.75.75 0 0 0 1.486.204L7.955 14h2.986l-.434 3.148a.75.75 0 0 0 1.486.204L12.456 14h3.346a.75.75 0 0 0 0-1.5h-3.14l.69-5h3.346a.75.75 0 0 0 0-1.5h-3.14l.435-3.148a.75.75 0 0 0-1.486-.204L12.045 6H9.059l.434-3.148ZM8.852 7.5l-.69 5h2.986l.69-5H8.852Z" clip-rule="evenodd" />
                     </svg>
@@ -110,7 +110,7 @@ const channels = {
                                 <span class="border-t w-full"></span>
                             </div>
                             <span v-if="chat[index - 1]?.user !== post.user || new Date(chat[index - 1]?.created_at).toDateString() !== new Date(post.created_at).toDateString()" class="text-xs font-bold">{{ post.user }}</span>
-                            <div class="flex items-center gap-1 group" :class="{'flex-row-reverse': post.type === 'SEND'}">
+                            <div class="flex items-center gap-1 group chatroom-bubble" :class="{'flex-row-reverse': post.type === 'SEND'}">
                                 <p :class="{'italic text-gray-500': post.type === 'SYSTEM', '!bg-yellow-400': post.type === 'SEND'}" class="px-2 py-1 mt-0.5 rounded-md w-fit bg-blue-200 break-all">{{ post.content }}</p>
                                 <span class="text-xs group-hover:visible invisible">{{ useDateFormat(new Date(post.created_at), 'h:mm A').value }}</span>
                             </div>
@@ -118,7 +118,7 @@ const channels = {
                         <div class="py-1"></div>
                     </div>
                 </div>
-                <div v-if="isAuthenticated()" class="flex items-stretch sticky bottom-0 bg-neutral-100/50 border-t">
+                <div v-if="isAuthenticated()" class="flex items-stretch sticky bottom-0 border-t chatroom-footer p-1 space-x-1">
                     <input v-model="msg" @keydown="keypress" class="chatbox grow border-none bg-transparent" type="text" placeholder="Say something nice..."/>
                     <button :disabled="sending" class="px-2 py-1" @click="sendMessage">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">

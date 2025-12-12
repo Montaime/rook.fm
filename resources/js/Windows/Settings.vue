@@ -101,11 +101,11 @@ const windows = computed(() => lightbox.value ? Object.keys(themes) : []);
 </script>
 <template>
     <div class="flex">
-        <div class="flex flex-col border-r border-white/25">
-            <div @click="tab = 0" class="px-4 py-2 border-b border-white/25 cursor-pointer select-none" :class="{'bg-white/25': tab === 0}">Theme Bundles</div>
-            <div @click="tab = 1" class="px-4 py-2 border-b border-white/25 cursor-pointer select-none" :class="{'bg-white/25': tab === 1}">Wallpapers</div>
-            <div @click="lightbox = true" class="px-4 py-2 border-b border-white/25 cursor-pointer select-none">Styles</div>
-        </div>
+        <nav class="flex flex-col ui-nav">
+            <div @click="tab = 0" class="px-4 py-2 cursor-pointer select-none" :class="{'ui-navlink-active': tab === 0}">Theme Bundles</div>
+            <div @click="tab = 1" class="px-4 py-2 cursor-pointer select-none" :class="{'ui-navlink-active': tab === 1}">Wallpapers</div>
+            <div @click="lightbox = true" class="px-4 py-2 cursor-pointer select-none">Styles</div>
+        </nav>
         <div class="p-2">
             <div v-if="tab === 0">
                 <h1 class="font-bold text-4xl">Theme Bundles</h1>
@@ -127,7 +127,7 @@ const windows = computed(() => lightbox.value ? Object.keys(themes) : []);
         <teleport to="#teleports">
             <div @click="lightbox = false" v-if="lightbox" class="bg-black/75 absolute inset-0 flex flex-col items-center justify-center z-50 backdrop-blur-sm">
                 <h2 class="text-white font-bold text-4xl mb-4">Select a Style</h2>
-                <transition-group enter-from-class="opacity-0 -translate-y-6 blur-lg" enter-to-class="opacity-100 translate-y-0 blur-0" appear name="fade" tag="div" class="flex relative space-x-4">
+                <transition-group enter-from-class="opacity-0 -translate-y-6 blur-lg" enter-to-class="opacity-100 translate-y-0 blur-0" appear name="fade" tag="div" class="grid grid-cols-2 md:flex relative gap-6">
                     <div v-for="(theme, i) in windows" :key="theme" @click="setStyle(theme)" :class="theme" :style="`transition-delay: ${25 * i}ms`" class="cursor-pointer">
                         <div class="window-container flex flex-col !backdrop-blur-0">
                             <div class="window relative">
@@ -153,7 +153,7 @@ const windows = computed(() => lightbox.value ? Object.keys(themes) : []);
                                         </div>
                                     </div>
                                 </div>
-                                <div class="container max-w-full min-w-full md:min-w-0 h-16"></div>
+                                <div class="container max-w-full min-w-full md:min-w-0 py-10 px-20"></div>
                             </div>
                         </div>
                     </div>
@@ -164,6 +164,6 @@ const windows = computed(() => lightbox.value ? Object.keys(themes) : []);
 </template>
 <style>
 .fade-enter-active {
-    transition: opacity 300ms ease-out, transform 300ms ease-out, filter 200ms ease-out;
+    transition: opacity 300ms ease-out, transform 300ms ease-out, filter 300ms ease-out;
 }
 </style>

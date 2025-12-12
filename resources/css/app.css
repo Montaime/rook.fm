@@ -40,6 +40,10 @@ html, body {
     @apply flex flex-col bg-neutral-50 border border-t-white border-b-neutral-300 px-2 py-1 rounded-md
 }
 
+.event-card {
+    @apply bg-white/50;
+}
+
 /**
  * ------------------
  * Themes
@@ -82,6 +86,18 @@ html, body {
 
     .login-facade {
         @apply rounded-md p-2 bg-white/25 text-white;
+    }
+
+    .ui-nav {
+        @apply border-r border-white/25;
+    }
+
+    .ui-navlink-active {
+        @apply bg-white/50;
+    }
+
+    .ui-nav > div {
+        @apply border-b border-white/25;
     }
 
     input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
@@ -130,6 +146,18 @@ html, body {
 .neu {
     input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
         @apply bg-white rounded-md py-1 border-none;
+    }
+
+    .ui-nav {
+        @apply border-r border-neutral-300;
+    }
+
+    .ui-navlink-active {
+        @apply bg-neutral-200;
+    }
+
+    .ui-nav > div {
+        @apply border-b border-neutral-300;
     }
 
     .login-facade {
@@ -198,6 +226,34 @@ html, body {
         @apply bg-neutral-800 rounded-md py-1 border-none focus:ring-[#F8017C];
     }
 
+    .club-avatar-fallback {
+        @apply bg-neutral-900;
+    }
+
+    .event-card {
+        @apply bg-neutral-800;
+    }
+
+    .chatroom-bubble {
+        @apply text-black;
+    }
+
+    .chatroom-header, .chatroom-footer {
+        @apply bg-neutral-800 border-neutral-700;
+    }
+
+    .ui-nav {
+        @apply border-r border-white/25;
+    }
+
+    .ui-navlink-active {
+        @apply bg-neutral-800;
+    }
+
+    .ui-nav > div {
+        @apply border-b border-white/25;
+    }
+
     .login-facade {
         @apply p-2 text-[#F8017C] border border-[#F8017C];
     }
@@ -256,6 +312,26 @@ html, body {
 .brutal {
     .window {
         @apply outline outline-2 outline-black border-2 border-black [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    }
+
+    .ui-nav {
+        @apply border-r-2 border-black;
+    }
+
+    .ui-navlink-active {
+        @apply font-bold;
+    }
+
+    .ui-navfooter {
+        @apply border-t-2 border-black;
+    }
+
+    .ui-navlink {
+        @apply border-b-2 border-black;
+    }
+
+    .club-avatar-fallback {
+        @apply bg-black text-white;
     }
 
     .header {
