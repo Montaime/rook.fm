@@ -291,12 +291,18 @@ const msToClock = (ms) => {
 
     return `${m.toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
 }
+
+const wmInit = () => {
+    reset();
+}
+
+defineExpose({wmInit})
 </script>
 <template>
     <div class="flex flex-col space-y-2">
         <p class="text-center font-bold text-2xl" :class="{'!text-red-500': state === S_LOST, '!text-green-500': state === S_WINS}">{{ state === S_INIT ? '00:00' : msToClock((state === S_PLAY ? timestamp : gameEndTime) - gameStart) }}</p>
-        <canvas @mouseup="click" @contextmenu.prevent @resize="render" class="aspect-square bg-neutral-900" ref="canvas"></canvas>
-        <button @click="reset">Restart</button>
+        <canvas @mouseup="click" @contextmenu.prevent @resize="render" class="aspect-square w-96 bg-neutral-900" ref="canvas"></canvas>
+        <button @click="reset">Restart Game</button>
 
         <span class="text-sm">Bomb Count</span>
         <input type="number" class="!mt-0" :min="1" :max="boardSize * boardSize - 9" v-model.number="bombs" @change="reset"/>

@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref} from 'vue'
+import {computed, nextTick, onMounted, ref, useTemplateRef, watch} from 'vue'
 import {templateRef, useEventListener, useResizeObserver} from '@vueuse/core'
 import {$$$, WindowState} from '@/util.js'
 
@@ -11,19 +11,19 @@ const el = ref(null);
 const window = defineModel();
 
 const handles = [
-    templateRef('dTL'),
-    templateRef('dBL'),
-    templateRef('dTR'),
-    templateRef('dBR'),
+    useTemplateRef('dTL'),
+    useTemplateRef('dBL'),
+    useTemplateRef('dTR'),
+    useTemplateRef('dBR'),
 
-    templateRef('dT'),
-    templateRef('dB'),
-    templateRef('dL'),
-    templateRef('dR'),
+    useTemplateRef('dT'),
+    useTemplateRef('dB'),
+    useTemplateRef('dL'),
+    useTemplateRef('dR'),
 ]
 
-const head = templateRef('el');
-const content = templateRef('content');
+const head = useTemplateRef('el');
+const content = useTemplateRef('content');
 
 const dragging = ref(false);
 const draggingX = ref(false);
@@ -273,6 +273,18 @@ useResizeObserver(el, (entries) => {
     w.height = entries[0].contentRect.height|0;
 });
 
+const component = useTemplateRef('component');
+
+watch(() => window.value.visibility, (value, oldValue) => {
+    if (value === WindowState.Open && oldValue === WindowState.Closed) {
+        if (component.value.hasOwnProperty('wmInit')) nextTick(() => {
+            component.value.wmInit();
+        })
+    }
+}, {
+    deep: true,
+});
+
 // TODO: fix snapped and maximized corner resizing
 </script>
 <template>
@@ -323,7 +335,7 @@ useResizeObserver(el, (entries) => {
                 </div>
             </div>
             <div ref="content" class="container max-w-full min-w-full md:min-w-0" :style="slotStyle" :class="{[window.style ]: true, '!hidden': window.visibility !== 2, 'overflow-y-auto scroll': window.resizable, 'p-2': window.decoration}">
-                <component :is="window.component"/>
+                <component ref="component" :is="window.component"/>
             </div>
         </div>
     </div>
