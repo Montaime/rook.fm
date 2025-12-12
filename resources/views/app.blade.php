@@ -23,9 +23,7 @@
     @inertiaHead
 </head>
 <body class="relative font-sans antialiased">
-<div class="absolute inset-0" id="teleports">
-
-</div>
+<div class="absolute inset-0" id="teleports"></div>
 @inertia
 </body>
 </html>

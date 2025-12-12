@@ -19,8 +19,8 @@ defineProps({
 const user = getUser();
 
 const form = useForm({
-    name: user.name,
-    email: user.email,
+    name: user?.name ?? '',
+    email: user?.email ?? '',
 });
 </script>
 

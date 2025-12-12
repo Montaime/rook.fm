@@ -2,7 +2,9 @@
 const props = defineProps({
     title: String,
     contentClasses: String
-})
+});
+
+
 </script>
 <template>
     <details class="startlink relative">

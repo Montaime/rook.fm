@@ -1,7 +1,7 @@
 import {router, usePage} from "@inertiajs/vue3";
 import route from 'ziggy-js'
 import {computed, markRaw, reactive, ref} from "vue";
-import poolbg from "../assets/wallpapers/pool.jpg"
+import default_bg from "../assets/wallpapers/hoosteen.png"
 import About from "@/Windows/About.vue";
 import Keygen from "@/Windows/Keygen.vue";
 import Settings from "@/Windows/Settings.vue";
@@ -9,12 +9,13 @@ import Radio from "@/Windows/Radio.vue";
 import Blog from "@/Windows/Blog.vue";
 import Chatroom from "@/Windows/Chatroom.vue";
 import Events from "@/Windows/Events.vue";
-import Submit from "@/Windows/Submit.vue";
 import Feedback from "@/Windows/Feedback.vue";
 import {useStorage} from "@vueuse/core";
 import Livestream from "@/Windows/Livestream.vue";
 import {Window} from "./Window.js"
 import Welcome from "@/Windows/Welcome.vue";
+import Minesweeper from "@/Windows/Minesweeper.vue";
+import Account from "@/Windows/Account.vue";
 
 export const logout = () => {
     router.post(route('logout'));
@@ -38,25 +39,27 @@ export const WindowState = {
     Open: 2,
 }
 
-export const cMap = {
-    'About': About,
-    'Settings': Settings,
-    'Radio': Radio,
-    'Fanclubs': Blog,
-    'Chat': Chatroom,
-    'Events': Events,
-    'Submit': Submit,
-    'Feedback': Feedback,
-    'Livestream': Livestream,
-    'Welcome': Welcome,
-}
-
 export const $$$ = reactive({
     theme: {
-        wallpaper: useStorage('rk_wallpaper', poolbg),
-        style: useStorage('rk_theme', 'glass'),
+        wallpaper: useStorage('rk_wallpaper', default_bg),
+        style: useStorage('rk_theme', 'hoo'),
     },
     windows: {
+        'Radio': ref(new Window(markRaw(Radio), {
+            title: 'Radio',
+            visibility: WindowState.Open,
+            resizable: false
+        })),
+        'Welcome': ref(new Window(markRaw(Welcome), {
+            title: 'Welcome',
+            visibility: WindowState.Open,
+            resizable: false
+        })),
+        'Account': ref(new Window(markRaw(Account), {
+            title: 'Account',
+            visibility: WindowState.Closed,
+            resizable: false
+        })),
         'About': ref(new Window(markRaw(About), {
             title: 'About',
             style: 'items-center',
@@ -70,13 +73,8 @@ export const $$$ = reactive({
         })),
         'Settings': ref(new Window(markRaw(Settings), {
             title: 'Settings',
-            style: 'divide-y',
-            resizable: false
-        })),
-        'Radio': ref(new Window(markRaw(Radio), {
-            title: 'Radio',
-            visibility: WindowState.Open,
-            resizable: false
+            resizable: false,
+            decoration: false,
         })),
         'Fanclubs': ref(new Window(markRaw(Blog), {
             title: 'Fanclubs',
@@ -100,9 +98,8 @@ export const $$$ = reactive({
         'Livestream': ref(new Window(markRaw(Livestream), {
             title: 'Livestream',
         })),
-        'Welcome': ref(new Window(markRaw(Welcome), {
-            title: 'Welcome',
-            visibility: WindowState.Open,
+        'Minesweeper': ref(new Window(markRaw(Minesweeper), {
+            title: 'Minesweeper',
             resizable: false
         })),
     },
