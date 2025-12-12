@@ -1,14 +1,14 @@
 <script setup>
 import Window from "../Components/OS/Window.vue";
 import {ref} from "vue";
-import {$$$, cMap} from "../util.js";
+import {$$$} from "../util.js";
 import Taskbar from "../Components/Taskbar.vue";
 
 const smallSizeClicked = ref(false);
 </script>
 <template>
     <div :class="{[$$$.theme.style]: true, 'pointer-events-none select-none': $$$.desktop.transforming}">
-        <div id="root" class="flex flex-col overflow-hidden bg-cover" :style="`background-image: url('${$$$.theme.wallpaper}')`" style="height: 100dvh; width: 100dvw;">
+        <div id="root" class="flex flex-col overflow-hidden bg-cover bg-center" :style="`background-image: url('${$$$.theme.wallpaper}')`" style="height: 100dvh; width: 100dvw;">
             <div id="bounding" class="grow relative">
                 <div v-if="false" class="absolute inset-0 text-white grid grid-flow-row grid-rows-12 gap-4 p-0.5">
                     <div class="flex flex-col items-center space-y-1 w-8 h-fit p-2 px-10 border border-black bg-cyan-400/50 border-dashed">
