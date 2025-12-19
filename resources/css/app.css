@@ -226,6 +226,10 @@ html, body {
         @apply bg-neutral-800 rounded-md py-1 border-none focus:ring-[#F8017C];
     }
 
+    .clubs-comment-box {
+        @apply bg-neutral-800;
+    }
+
     .club-avatar-fallback {
         @apply bg-neutral-900;
     }

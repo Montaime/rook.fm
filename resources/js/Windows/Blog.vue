@@ -257,7 +257,7 @@ const deleteComment = (id) => {
                         <TipTap v-model="newPost.content" :editable="true"/>
                         <details>
                             <summary class="cursor-pointer text-xs">View Source</summary>
-                            <textarea v-model="newPost.content" class="w-full whitespace-pre text-xs bg-black/50 text-white rounded" readonly></textarea>
+                            <textarea rows="4" v-model="newPost.content" class="w-full whitespace-pre text-xs bg-black/50 text-white rounded" readonly></textarea>
                         </details>
                     </div>
                     <div v-else-if="currentPost !== null && currentBlog !== -1" class="flex flex-col items-center max-h-[75vh] w-full">
@@ -310,7 +310,7 @@ const deleteComment = (id) => {
                         <span class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">Comments</span>
                         <div class="flex flex-col space-y-2 px-4 py-2 w-full">
                             <p v-if="blog[currentPost].comments.length === 0">No Comments</p>
-                            <div v-for="comment in blog[currentPost].comments" class="rounded-md bg-neutral-100/50 px-2 py-1">
+                            <div v-for="comment in blog[currentPost].comments" class="rounded-md bg-neutral-100/50 px-2 py-1 clubs-comment-box">
                                 <div class="flex items-center justify-between">
                                     <div class="flex space-x-1 items-center">
                                         <span class="font-bold">{{ comment.author.name }}</span>
@@ -323,7 +323,7 @@ const deleteComment = (id) => {
                             </div>
                         </div>
                         <span class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">New Comment</span>
-                        <textarea v-model="comment.body" class="w-full bg-white/50 text-black rounded" placeholder="Leave a comment..."></textarea>
+                        <textarea rows="4" v-model="comment.body" class="w-full bg-white/50 rounded" placeholder="Leave a comment..."></textarea>
                         <div class="flex justify-end mt-1 w-full">
                             <button @click="sendComment" class="rounded-md bg-white/50 w-fit px-2 py-1">Send</button>
                         </div>
