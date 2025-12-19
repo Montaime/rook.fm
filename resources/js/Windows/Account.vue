@@ -11,6 +11,13 @@ const formLogin = useForm({
     remember: false,
 });
 
+const formRegister = useForm({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+});
+
 const formProfile = useForm({
     name: user.value?.name ?? '',
     email: user.value?.email ?? '',
@@ -31,6 +38,15 @@ const submitLogin = () => {
                 formProfile.name = user.value.name;
                 formProfile.email = user.value.email;
             })
+        },
+    });
+};
+
+const submitRegistration = () => {
+    formRegister.post(route('register'), {
+        onFinish: (e) => {
+            formRegister.reset('password');
+            signup.value = false;
         },
     });
 };
@@ -64,6 +80,7 @@ const submitDelete = () => {
 };
 
 const deleteLightbox = ref(false);
+const signup = ref(false);
 </script>
 <template>
     <div v-if="isAuthenticated()" class="flex flex-col space-y-2">
@@ -118,7 +135,7 @@ const deleteLightbox = ref(false);
             </div>
         </teleport>
     </div>
-    <div v-else class="flex space-x-2">
+    <div v-else-if="!signup" class="flex space-x-2">
         <div class="login-facade w-fit mx-auto h-fit">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-48">
                 <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
@@ -139,8 +156,32 @@ const deleteLightbox = ref(false);
                     <span>Remember Me</span>
                 </label>
                 <div class="flex items-center space-x-2">
-                    <Link class="underline text-sm">Sign Up</Link>
+                    <span @click="signup = true" class="cursor-pointer underline text-sm">Sign Up</span>
                     <button @click="submitLogin">Log In</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-else class="flex space-x-2">
+        <div class="flex flex-col space-y-2 p-2">
+            <h1 class="text-2xl font-bold">Sign Up</h1>
+
+            <span class="text-sm">Name</span>
+            <input type="email" v-model="formRegister.name" class="!mt-0"/>
+
+            <span class="text-sm">Email</span>
+            <input type="email" v-model="formRegister.email" class="!mt-0"/>
+
+            <span class="text-sm">Password</span>
+            <input type="password" v-model="formRegister.password" class="!mt-0"/>
+
+            <span class="text-sm">Password</span>
+            <input type="password" v-model="formRegister.password" class="!mt-0"/>
+
+            <div class="flex items-center justify-end space-x-4">
+                <div class="flex items-center space-x-2">
+                    <span @click="signup = false" class="cursor-pointer underline text-sm">I already have an account</span>
+                    <button @click="submitRegistration">Sign Up</button>
                 </div>
             </div>
         </div>
