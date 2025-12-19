@@ -301,14 +301,14 @@ defineExpose({wmInit})
 <template>
     <div class="flex flex-col space-y-2">
         <p class="text-center font-bold text-2xl" :class="{'!text-red-500': state === S_LOST, '!text-green-500': state === S_WINS}">{{ state === S_INIT ? '00:00' : msToClock((state === S_PLAY ? timestamp : gameEndTime) - gameStart) }}</p>
-        <canvas @mouseup="click" @contextmenu.prevent @resize="render" class="aspect-square w-96 bg-neutral-900" ref="canvas"></canvas>
+        <canvas @mouseup="click" @contextmenu.prevent @resize="render" class="aspect-square w-full md:w-96 bg-neutral-900" ref="canvas"></canvas>
         <button @click="reset">Restart Game</button>
 
         <span class="text-sm">Bomb Count</span>
-        <input type="number" class="!mt-0" :min="1" :max="boardSize * boardSize - 9" v-model.number="bombs" @change="reset"/>
+        <input type="number" class="!mt-0" :min="1" :max="boardSize * boardSize - 9" @input="boardSize = Math.min(boardSize * boardSize - 9, Math.max(1, boardSize))" v-model.number="bombs" @change="reset"/>
 
         <span class="text-sm">Board Size</span>
-        <input type="number" class="!mt-0" :min="5" :max="20" v-model.number="boardSize" @change="reset"/>
+        <input type="number" class="!mt-0" :min="5" :max="20" @input="boardSize = Math.min(20, Math.max(5, boardSize))" v-model.number="boardSize" @change="reset"/>
 
         <label class="x items-center select-none space-x-1.5 !hidden">
             <input type="checkbox" @change="render" v-model="bombCheat"/>
