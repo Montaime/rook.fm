@@ -1,7 +1,7 @@
 import {router, usePage} from "@inertiajs/vue3";
 import route from 'ziggy-js'
 import {computed, markRaw, reactive, ref} from "vue";
-import default_bg from "../assets/wallpapers/hoosteen.png"
+import default_bg from "../assets/wallpapers/hoosteen.jpg"
 import About from "@/Windows/About.vue";
 import Keygen from "@/Windows/Keygen.vue";
 import Settings from "@/Windows/Settings.vue";
