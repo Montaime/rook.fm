@@ -118,7 +118,7 @@ const windows = computed(() => lightbox.value ? Object.keys(themes) : []);
                     </div>
                 </div>
             </div>
-            <div v-if="tab === 1" class="grid grid-cols-3 gap-2">
+            <div v-if="tab === 1" class="grid grid-cols-2 md:grid-cols-3 gap-2">
                 <div v-for="wallpaper in wallpapers" @click="setWallpaper(wallpaper)" class="cursor-pointer flex space-x-2">
                     <div class="aspect-video p-4 rounded bg-white h-14 bg-cover" :style="`background-image: url('${wallpaper}');`"></div>
                 </div>
@@ -127,7 +127,7 @@ const windows = computed(() => lightbox.value ? Object.keys(themes) : []);
         <teleport to="#teleports">
             <div @click="lightbox = false" v-if="lightbox" class="bg-black/75 absolute inset-0 flex flex-col items-center justify-center z-50 backdrop-blur-sm">
                 <h2 class="text-white font-bold text-4xl mb-4">Select a Style</h2>
-                <transition-group enter-from-class="opacity-0 -translate-y-6 blur-lg" enter-to-class="opacity-100 translate-y-0 blur-0" appear name="fade" tag="div" class="grid grid-cols-2 md:flex relative gap-6">
+                <transition-group enter-from-class="opacity-0 -translate-y-6 blur-lg mx-0" enter-to-class="opacity-100 translate-y-0 blur-0 !mx-4" appear name="fade" tag="div" class="grid grid-cols-2 md:flex relative transition-group">
                     <div v-for="(theme, i) in windows" :key="theme" @click="setStyle(theme)" :class="theme" :style="`transition-delay: ${25 * i}ms`" class="cursor-pointer">
                         <div class="window-container flex flex-col !backdrop-blur-0">
                             <div class="window relative">
@@ -164,6 +164,10 @@ const windows = computed(() => lightbox.value ? Object.keys(themes) : []);
 </template>
 <style>
 .fade-enter-active {
-    transition: opacity 300ms ease-out, transform 300ms ease-out, filter 300ms ease-out;
+    transition: opacity 300ms ease-out, transform 400ms ease-out, filter 300ms ease-out, margin 400ms ease-out;
+}
+
+.transition-group > div:not(.fade-enter-active) {
+    @apply mx-4;
 }
 </style>
