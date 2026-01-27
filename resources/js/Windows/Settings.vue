@@ -91,6 +91,12 @@ const themes = {
     //     dark: true,
     //     wallpaper: krim,
     // },
+    'soul': {
+        name: 'Soulseeker',
+        description: 'no mp3 flacs!!',
+        dark: false,
+        wallpaper: krim,
+    },
 };
 
 const tab = ref(0)

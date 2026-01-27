@@ -312,6 +312,104 @@ html, body {
 }
 /* </editor-fold> */
 
+/* <editor-fold desc="Soulseek Theme"> */
+.soul_bg {
+    @apply bg-gradient-to-b from-[#b6b6c2] from-[45%] via-[#b0b0c0] via-[55%] to-[#f1f1ff];
+}
+
+.soul {
+    @apply text-black;
+
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
+        @apply bg-neutral-300 py-1 border-none;
+    }
+
+    .clubs-comment-box {
+        @apply bg-slate-300;
+    }
+
+    .club-avatar-fallback {
+        @apply bg-slate-200;
+    }
+
+    .event-card {
+        @apply bg-slate-300;
+    }
+
+    .chatroom-bubble {
+        @apply text-black;
+    }
+
+    .chatroom-header, .chatroom-footer {
+        @apply bg-slate-300 border-slate-400;
+    }
+
+    .ui-nav {
+        @apply border-r border-white/25;
+    }
+
+    .ui-navlink-active {
+        @apply bg-slate-300;
+    }
+
+    .ui-nav > div {
+        @apply border-b border-white/25;
+    }
+
+    .login-facade {
+        @apply p-2 text-[#F8017C] border border-[#F8017C];
+    }
+
+    input[type="checkbox"] {
+        @apply bg-slate-300 hover:bg-slate-200;
+    }
+
+    button, input[type=button] {
+        @apply soul_bg border border-slate-500 w-fit px-2 py-1;
+    }
+
+    .window {
+        @apply soul_bg rounded-md;
+    }
+
+    .container {
+        @apply bg-[#f0f0f0] rounded-b-md
+    }
+
+    .header {
+        @apply soul_bg rounded-t-md border-b border-black
+    }
+
+    .taskbar {
+        @apply soul_bg rounded-md
+    }
+
+    .start {
+        @apply soul_bg rounded shadow-xl
+    }
+
+    .startlink > summary {
+        @apply bg-neutral-300 shadow hover:shadow-lg transition-shadow hover:!bg-white
+    }
+
+    .startprofile {
+        @apply border-y hover:bg-gradient-to-b from-slate-300 to-slate-200 border-transparent hover:border-t-slate-400 hover:border-b-white
+    }
+
+    .startsubmenu {
+        @apply shadow-md rounded bg-[#f1f1ff]
+    }
+
+    .startsublink {
+        @apply hover:bg-neutral-300 last:rounded-b-md first:rounded-t-md
+    }
+
+    .taskbar-tab {
+        @apply shadow rounded-md soul_bg border border-slate-50
+    }
+}
+/* </editor-fold> */
+
 /* <editor-fold desc="Brutalist Theme"> */
 .brutal {
     .window {
