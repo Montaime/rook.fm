@@ -141,6 +141,7 @@ export const tabClick = (name) => {
 }
 
 export const openW = (name) => {
+    $$$.desktop.startMenuOpen = false
     $$$.windows[name].visibility = 2;
     $$$.windows[name].z = ++$$$.desktop.zHighest;
 }
