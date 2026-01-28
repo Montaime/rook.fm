@@ -44,6 +44,14 @@ html, body {
     @apply bg-white/50;
 }
 
+#teleports {
+    @apply pointer-events-none;
+}
+
+#teleports > * {
+    @apply pointer-events-auto;
+}
+
 /**
  * ------------------
  * Themes
