@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import {useForm} from "@inertiajs/vue3";
+import {Link, useForm} from "@inertiajs/vue3";
 import TipTap from "@/Components/TipTap.vue";
 import FormButton from "@/Components/FormButton.vue";
 
@@ -68,6 +68,7 @@ const newPost = useForm({
                     <th>Description</th>
                     <th>Owner</th>
                     <th>Posts</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -77,6 +78,13 @@ const newPost = useForm({
                     <td>{{ club.description }}</td>
                     <td><span class="digit">{{ club.owner_id }}</span> {{ club.owner.name }}</td>
                     <td>{{ club.posts_count }}</td>
+                    <td>
+                        <Link :href="`/admin/club/${club.id}`">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                                <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+                            </svg>
+                        </Link>
+                    </td>
                 </tr>
                 </tbody>
             </table>
