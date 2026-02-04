@@ -21,6 +21,14 @@ html, body {
     overscroll-behavior: none;
 }
 
+.altmenu {
+    @apply text-sm flex flex-wrap;
+}
+
+.altmenu > span {
+    @apply px-2;
+}
+
 .polkadot {
     --size: 1.25rem;
     background-image: radial-gradient(black 20%, transparent 20%), radial-gradient(black 20%, transparent 20%);
@@ -342,6 +350,26 @@ html, body {
 .soul {
     @apply text-black;
 
+    tbody {
+        @apply bg-neutral-100;
+    }
+
+    .table-container {
+        @apply border-2 border-neutral-400 border-r-neutral-100 border-b-neutral-100;
+    }
+
+    .altmenu {
+        @apply border-b border-black/25 bg-white/75;
+    }
+
+    th {
+        @apply border-2 border-neutral-400 border-l-neutral-100 border-t-neutral-100;
+    }
+
+    td {
+        @apply px-2 truncate;
+    }
+
     input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
         @apply bg-neutral-100 rounded py-1;
     }
@@ -480,6 +508,18 @@ html, body {
 
     .ui-navlink {
         @apply border-b-2 border-black;
+    }
+
+    th {
+        @apply border-b-2 border-black;
+    }
+
+    .altmenu {
+        @apply border-b border-black
+    }
+
+    .table-container {
+        @apply border-2 border-black
     }
 
     .club-avatar-fallback {

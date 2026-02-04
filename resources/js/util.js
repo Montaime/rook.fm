@@ -16,6 +16,7 @@ import {Window} from "./Window.js"
 import Welcome from "@/Windows/Welcome.vue";
 import Minesweeper from "@/Windows/Minesweeper.vue";
 import Account from "@/Windows/Account.vue";
+import Soulseek from "@/Windows/Soulseek.vue";
 
 export const logout = () => {
     router.post(route('logout'));
@@ -102,6 +103,12 @@ export const $$$ = reactive({
             title: 'Minesweeper',
             resizable: false
         })),
+        'Soulseek': ref(new Window(markRaw(Soulseek), {
+            title: 'Soulseek',
+            visibility: WindowState.Open,
+            style: '!p-0',
+            resizable: false
+        })),
     },
     desktop: {
         startMenuOpen: false,
@@ -144,4 +151,23 @@ export const openW = (name) => {
     $$$.desktop.startMenuOpen = false
     $$$.windows[name].visibility = 2;
     $$$.windows[name].z = ++$$$.desktop.zHighest;
+}
+
+export const hhmmss = (t) => {
+    let sec_num = parseInt(t, 10);
+    let hours   = Math.floor(sec_num / 3600);
+    let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    let seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    let output = '';
+    //if (hours > 0) {
+    output += hours+':';
+    //}
+
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+
+    output += minutes+':'+seconds;
+    return output;
 }
