@@ -367,11 +367,11 @@ html, body {
     }
 
     .club-avatar-fallback {
-        @apply bg-slate-200;
+        background-color: #bebdc9;
     }
 
     .event-card {
-        @apply bg-slate-300;
+        background-color: #bebdc9;
     }
 
     .chatroom-bubble {
