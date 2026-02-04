@@ -12,6 +12,8 @@ import studios from "../../assets/wallpapers/studios.jpg"
 import vision from "../../assets/wallpapers/vision.jpg"
 import virtues from "../../assets/wallpapers/virtues.jpg"
 import prophecy from "../../assets/wallpapers/prophecy.jpg"
+import soulseek from "../../assets/wallpapers/soulseek.jpg"
+import soulcd from "../../assets/wallpapers/soulcd.jpg"
 import {$$$} from "../util.js";
 import {useStorage} from "@vueuse/core";
 import {computed, ref} from "vue";
@@ -36,16 +38,18 @@ const wallpapers = [
     vol3,
     poolbg,
     marble,
-    hoo,
+    // hoo,
     rendez,
     nror,
     krim,
-    discos,
+    // discos,
     // rookfm,
     // studios,
     prophecy,
     vision,
     virtues,
+    soulseek,
+    soulcd
 ];
 
 const themes = {
@@ -67,12 +71,12 @@ const themes = {
         dark: false,
         wallpaper: marble,
     },
-    'hoo': {
-        name: 'Whosteen?',
-        description: 'Mr. Hoosteen!',
-        dark: true,
-        wallpaper: hoo,
-    },
+    // 'hoo': {
+    //     name: 'Whosteen?',
+    //     description: 'Mr. Hoosteen!',
+    //     dark: true,
+    //     wallpaper: hoo,
+    // },
     // 'virtual': {
     //     name: 'Virtual World',
     //     description: 'See reality through fibre optics',
@@ -95,7 +99,7 @@ const themes = {
         name: 'Soulseeker',
         description: 'no mp3 flacs!!',
         dark: false,
-        wallpaper: krim,
+        wallpaper: soulseek,
     },
 };
 

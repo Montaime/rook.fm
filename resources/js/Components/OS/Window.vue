@@ -308,7 +308,7 @@ watch(() => window.value.visibility, (value, oldValue) => {
                         <path d="M14.329 7.172a.75.75 0 0 0-1.061 1.06 2.5 2.5 0 0 1 0 3.536.75.75 0 0 0 1.06 1.06 4 4 0 0 0 0-5.656Z" />
                     </svg>
                 </div>
-                <div class="hidden md:flex">
+                <div class="hidden md:flex window-controls">
                     <div @click="window.visibility = 1" class="p-1 hover:bg-white/50">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                             <path fill-rule="evenodd" d="M4 10a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 10Z" clip-rule="evenodd" />

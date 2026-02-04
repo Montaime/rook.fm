@@ -321,19 +321,49 @@ html, body {
 /* </editor-fold> */
 
 /* <editor-fold desc="Soulseek Theme"> */
+.soul_red {
+    background-image: linear-gradient(to bottom, #ee1d79 0%, #ffa6c6 10%, #b40d5f 90%, #ee1d79 100%);
+}
+
 .soul_bg {
-    @apply bg-gradient-to-b from-[#b6b6c2] from-[45%] via-[#b0b0c0] via-[55%] to-[#f1f1ff];
+    background-image: linear-gradient(to bottom, #fdfdff 0%, #b0b0c0 10%, #f1f1ff 90%, #b0b0c0 100%);
+}
+
+.soul_btn {
+    @apply bg-gradient-to-b from-[#f1f1ff] to-[#b6b6c2] border border-[#b0b0c0];
+}
+
+.soul_btn_red {
+    background-image: linear-gradient(to bottom, #EE9D8A, #D35F63);
+    border: 1px solid #A73440;
+
 }
 
 .soul {
     @apply text-black;
 
     input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
-        @apply bg-neutral-300 py-1 border-none;
+        @apply bg-neutral-100 rounded py-1;
+    }
+
+    .window-controls {
+        @apply p-0.5 space-x-1;
+    }
+
+    .window-controls > div {
+        @apply rounded p-0.5 soul_btn;
+    }
+
+    .window-controls > div:hover {
+        @apply rotate-180;
+    }
+
+    .window-controls > div:last-child {
+        @apply rounded p-0.5 soul_btn_red text-white;
     }
 
     .clubs-comment-box {
-        @apply bg-slate-300;
+        @apply bg-[#D4D4D4];
     }
 
     .club-avatar-fallback {
@@ -348,16 +378,24 @@ html, body {
         @apply text-black;
     }
 
+    .chatroom-bubble > p {
+        @apply relative z-10;
+    }
+
+    .chatroom-bubble > p:before {
+        @apply -z-10 soul_bg rounded-md opacity-50 absolute inset-0 content-[''];
+    }
+
     .chatroom-header, .chatroom-footer {
-        @apply bg-slate-300 border-slate-400;
+        @apply bg-white/50 border-slate-400;
     }
 
     .ui-nav {
-        @apply border-r border-white/25;
+        @apply border-r border-white/25 bg-[#FFB6DA] text-white;
     }
 
     .ui-navlink-active {
-        @apply bg-slate-300;
+        background-image: linear-gradient(to bottom, #C10668, #E987AF 10%, #C10668 90%, #E987AF);
     }
 
     .ui-nav > div {
@@ -373,7 +411,7 @@ html, body {
     }
 
     button, input[type=button] {
-        @apply soul_bg border border-slate-500 w-fit px-2 py-1;
+        @apply soul_bg rounded border border-slate-500 w-fit px-2 py-1;
     }
 
     .window {
@@ -381,7 +419,7 @@ html, body {
     }
 
     .container {
-        @apply bg-[#f0f0f0] rounded-b-md
+        @apply bg-[#E0DFE4] rounded-b-md
     }
 
     .header {
@@ -389,15 +427,15 @@ html, body {
     }
 
     .taskbar {
-        @apply soul_bg rounded-md
+        @apply soul_bg rounded-md pl-6
     }
 
     .start {
-        @apply soul_bg rounded shadow-xl
+        @apply bg-[#E0DFE4] rounded-md shadow-xl;
     }
 
     .startlink > summary {
-        @apply bg-neutral-300 shadow hover:shadow-lg transition-shadow hover:!bg-white
+        @apply soul_btn rounded
     }
 
     .startprofile {
@@ -405,7 +443,7 @@ html, body {
     }
 
     .startsubmenu {
-        @apply shadow-md rounded bg-[#f1f1ff]
+        @apply shadow-md rounded bg-[#E0DFE4]
     }
 
     .startsublink {
@@ -413,7 +451,11 @@ html, body {
     }
 
     .taskbar-tab {
-        @apply shadow rounded-md soul_bg border border-slate-50
+        @apply shadow rounded-md soul_btn border border-slate-50
+    }
+
+    .taskbar-tab:first-of-type {
+        @apply shadow rounded-md soul_red text-white font-bold rounded-r-xl -ml-2.5 mr-3 scale-[140%] [text-shadow:#000a_1px_2px_6px]
     }
 }
 /* </editor-fold> */
