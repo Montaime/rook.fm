@@ -1,7 +1,7 @@
 import {router, usePage} from "@inertiajs/vue3";
 import route from 'ziggy-js'
 import {computed, markRaw, reactive, ref} from "vue";
-import default_bg from "../assets/wallpapers/hoosteen.jpg"
+import default_bg from "../assets/wallpapers/soulseek.jpg"
 import About from "@/Windows/About.vue";
 import Keygen from "@/Windows/Keygen.vue";
 import Settings from "@/Windows/Settings.vue";
@@ -43,7 +43,7 @@ export const WindowState = {
 export const $$$ = reactive({
     theme: {
         wallpaper: useStorage('rk_wallpaper', default_bg),
-        style: useStorage('rk_theme', 'hoo'),
+        style: useStorage('rk_theme', 'soul'),
     },
     windows: {
         'Radio': ref(new Window(markRaw(Radio), {
