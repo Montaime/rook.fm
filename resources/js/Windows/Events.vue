@@ -19,7 +19,7 @@ const loadEvents = () => {
         <span class="underline cursor-pointer" @click="loadEvents">Reload</span>
     </div>
     <p v-if="events.length === 0" class="text-center">There are no events planned right now, but check back soon!</p>
-    <div v-for="event in events" class="flex flex-col space-y-2 p-2 bg-white/50 shadow-md rounded-md">
+    <div v-for="event in events" class="flex flex-col space-y-2 p-2 shadow-md rounded-md event-card">
         <div class="flex flex-col grow leading-tight">
             <span class="font-bold text-xl">{{ event.name }}</span>
             <span v-if="event.location">{{ event.location }}</span>

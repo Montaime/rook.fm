@@ -1,46 +1,46 @@
 <script setup>
 import Window from "../Components/OS/Window.vue";
 import {ref} from "vue";
-import {$$$, cMap} from "../util.js";
+import {$$$} from "../util.js";
 import Taskbar from "../Components/Taskbar.vue";
 
 const smallSizeClicked = ref(false);
 </script>
 <template>
     <div :class="{[$$$.theme.style]: true, 'pointer-events-none select-none': $$$.desktop.transforming}">
-        <div id="root" class="flex flex-col overflow-hidden bg-cover" :style="`background-image: url('${$$$.theme.wallpaper}')`" style="height: 100dvh; width: 100dvw;">
+        <div id="root" class="flex flex-col overflow-hidden bg-cover bg-center" :style="`background-image: url('${$$$.theme.wallpaper}')`" style="height: 100dvh; width: 100dvw;">
             <div id="bounding" class="grow relative">
                 <div v-if="false" class="absolute inset-0 text-white grid grid-flow-row grid-rows-12 gap-4 p-0.5">
                     <div class="flex flex-col items-center space-y-1 w-8 h-fit p-2 px-10 border border-black bg-cyan-400/50 border-dashed">
                         <svg class="fill-white stroke-black w-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
                     <path d="M320,0v128h128L320,0z M298.7,0H64v512h384V149.3H298.7V0z"/>
                     </svg>
-                        <span class="text-xs" style="text-shadow: #232323 1px 1px 1px">License Key.txt</span>
+                        <span class="text-xs" style="text-shadow: #000 0 0 3px">keygen.exe</span>
                     </div>
                     <div class="flex flex-col items-center space-y-1 w-8 h-fit p-2 px-10">
                         <svg class="fill-white stroke-black w-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
                     <path d="M320,0v128h128L320,0z M298.7,0H64v512h384V149.3H298.7V0z"/>
                     </svg>
-                        <span class="text-xs" style="text-shadow: #232323 1px 1px 1px">Credits.txt</span>
+                        <span class="text-xs" style="text-shadow: #232323 1px 1px 1px">about.txt</span>
                     </div>
                     <div class="flex flex-col items-center space-y-1 w-8 h-fit p-2 px-10">
                         <svg class="fill-white stroke-black w-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
                     <path d="M320,0v128h128L320,0z M298.7,0H64v512h384V149.3H298.7V0z"/>
                     </svg>
-                        <span class="text-xs" style="text-shadow: #232323 1px 1px 1px">How to use.ppt</span>
+                        <span class="text-xs" style="text-shadow: #232323 1px 1px 1px">blog.ppt</span>
                     </div>
                     <div class="flex flex-col items-center space-y-1 w-8 h-fit p-2 px-10">
                         <svg class="fill-white stroke-black w-6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
                     <path d="M320,0v128h128L320,0z M298.7,0H64v512h384V149.3H298.7V0z"/>
                     </svg>
-                        <span class="text-xs" style="text-shadow: #232323 1px 1px 1px">songlist.html</span>
+                        <span class="text-xs" style="text-shadow: #232323 1px 1px 1px">welcome.html</span>
                     </div>
                 </div>
-                <div class="absolute z-0 inset-0 y space-y-4 md:space-y-0 overflow-y-auto md:overflow-hidden p-2 md:p-0">
+                <div class="absolute z-0 inset-0 y space-y-4 md:space-y-0 overflow-y-auto md:overflow-hidden p-2 md:p-0 pointer-events-none">
                     <div :style="`left:${$$$.snap.x}px;top:${$$$.snap.y}px;height:${$$$.snap.height}px;width:${$$$.snap.width}px;`" class="absolute opacity-0 hidden md:block" :class="{'transition-all opacity-100': $$$.snap.width > 0 || $$$.snap.height > 0}">
                         <div class="absolute inset-2 border border-neutral-200/50 bg-neutral-300/20"></div>
                     </div>
-                    <Window v-for="(w, key) in $$$.windows" v-model="$$$.windows[key]"/>
+                    <Window class="pointer-events-auto" v-for="(w, key) in $$$.windows" v-model="$$$.windows[key]"/>
                 </div>
             </div>
             <Taskbar/>

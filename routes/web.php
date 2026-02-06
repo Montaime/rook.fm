@@ -283,6 +283,19 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
         ]);
     });
 
+    Route::get('/club/{club:id}', function (Request $request, \App\Models\Club $club) {
+        return Inertia::render('Admin/Clubs/Show', [
+            'club' => $club,
+        ]);
+    });
+
+    Route::post('/club/{club:id}', function (Request $request, \App\Models\Club $club) {
+        // storage save
+        $request->file('avatar')->storeAs('clubs/' . $club->id . '/', 'icon.jpg', 'public');
+
+        return back();
+    });
+
     Route::post('/clubs/new', function (Request $request) {
         $club = new \App\Models\Club();
         $club->name = $request->string('name');

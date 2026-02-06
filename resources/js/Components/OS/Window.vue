@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref} from 'vue'
+import {computed, nextTick, onMounted, ref, useTemplateRef, watch} from 'vue'
 import {templateRef, useEventListener, useResizeObserver} from '@vueuse/core'
 import {$$$, WindowState} from '@/util.js'
 
@@ -11,19 +11,19 @@ const el = ref(null);
 const window = defineModel();
 
 const handles = [
-    templateRef('dTL'),
-    templateRef('dBL'),
-    templateRef('dTR'),
-    templateRef('dBR'),
+    useTemplateRef('dTL'),
+    useTemplateRef('dBL'),
+    useTemplateRef('dTR'),
+    useTemplateRef('dBR'),
 
-    templateRef('dT'),
-    templateRef('dB'),
-    templateRef('dL'),
-    templateRef('dR'),
+    useTemplateRef('dT'),
+    useTemplateRef('dB'),
+    useTemplateRef('dL'),
+    useTemplateRef('dR'),
 ]
 
-const head = templateRef('el');
-const content = templateRef('content');
+const head = useTemplateRef('el');
+const content = useTemplateRef('content');
 
 const dragging = ref(false);
 const draggingX = ref(false);
@@ -273,6 +273,18 @@ useResizeObserver(el, (entries) => {
     w.height = entries[0].contentRect.height|0;
 });
 
+const component = useTemplateRef('component');
+
+watch(() => window.value.visibility, (value, oldValue) => {
+    if (value === WindowState.Open && oldValue === WindowState.Closed) {
+        if (component.value.hasOwnProperty('wmInit')) nextTick(() => {
+            component.value.wmInit();
+        })
+    }
+}, {
+    deep: true,
+});
+
 // TODO: fix snapped and maximized corner resizing
 </script>
 <template>
@@ -296,7 +308,7 @@ useResizeObserver(el, (entries) => {
                         <path d="M14.329 7.172a.75.75 0 0 0-1.061 1.06 2.5 2.5 0 0 1 0 3.536.75.75 0 0 0 1.06 1.06 4 4 0 0 0 0-5.656Z" />
                     </svg>
                 </div>
-                <div class="hidden md:flex">
+                <div class="hidden md:flex window-controls">
                     <div @click="window.visibility = 1" class="p-1 hover:bg-white/50">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                             <path fill-rule="evenodd" d="M4 10a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H4.75A.75.75 0 0 1 4 10Z" clip-rule="evenodd" />
@@ -306,7 +318,9 @@ useResizeObserver(el, (entries) => {
                         <svg v-if="maximized" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 -scale-x-100">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 8.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v8.25A2.25 2.25 0 0 0 6 16.5h2.25m8.25-8.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-7.5A2.25 2.25 0 0 1 8.25 18v-1.5m8.25-8.25h-6a2.25 2.25 0 0 0-2.25 2.25v6" />
                         </svg>
-                        <div v-else class="rounded border-2 border-black p-1 mx-0.5"></div>
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 7.5A2.25 2.25 0 0 1 7.5 5.25h9a2.25 2.25 0 0 1 2.25 2.25v9a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-9Z" />
+                        </svg>
                     </div>
                     <div @click="window.visibility = 0" class="p-1 hover:bg-white/50">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -321,7 +335,7 @@ useResizeObserver(el, (entries) => {
                 </div>
             </div>
             <div ref="content" class="container max-w-full min-w-full md:min-w-0" :style="slotStyle" :class="{[window.style ]: true, '!hidden': window.visibility !== 2, 'overflow-y-auto scroll': window.resizable, 'p-2': window.decoration}">
-                <component :is="window.component"/>
+                <component ref="component" :is="window.component"/>
             </div>
         </div>
     </div>

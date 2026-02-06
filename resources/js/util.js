@@ -1,7 +1,7 @@
 import {router, usePage} from "@inertiajs/vue3";
 import route from 'ziggy-js'
 import {computed, markRaw, reactive, ref} from "vue";
-import poolbg from "../assets/wallpapers/pool.jpg"
+import default_bg from "../assets/wallpapers/soulseek.jpg"
 import About from "@/Windows/About.vue";
 import Keygen from "@/Windows/Keygen.vue";
 import Settings from "@/Windows/Settings.vue";
@@ -9,11 +9,14 @@ import Radio from "@/Windows/Radio.vue";
 import Blog from "@/Windows/Blog.vue";
 import Chatroom from "@/Windows/Chatroom.vue";
 import Events from "@/Windows/Events.vue";
-import Submit from "@/Windows/Submit.vue";
 import Feedback from "@/Windows/Feedback.vue";
 import {useStorage} from "@vueuse/core";
 import Livestream from "@/Windows/Livestream.vue";
 import {Window} from "./Window.js"
+import Welcome from "@/Windows/Welcome.vue";
+import Minesweeper from "@/Windows/Minesweeper.vue";
+import Account from "@/Windows/Account.vue";
+import Soulseek from "@/Windows/Soulseek.vue";
 
 export const logout = () => {
     router.post(route('logout'));
@@ -37,24 +40,27 @@ export const WindowState = {
     Open: 2,
 }
 
-export const cMap = {
-    'About': About,
-    'Settings': Settings,
-    'Radio': Radio,
-    'Fanclubs': Blog,
-    'Chat': Chatroom,
-    'Events': Events,
-    'Submit': Submit,
-    'Feedback': Feedback,
-    'Livestream': Livestream,
-}
-
 export const $$$ = reactive({
     theme: {
-        wallpaper: useStorage('rk_wallpaper', poolbg),
-        style: useStorage('rk_theme', 'glass'),
+        wallpaper: useStorage('rk_wallpaper', default_bg),
+        style: useStorage('rk_theme', 'soul'),
     },
     windows: {
+        'Radio': ref(new Window(markRaw(Radio), {
+            title: 'Radio',
+            visibility: WindowState.Open,
+            resizable: false
+        })),
+        'Welcome': ref(new Window(markRaw(Welcome), {
+            title: 'Welcome',
+            visibility: WindowState.Open,
+            resizable: false
+        })),
+        'Account': ref(new Window(markRaw(Account), {
+            title: 'Account',
+            visibility: WindowState.Closed,
+            resizable: false
+        })),
         'About': ref(new Window(markRaw(About), {
             title: 'About',
             style: 'items-center',
@@ -68,13 +74,8 @@ export const $$$ = reactive({
         })),
         'Settings': ref(new Window(markRaw(Settings), {
             title: 'Settings',
-            style: 'divide-y',
-            resizable: false
-        })),
-        'Radio': ref(new Window(markRaw(Radio), {
-            title: 'Radio',
-            visibility: WindowState.Open,
-            resizable: false
+            resizable: false,
+            decoration: false,
         })),
         'Fanclubs': ref(new Window(markRaw(Blog), {
             title: 'Fanclubs',
@@ -97,6 +98,16 @@ export const $$$ = reactive({
         // }),
         'Livestream': ref(new Window(markRaw(Livestream), {
             title: 'Livestream',
+        })),
+        'Minesweeper': ref(new Window(markRaw(Minesweeper), {
+            title: 'Minesweeper',
+            resizable: false
+        })),
+        'Soulseek': ref(new Window(markRaw(Soulseek), {
+            title: 'Soulseek',
+            visibility: WindowState.Open,
+            style: '!p-0',
+            resizable: false
         })),
     },
     desktop: {
@@ -137,6 +148,26 @@ export const tabClick = (name) => {
 }
 
 export const openW = (name) => {
+    $$$.desktop.startMenuOpen = false
     $$$.windows[name].visibility = 2;
     $$$.windows[name].z = ++$$$.desktop.zHighest;
+}
+
+export const hhmmss = (t) => {
+    let sec_num = parseInt(t, 10);
+    let hours   = Math.floor(sec_num / 3600);
+    let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    let seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    let output = '';
+    //if (hours > 0) {
+    output += hours+':';
+    //}
+
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+
+    output += minutes+':'+seconds;
+    return output;
 }

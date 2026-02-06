@@ -2,222 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* <editor-fold desc="Admin"> */
-.pane {
-    @apply flex flex-col bg-neutral-50 border border-t-white border-b-neutral-300 px-2 py-1 rounded-md
-}
-
-.admin button {
-    @apply text-sm rounded-md bg-neutral-100 border border-neutral-300 px-2 py-1 w-fit disabled:text-neutral-500;
-}
-
-.admin input {
-    @apply bg-neutral-200 rounded-md border-none disabled:bg-neutral-100 disabled:text-neutral-500
-}
-
-.admin .digit {
-    @apply text-neutral-400 font-mono text-sm;
-}
-
-.admin thead {
-    @apply bg-neutral-100;
-}
-
-.admin tr {
-    @apply border;
-}
-
-.admin td, th {
-    @apply px-2 border;
-}
-
-.window {
-    @apply flex flex-col
-}
-
-.window > .container.resizable {
-    @apply resize overflow-y-auto overflow-x-auto
-}
-/* </editor-fold> */
-
-/* <editor-fold desc="Glass Theme"> */
-
-.glass .window {
-    @apply backdrop-blur-lg border-2 border-white/50
-}
-
-.glass .container {
-    @apply bg-white/30
-}
-
-.glass .header {
-    @apply bg-white/50
-}
-
-.glass .taskbar {
-    @apply backdrop-blur-lg border-2 border-white/50 bg-white/50
-}
-
-.glass .start {
-    @apply backdrop-blur-lg border-2 border-white/50 bg-white/50
-}
-
-.glass .startlink > summary {
-    @apply rounded bg-gray-500/25
-}
-
-.glass .startprofile {
-    @apply rounded bg-white/50
-}
-
-.glass .startsubmenu {
-    @apply border-2 border-white/50 bg-white/50
-}
-
-.glass .startsublink {
-    @apply hover:bg-white/50
-}
-
-/* </editor-fold> */
-
-/* <editor-fold desc="Neumorphism Theme"> */
-
-.neu .window {
-    @apply bg-gradient-to-b from-gray-50 to-gray-300 border-2 border-[#00000000] rounded-md
-}
-
-.neu .container {
-    @apply bg-white/30
-}
-
-.neu .header {
-    @apply bg-gradient-to-b from-gray-300 to-gray-400
-}
-
-.neu .taskbar {
-    @apply bg-gradient-to-b from-gray-300 to-gray-400 rounded-md
-}
-
-.neu .start {
-    @apply bg-gradient-to-br from-gray-50 to-gray-300 rounded shadow-xl
-}
-
-.neu .startlink > summary {
-    @apply bg-gradient-to-b shadow hover:shadow-lg transition-shadow from-white to-gray-200 hover:!bg-white rounded
-}
-
-.neu .startprofile {
-    @apply border-y hover:bg-gradient-to-b from-gray-300 to-gray-200 border-transparent hover:border-t-gray-400 hover:border-b-white
-}
-
-.neu .startsubmenu {
-    @apply shadow-md rounded bg-gray-200
-}
-
-.neu .startsublink {
-    @apply hover:bg-gray-300 last:rounded-b-md first:rounded-t-md
-}
-
-.neu .taskbar-tab {
-    @apply shadow rounded-md border-y border-t-white border-b-gray-300 bg-gradient-to-b from-gray-50 to-gray-200
-}
-
-/* </editor-fold> */
-
-/* <editor-fold desc="Brutalist Theme"> */
-
-.brutal .window {
-    @apply outline outline-2 outline-black border-2 border-black [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
-}
-
-.brutal .header {
-    @apply bg-white border-b-2 border-black;
-}
-
-.brutal .container {
-    @apply bg-white
-}
-
-.brutal textarea {
-    @apply border-2 border-black rounded-sm
-}
-
-.brutal .chatbox {
-    @apply border-2 border-black rounded-sm
-}
-
-.brutal .button {
-    @apply border-2 border-black
-}
-
-.polkadot {
-    --size: 1.25rem;
-    background-image: radial-gradient(black 20%, transparent 20%), radial-gradient(black 20%, transparent 20%);
-    background-position: 0 0, calc(var(--size) / 2) calc(var(--size) / 2);
-    background-size: var(--size) var(--size);
-}
-
-.brutal .taskbar {
-    @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
-}
-
-.brutal .start {
-    @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
-}
-
-.brutal .startlink > summary {
-    @apply bg-white outline outline-black border-2 border-white;
-}
-
-.brutal .startprofile {
-    @apply border-2 border-black
-}
-
-.brutal .startsubmenu {
-    @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
-}
-
-.brutal .startsublink {
-    @apply hover:bg-gray-300
-}
-
-.brutal .taskbar-tab {
-    @apply bg-white outline outline-black
-}
-
-/* </editor-fold> */
-
-/* <editor-fold desc="Dark Theme"> */
-
-.dark .window {
-    @apply rounded-md
-}
-
-.dark .header {
-    @apply bg-gradient-to-b from-gray-300 to-black
-}
-
-.dark .window {
-    @apply bg-gray-900 text-white outline outline-black
-}
-
-/* </editor-fold> */
-
-/* <editor-fold desc="Aero Theme"> */
-
-.aero .window {
-    @apply rounded-md backdrop-blur-md
-}
-
-.aero .header {
-    @apply bg-gradient-to-b from-gray-300 to-black
-}
-
-.aero .window {
-    @apply bg-gray-900/50
-}
-
-/* </editor-fold> */
 
 details,
 details summary {
@@ -234,5 +18,604 @@ details summary::-webkit-details-marker {
 }
 
 html, body {
-  overscroll-behavior: none;
+    overscroll-behavior: none;
 }
+
+.altmenu {
+    @apply text-sm flex flex-wrap;
+}
+
+.altmenu > span {
+    @apply px-2;
+}
+
+.polkadot {
+    --size: 1.25rem;
+    background-image: radial-gradient(black 20%, transparent 20%), radial-gradient(black 20%, transparent 20%);
+    background-position: 0 0, calc(var(--size) / 2) calc(var(--size) / 2);
+    background-size: var(--size) var(--size);
+}
+
+.window {
+    @apply flex flex-col
+}
+
+.window > .container.resizable {
+    @apply resize overflow-y-auto overflow-x-auto
+}
+
+.pane {
+    @apply flex flex-col bg-neutral-50 border border-t-white border-b-neutral-300 px-2 py-1 rounded-md
+}
+
+.event-card {
+    @apply bg-white/50;
+}
+
+#teleports {
+    @apply pointer-events-none;
+}
+
+#teleports > * {
+    @apply pointer-events-auto;
+}
+
+/**
+ * ------------------
+ * Themes
+ * ------------------
+ */
+
+/* <editor-fold desc="Admin"> */
+.admin {
+    button {
+        @apply text-sm rounded-md bg-neutral-100 border border-neutral-300 px-2 py-1 w-fit disabled:text-neutral-500;
+    }
+
+    input {
+        @apply bg-neutral-200 rounded-md border-none disabled:bg-neutral-100 disabled:text-neutral-500
+    }
+
+    .digit {
+        @apply text-neutral-400 font-mono text-sm;
+    }
+
+    thead {
+        @apply bg-neutral-100;
+    }
+
+    tr {
+        @apply border;
+    }
+
+    td, th {
+        @apply px-2 border;
+    }
+}
+/* </editor-fold> */
+
+/* <editor-fold desc="Glass Theme"> */
+.glass {
+    .window {
+        @apply backdrop-blur-lg border-2 border-white/50
+    }
+
+    .login-facade {
+        @apply rounded-md p-2 bg-white/25 text-white;
+    }
+
+    .ui-nav {
+        @apply border-r border-white/25;
+    }
+
+    .ui-navlink-active {
+        @apply bg-white/50;
+    }
+
+    .ui-nav > div {
+        @apply border-b border-white/25;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
+        @apply bg-white/50 rounded-md py-1 border-none;
+    }
+
+    button, input[type=button] {
+        @apply bg-white/25 rounded-md w-fit px-2 py-1;
+    }
+
+    .container {
+        @apply bg-white/30
+    }
+
+    .header {
+        @apply bg-white/50
+    }
+
+    .taskbar {
+        @apply backdrop-blur-lg border-2 border-white/50 bg-white/50
+    }
+
+    .start {
+        @apply backdrop-blur-lg border-2 border-white/50 bg-white/50
+    }
+
+    .startlink > summary {
+        @apply rounded bg-gray-500/25
+    }
+
+    .startprofile {
+        @apply rounded bg-white/50
+    }
+
+    .startsubmenu {
+        @apply border-2 border-white/50 bg-white/50
+    }
+
+    .startsublink {
+        @apply hover:bg-white/50
+    }
+}
+/* </editor-fold> */
+
+/* <editor-fold desc="Neumorphism Theme"> */
+.neu {
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
+        @apply bg-white rounded-md py-1 border-none;
+    }
+
+    .ui-nav {
+        @apply border-r border-neutral-300;
+    }
+
+    .ui-navlink-active {
+        @apply bg-neutral-200;
+    }
+
+    .ui-nav > div {
+        @apply border-b border-neutral-300;
+    }
+
+    .login-facade {
+        @apply rounded-md p-2 bg-gradient-to-b from-gray-400 to-gray-600 text-white;
+    }
+
+    button, input[type=button] {
+        @apply bg-white rounded-md w-fit px-2 py-1;
+    }
+
+    .window {
+        @apply bg-gradient-to-b from-gray-50 to-gray-300 border-2 border-[#00000000] rounded-md
+    }
+
+    .container {
+        @apply bg-white/30
+    }
+
+    .header {
+        @apply bg-gradient-to-b from-gray-300 to-gray-400
+    }
+
+    .taskbar {
+        @apply bg-gradient-to-b from-gray-300 to-gray-400 rounded-md
+    }
+
+    .start {
+        @apply bg-gradient-to-br from-gray-50 to-gray-300 rounded shadow-xl
+    }
+
+    .startlink > summary {
+        @apply bg-gradient-to-b shadow hover:shadow-lg transition-shadow from-white to-gray-200 hover:!bg-white rounded
+    }
+
+    .startprofile {
+        @apply border-y hover:bg-gradient-to-b from-gray-300 to-gray-200 border-transparent hover:border-t-gray-400 hover:border-b-white
+    }
+
+    .startsubmenu {
+        @apply shadow-md rounded bg-gray-200
+    }
+
+    .startsublink {
+        @apply hover:bg-gray-300 last:rounded-b-md first:rounded-t-md
+    }
+
+    .taskbar-tab {
+        @apply shadow rounded-md border-y border-t-white border-b-gray-300 bg-gradient-to-b from-gray-50 to-gray-200
+    }
+}
+/* </editor-fold> */
+
+/* <editor-fold desc="Hoosteen Theme"> */
+.hoo_bg {
+    @apply bg-gradient-to-b from-[#303030] from-[45%] via-[#202020] via-[55%] to-[#202020];
+}
+
+.hoo_glow {
+    @apply border border-[#F8017C] shadow-[0_0_1px_#fff,0_0_10px_#F8017CD0,0_0_40px_#F8017C50];
+}
+
+.hoo {
+    @apply text-white;
+
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
+        @apply bg-neutral-800 rounded-md py-1 border-none focus:ring-[#F8017C];
+    }
+
+    .clubs-comment-box {
+        @apply bg-neutral-800;
+    }
+
+    .club-avatar-fallback {
+        @apply bg-neutral-900;
+    }
+
+    .event-card {
+        @apply bg-neutral-800;
+    }
+
+    .chatroom-bubble {
+        @apply text-black;
+    }
+
+    .chatroom-header, .chatroom-footer {
+        @apply bg-neutral-800 border-neutral-700;
+    }
+
+    .ui-nav {
+        @apply border-r border-white/25;
+    }
+
+    .ui-navlink-active {
+        @apply bg-neutral-800;
+    }
+
+    .ui-nav > div {
+        @apply border-b border-white/25;
+    }
+
+    .login-facade {
+        @apply p-2 text-[#F8017C] border border-[#F8017C];
+    }
+
+    input[type="checkbox"] {
+        @apply bg-neutral-700 hover:bg-neutral-800;
+    }
+
+    button, input[type=button] {
+        @apply hoo_bg rounded-md w-fit px-2 py-1;
+    }
+
+    .window {
+        @apply bg-gradient-to-b from-[#121212] to-[#252525] hoo_glow rounded-md;
+    }
+
+    .container {
+        @apply bg-[#121212] rounded-b-md
+    }
+
+    .header {
+        @apply bg-gradient-to-b from-[#303030] from-[45%] via-[#202020] via-[55%] to-[#202020] rounded-t-md border-b border-black
+    }
+
+    .taskbar {
+        @apply bg-gradient-to-b from-[#303030] from-[45%] via-[#202020] via-[55%] to-[#202020] rounded-md border border-[#F8017C]
+    }
+
+    .start {
+        @apply bg-gradient-to-br from-[#303030] to-[#121212] rounded shadow-xl border border-[#F8017C]
+    }
+
+    .startlink > summary {
+        @apply bg-gradient-to-b shadow hover:shadow-lg transition-shadow from-[#202020] to-[#121212] hover:!bg-white rounded
+    }
+
+    .startprofile {
+        @apply border-y hover:bg-gradient-to-b from-gray-300 to-gray-200 border-transparent hover:border-t-gray-400 hover:border-b-white
+    }
+
+    .startsubmenu {
+        @apply shadow-md rounded bg-[#202020] border border-[#F8017C]
+    }
+
+    .startsublink {
+        @apply hover:bg-[#181818] last:rounded-b-md first:rounded-t-md
+    }
+
+    .taskbar-tab {
+        @apply shadow rounded-md border-y border-t-[#353535] border-b-[#000] bg-gradient-to-b from-[#202020] to-[#121212]
+    }
+}
+/* </editor-fold> */
+
+/* <editor-fold desc="Soulseek Theme"> */
+.soul_red {
+    background-image: linear-gradient(to bottom, #ee1d79 0%, #ffa6c6 10%, #b40d5f 90%, #ee1d79 100%);
+}
+
+.soul_bg {
+    background-image: linear-gradient(to bottom, #fdfdff 0%, #b0b0c0 10%, #f1f1ff 90%, #b0b0c0 100%);
+}
+
+.soul_btn {
+    @apply bg-gradient-to-b from-[#f1f1ff] to-[#b6b6c2] border border-[#b0b0c0];
+}
+
+.soul_btn_red {
+    background-image: linear-gradient(to bottom, #EE9D8A, #D35F63);
+    border: 1px solid #A73440;
+
+}
+
+.soul {
+    @apply text-black;
+
+    tbody {
+        @apply bg-neutral-100;
+    }
+
+    .table-container {
+        @apply border-2 border-neutral-400 border-r-neutral-100 border-b-neutral-100;
+    }
+
+    .altmenu {
+        @apply border-b border-black/25 bg-white/75;
+    }
+
+    th {
+        @apply border-2 border-neutral-400 border-l-neutral-100 border-t-neutral-100;
+    }
+
+    td {
+        @apply px-2 truncate;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
+        @apply bg-neutral-100 rounded py-1;
+    }
+
+    .window-controls {
+        @apply p-0.5 space-x-1;
+    }
+
+    .window-controls > div {
+        @apply rounded p-0.5 soul_btn;
+    }
+
+    .window-controls > div:hover {
+        @apply rotate-180;
+    }
+
+    .window-controls > div:last-child {
+        @apply rounded p-0.5 soul_btn_red text-white;
+    }
+
+    .clubs-comment-box {
+        @apply bg-[#D4D4D4];
+    }
+
+    .club-avatar-fallback {
+        background-color: #bebdc9;
+    }
+
+    .event-card {
+        background-color: #bebdc9;
+    }
+
+    .chatroom-bubble {
+        @apply text-black;
+    }
+
+    .chatroom-bubble > p {
+        @apply relative z-10;
+    }
+
+    .chatroom-bubble > p:before {
+        @apply -z-10 soul_bg rounded-md opacity-50 absolute inset-0 content-[''];
+    }
+
+    .chatroom-header, .chatroom-footer {
+        @apply bg-white/50 border-slate-400;
+    }
+
+    .ui-nav {
+        @apply border-r border-white/25 bg-[#FFB6DA] text-white;
+    }
+
+    .ui-navlink-active {
+        background-image: linear-gradient(to bottom, #C10668, #E987AF 10%, #C10668 90%, #E987AF);
+    }
+
+    .ui-nav > div {
+        @apply border-b border-white/25;
+    }
+
+    .login-facade {
+        @apply p-2 text-[#F8017C] border border-[#F8017C];
+    }
+
+    input[type="checkbox"] {
+        @apply bg-slate-300 hover:bg-slate-200;
+    }
+
+    button, input[type=button] {
+        @apply soul_bg rounded border border-slate-500 w-fit px-2 py-1;
+    }
+
+    .window {
+        @apply soul_bg rounded-md;
+    }
+
+    .container {
+        @apply bg-[#E0DFE4] rounded-b-md
+    }
+
+    .header {
+        @apply soul_bg rounded-t-md border-b border-black
+    }
+
+    .taskbar {
+        @apply soul_bg rounded-md pl-6
+    }
+
+    .start {
+        @apply bg-[#E0DFE4] rounded-md shadow-xl;
+    }
+
+    .startlink > summary {
+        @apply soul_btn rounded
+    }
+
+    .startprofile {
+        @apply border-y hover:bg-gradient-to-b from-slate-300 to-slate-200 border-transparent hover:border-t-slate-400 hover:border-b-white
+    }
+
+    .startsubmenu {
+        @apply shadow-md rounded bg-[#E0DFE4]
+    }
+
+    .startsublink {
+        @apply hover:bg-neutral-300 last:rounded-b-md first:rounded-t-md
+    }
+
+    .taskbar-tab {
+        @apply shadow rounded-md soul_btn border border-slate-50
+    }
+
+    .taskbar-tab:first-of-type {
+        @apply shadow rounded-md soul_red text-white font-bold rounded-r-xl -ml-2.5 mr-3 scale-[140%] [text-shadow:#000a_1px_2px_6px]
+    }
+}
+/* </editor-fold> */
+
+/* <editor-fold desc="Brutalist Theme"> */
+.brutal {
+    .window {
+        @apply outline outline-2 outline-black border-2 border-black [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    }
+
+    .ui-nav {
+        @apply border-r-2 border-black;
+    }
+
+    .ui-navlink-active {
+        @apply font-bold;
+    }
+
+    .ui-navfooter {
+        @apply border-t-2 border-black;
+    }
+
+    .ui-navlink {
+        @apply border-b-2 border-black;
+    }
+
+    th {
+        @apply border-b-2 border-black;
+    }
+
+    .altmenu {
+        @apply border-b border-black
+    }
+
+    .table-container {
+        @apply border-2 border-black
+    }
+
+    .club-avatar-fallback {
+        @apply bg-black text-white;
+    }
+
+    .header {
+        @apply bg-white border-b-2 border-black;
+    }
+
+    button, input[type=button] {
+        @apply border-2 border-black px-2 py-0.5;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
+        @apply border-2 border-black py-1;
+    }
+
+    .login-facade {
+        @apply p-2 bg-black text-white;
+    }
+
+    .container {
+        @apply bg-white
+    }
+
+    textarea {
+        @apply border-2 border-black rounded-sm
+    }
+
+    .chatbox {
+        @apply border-2 border-black rounded-sm
+    }
+
+    .button {
+        @apply border-2 border-black
+    }
+
+    .taskbar {
+        @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    }
+
+    .start {
+        @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    }
+
+    .startlink > summary {
+        @apply bg-white outline outline-black border-2 border-white;
+    }
+
+    .startprofile {
+        @apply border-2 border-black
+    }
+
+    .startsubmenu {
+        @apply bg-white outline outline-black border-2 border-white [box-shadow:rgba(0,0,0,0.9)_7px_7px,rgba(0,0,0,0.75)_0_5px_10px];
+    }
+
+    .startsublink {
+        @apply hover:bg-gray-300
+    }
+
+    .taskbar-tab {
+        @apply bg-white outline outline-black
+    }
+}
+/* </editor-fold> */
+
+/* <editor-fold desc="Dark Theme"> */
+.dark {
+    .window {
+        @apply rounded-md
+    }
+
+    .header {
+        @apply bg-gradient-to-b from-gray-300 to-black
+    }
+
+    .window {
+        @apply bg-gray-900 text-white outline outline-black
+    }
+}
+/* </editor-fold> */
+
+/* <editor-fold desc="Aero Theme"> */
+.aero {
+    .window {
+        @apply rounded-md backdrop-blur-md
+    }
+
+    .header {
+        @apply bg-gradient-to-b from-gray-300 to-black
+    }
+
+    .window {
+        @apply bg-gray-900/50
+    }
+}
+/* </editor-fold> */

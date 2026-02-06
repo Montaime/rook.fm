@@ -198,16 +198,21 @@ const deleteComment = (id) => {
 </script>
 <template>
     <div class="flex h-full">
-        <aside class="flex flex-col border-r bg-neutral-100/25 w-52 shrink-0">
+        <aside class="flex flex-col border-r ui-nav w-52 shrink-0">
             <div class="relative grow">
                 <div class="absolute inset-0 overflow-y-auto">
-                    <div v-for="club in clubs" @click="switchBlog(club.id)" class="flex items-center space-x-2 px-2 py-1 cursor-pointer" :class="{'bg-neutral-100/50 font-bold': club.id === currentBlog}">
-<!--                        <div class="size-10 rounded-full bg-blue-500"></div>-->
+                    <div v-for="club in clubs" @click="switchBlog(club.id)" class="flex items-center space-x-2 px-2 py-1 cursor-pointer ui-navlink" :class="{'ui-navlink-active': club.id === currentBlog}">
+                        <div class="relative size-10 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="p-2 club-avatar-fallback rounded-full">
+                                <path d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
+                            </svg>
+                            <div class="size-10 !border-transparent rounded-full absolute inset-0 z-10 bg-cover" :style="`background-image: url('/storage/clubs/${club.id}/icon.jpg');`"></div>
+                        </div>
                         <span class="text-lg">{{ club.name }}</span>
                     </div>
                 </div>
             </div>
-            <div @click="switchBlog(-1)" class="flex items-center space-x-2 p-2 cursor-pointer border-t" :class="{'bg-neutral-100/50 font-bold': currentBlog === -1}">
+            <div @click="switchBlog(-1)" class="flex items-center space-x-2 p-2 cursor-pointer ui-navlink ui-navfooter" :class="{'ui-navlink-active font-bold': currentBlog === -1}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
@@ -252,7 +257,7 @@ const deleteComment = (id) => {
                         <TipTap v-model="newPost.content" :editable="true"/>
                         <details>
                             <summary class="cursor-pointer text-xs">View Source</summary>
-                            <textarea v-model="newPost.content" class="w-full whitespace-pre text-xs bg-black/50 text-white rounded" readonly></textarea>
+                            <textarea rows="4" v-model="newPost.content" class="w-full whitespace-pre text-xs bg-black/50 text-white rounded" readonly></textarea>
                         </details>
                     </div>
                     <div v-else-if="currentPost !== null && currentBlog !== -1" class="flex flex-col items-center max-h-[75vh] w-full">
@@ -305,7 +310,7 @@ const deleteComment = (id) => {
                         <span class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">Comments</span>
                         <div class="flex flex-col space-y-2 px-4 py-2 w-full">
                             <p v-if="blog[currentPost].comments.length === 0">No Comments</p>
-                            <div v-for="comment in blog[currentPost].comments" class="rounded-md bg-neutral-100/50 px-2 py-1">
+                            <div v-for="comment in blog[currentPost].comments" class="rounded-md bg-neutral-100/50 px-2 py-1 clubs-comment-box">
                                 <div class="flex items-center justify-between">
                                     <div class="flex space-x-1 items-center">
                                         <span class="font-bold">{{ comment.author.name }}</span>
@@ -318,7 +323,7 @@ const deleteComment = (id) => {
                             </div>
                         </div>
                         <span class="font-bold w-full mt-2 px-2 text-xs tracking-wider uppercase">New Comment</span>
-                        <textarea v-model="comment.body" class="w-full bg-white/50 text-black rounded" placeholder="Leave a comment..."></textarea>
+                        <textarea rows="4" v-model="comment.body" class="w-full bg-white/50 rounded" placeholder="Leave a comment..."></textarea>
                         <div class="flex justify-end mt-1 w-full">
                             <button @click="sendComment" class="rounded-md bg-white/50 w-fit px-2 py-1">Send</button>
                         </div>
@@ -336,7 +341,7 @@ const deleteComment = (id) => {
                         </div>
                         <div class="text-center" v-if="currentBlog === -1">
                             <p v-if="Object.keys(clubs).length === 0">You are not a member of any artist clubs</p>
-                            <div v-if="isAuthenticated()" class="flex flex-col items-center">
+                            <div v-if="isAuthenticated()" class="flex flex-col space-y-2 items-center">
                                 <input type="text" v-model="code.code" placeholder="xxxx-xxxx-xxxx-xxxx" class="text-center w-full"/>
                                 <button @click="redeem" class="underline">Redeem Code</button>
                                 <InputError class="mt-2" :message="code.errors.code" />
