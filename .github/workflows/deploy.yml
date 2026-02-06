@@ -3,10 +3,9 @@ name: CI-CD
 
 on:
   workflow_dispatch:
-  merge_group:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-js:
@@ -38,11 +37,6 @@ jobs:
         with:
           name: ssr
           path: bootstrap/ssr/ssr.js
-  #  test-php:
-  #    name: Test/Lint PHP
-  #    runs-on: ubuntu-latest
-  #    steps:
-  #      - uses: actions/checkout@v1
   deploy:
     name: Deploy to Production
     runs-on: ubuntu-latest
