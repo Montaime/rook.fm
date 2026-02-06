@@ -12,22 +12,22 @@ set('rsync_src', function () {
     return __DIR__;
 });
 
-host('gdps.io')
+host('production')
+    ->setHostname('gdps.io')
     ->setRemoteUser('deployer')
     ->setPort(22)
     ->setDeployPath('/var/www/rook.fm')
     ->set('branch', 'master')
-    ->set('stage', 'production')
     ->setLabels([
         'stage' => 'production',
     ]);
 
-host('gdps.io')
+host('staging')
+    ->setHostname('gdps.io')
     ->setRemoteUser('deployer')
     ->setPort(22)
     ->setDeployPath('/var/www/staging.rook.fm')
     ->set('branch', 'develop')
-    ->set('stage', 'staging')
     ->setLabels([
         'stage' => 'staging',
     ]);
