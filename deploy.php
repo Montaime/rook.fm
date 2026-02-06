@@ -17,6 +17,7 @@ host('gdps.io')
     ->setPort(22)
     ->setDeployPath('/var/www/rook.fm')
     ->set('branch', 'master')
+    ->set('stage', 'production')
     ->setLabels([
         'stage' => 'production',
     ]);
@@ -26,6 +27,7 @@ host('gdps.io')
     ->setPort(22)
     ->setDeployPath('/var/www/staging.rook.fm')
     ->set('branch', 'develop')
+    ->set('stage', 'staging')
     ->setLabels([
         'stage' => 'staging',
     ]);
