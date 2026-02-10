@@ -2,6 +2,8 @@
 import {Link, useForm} from "@inertiajs/vue3";
 import {$$$, getUser, isAuthenticated, logout} from "@/util.js";
 import {nextTick, ref} from "vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import InputError from "@/Components/InputError.vue";
 
 const user = ref(getUser());
 
@@ -44,7 +46,7 @@ const submitLogin = () => {
 
 const submitRegistration = () => {
     formRegister.post(route('register'), {
-        onFinish: (e) => {
+        onSuccess: (e) => {
             formRegister.reset('password');
             signup.value = false;
         },
@@ -168,17 +170,19 @@ const signup = ref(false);
 
             <span class="text-sm">Name</span>
             <input type="email" v-model="formRegister.name" class="!mt-0"/>
+            <InputError class="mt-2" :message="formRegister.errors.name" />
 
             <span class="text-sm">Email</span>
             <input type="email" v-model="formRegister.email" class="!mt-0"/>
+            <InputError class="mt-2" :message="formRegister.errors.email" />
 
             <span class="text-sm">Password</span>
             <input type="password" v-model="formRegister.password" class="!mt-0"/>
+            <InputError class="mt-2" :message="formRegister.errors.password" />
 
-            <span class="text-sm">Password</span>
+            <span class="text-sm">Confirm Password</span>
             <input type="password" v-model="formRegister.password_confirmation" class="!mt-0"/>
-
-
+            <InputError class="mt-2" :message="formRegister.errors.password_confirmation" />
 
             <div class="flex items-center justify-end space-x-4">
                 <div class="flex items-center space-x-2">
