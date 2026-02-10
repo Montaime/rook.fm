@@ -176,7 +176,9 @@ const signup = ref(false);
             <input type="password" v-model="formRegister.password" class="!mt-0"/>
 
             <span class="text-sm">Password</span>
-            <input type="password" v-model="formRegister.password" class="!mt-0"/>
+            <input type="password" v-model="formRegister.password_confirmation" class="!mt-0"/>
+
+
 
             <div class="flex items-center justify-end space-x-4">
                 <div class="flex items-center space-x-2">
