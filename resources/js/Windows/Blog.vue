@@ -1,6 +1,6 @@
 <script setup>
 import {computed, onBeforeMount, ref, useTemplateRef} from "vue";
-import {getUser, isAdmin, isAuthenticated} from "../util.js";
+import {getUser, isAdmin, isAuthenticated, openW} from "../util.js";
 import {useForm} from "@inertiajs/vue3";
 import TipTap from "./../Components/TipTap.vue";
 import {useDateFormat, useDropZone} from "@vueuse/core";
@@ -346,7 +346,7 @@ const deleteComment = (id) => {
                                 <button @click="redeem" class="underline">Redeem Code</button>
                                 <InputError class="mt-2" :message="code.errors.code" />
                             </div>
-                            <p v-else><Link :href="route('register')" class="underline">Sign up</Link> to rook.fm with a creator code to join a fanclub!</p>
+                            <p v-else><span @click="openW('Account')" class="underline">Log In or Sign Up</span> to rook.fm to join a fanclub!</p>
                         </div>
                     </div>
                 </div>

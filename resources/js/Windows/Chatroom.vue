@@ -1,6 +1,6 @@
 <script setup>
 import {onBeforeMount, ref} from "vue";
-import {getUser, isAuthenticated} from "../util.js";
+import {getUser, isAuthenticated, openW} from "../util.js";
 import {useDateFormat} from "@vueuse/core";
 import {Link} from "@inertiajs/vue3";
 import route from "ziggy-js";
@@ -127,7 +127,7 @@ const channels = {
                     </button>
                 </div>
                 <div class="text-center border-t p-2 bg-white/50" v-else>
-                    <span><Link :href="route('register')" class="underline">Sign up</Link> to chat with others</span>
+                    <span><span @click="openW('Account')" class="underline">Log In or Sign Up</span> to chat with others</span>
                 </div>
             </div>
         </div>
