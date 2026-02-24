@@ -277,7 +277,7 @@ const component = useTemplateRef('component');
 
 watch(() => window.value.visibility, (value, oldValue) => {
     if (value === WindowState.Open && oldValue === WindowState.Closed) {
-        if (component.value.hasOwnProperty('wmInit')) nextTick(() => {
+        if (typeof(component.value) === 'object' && component.value.hasOwnProperty('wmInit')) nextTick(() => {
             component.value.wmInit();
         })
     }
