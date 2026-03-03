@@ -1,10 +1,27 @@
 <script setup>
 import Window from "../Components/OS/Window.vue";
-import {ref} from "vue";
-import {$$$} from "../util.js";
+import {onBeforeMount, ref} from "vue";
+import {$$$, WindowState} from "../util.js";
 import Taskbar from "../Components/Taskbar.vue";
 
+const props = defineProps({
+    config: Object,
+});
+
 const smallSizeClicked = ref(false);
+
+
+onBeforeMount(() => {
+    $$$.config = props.config;
+
+    const startup = props.config?.startup_windows?.split('\n').map(s => s.trim()) ?? [];
+
+    console.log(Object.keys($$$.windows).join(', '))
+
+    for (let w in $$$.windows) {
+        if (startup.includes(w)) $$$.windows[w].visibility = WindowState.Open;
+    }
+});
 </script>
 <template>
     <div :class="{[$$$.theme.style]: true, 'pointer-events-none select-none': $$$.desktop.transforming}">

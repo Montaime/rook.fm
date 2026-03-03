@@ -48,17 +48,14 @@ export const $$$ = reactive({
     windows: {
         'Radio': ref(new Window(markRaw(Radio), {
             title: 'Radio',
-            visibility: WindowState.Open,
             resizable: false
         })),
         'Welcome': ref(new Window(markRaw(Welcome), {
             title: 'Welcome',
-            visibility: WindowState.Open,
             resizable: false
         })),
         'Account': ref(new Window(markRaw(Account), {
             title: 'Account',
-            visibility: WindowState.Closed,
             resizable: false
         })),
         'About': ref(new Window(markRaw(About), {
@@ -68,7 +65,6 @@ export const $$$ = reactive({
         })),
         'Keygen': ref(new Window(markRaw(Keygen), {
             title: 'Keygen',
-            visibility: WindowState.Closed,
             style: '!p-0',
             resizable: false
         })),
@@ -93,9 +89,6 @@ export const $$$ = reactive({
         'Feedback': ref(new Window(markRaw(Feedback), {
             title: 'Feedback',
         })),
-        // 'Submit': ref({
-        //     resizable: false
-        // }),
         'Livestream': ref(new Window(markRaw(Livestream), {
             title: 'Livestream',
         })),
@@ -105,7 +98,6 @@ export const $$$ = reactive({
         })),
         'Soulseek': ref(new Window(markRaw(Soulseek), {
             title: 'Soulseek',
-            visibility: WindowState.Open,
             style: '!p-0',
             resizable: false
         })),
@@ -120,7 +112,8 @@ export const $$$ = reactive({
         y: 0,
         height: 0,
         width: 0
-    }
+    },
+    config: {}
 })
 
 export const windowsLaunched = computed(() => {
@@ -149,7 +142,7 @@ export const tabClick = (name) => {
 
 export const openW = (name) => {
     $$$.desktop.startMenuOpen = false
-    $$$.windows[name].visibility = 2;
+    $$$.windows[name].visibility = WindowState.Open;
     $$$.windows[name].z = ++$$$.desktop.zHighest;
 }
 

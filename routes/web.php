@@ -6,6 +6,7 @@ use App\Models\Membership;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -21,7 +22,9 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('OS');
+    return Inertia::render('OS', [
+        'config' => json_decode(Storage::get('config.json')),
+    ]);
 });
 
 Route::post('/membership/new', function (Request $request) {
@@ -57,12 +60,12 @@ Route::get('/club/{club:id}', function (\Illuminate\Http\Request $request, \App\
     }]);
 
     $club->posts->map(function ($p) {
-        $paths = \Illuminate\Support\Facades\Storage::disk('public')->files('posts/' . $p->id);
+        $paths = Storage::disk('public')->files('posts/' . $p->id);
         $files = [];
 
         foreach ($paths as $file) $files[] = [
             'path' => $file,
-            'size' => \Illuminate\Support\Facades\Storage::disk('public')->size($file),
+            'size' => Storage::disk('public')->size($file),
 //            'mime' => \Illuminate\Support\Facades\Storage::disk('public')->mimeType($file),
             'name' => pathinfo($file, PATHINFO_FILENAME) . '.' . pathinfo($file, PATHINFO_EXTENSION),
         ];
@@ -271,6 +274,27 @@ Route::prefix('/admin')->middleware(['auth', 'admin'])->group(function () {
                 'chats' => \App\Models\ChatMessage::query()->count(),
             ]
         ]);
+    });
+
+    Route::get('/config', function (Request $request) {
+        $filename = 'config.json';
+
+        if (!Storage::exists($filename)) Storage::put('config.json', json_encode([
+            'enabled_windows' => '',
+            'startup_windows' => '',
+            'livestream' => '',
+            'default_theme' => null,
+        ]));
+
+        return Inertia::render('Admin/Config', [
+            'config' => json_decode(Storage::get($filename), true),
+        ]);
+    });
+
+    Route::post('/config', function (Request $request) {
+        Storage::put('config.json', json_encode($request->json('config')));
+
+        return back();
     });
 
     Route::get('/clubs', function (Request $request) {

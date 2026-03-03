@@ -28,8 +28,8 @@ onChange((files) => {
 <template>
     <AdminLayout>
         <h1 class="text-4xl font-bold">{{ club.name }}</h1>
-        <div class="pane">
-            <div class="size-10 rounded-full bg-cover bg-neutral-500" :style="`background-image: url('/storage/clubs/${club.id}/icon.jpg');`"></div>
+        <div class="pane space-y-2">
+            <div class="size-12 rounded-full bg-cover bg-neutral-500" :style="`background-image: url('/storage/clubs/${club.id}/icon.jpg');`"></div>
             <button @click="open">Upload Avatar</button>
         </div>
     </AdminLayout>
