@@ -38,7 +38,7 @@ const wallpapers = [
     vol3,
     poolbg,
     marble,
-    // hoo,
+    hoo,
     rendez,
     nror,
     krim,
@@ -71,12 +71,12 @@ const themes = {
         dark: false,
         wallpaper: marble,
     },
-    // 'hoo': {
-    //     name: 'Whosteen?',
-    //     description: 'Mr. Hoosteen!',
-    //     dark: true,
-    //     wallpaper: hoo,
-    // },
+    'hoo': {
+        name: 'Whosteen?',
+        description: 'Mr. Hoosteen!',
+        dark: true,
+        wallpaper: hoo,
+    },
     // 'virtual': {
     //     name: 'Virtual World',
     //     description: 'See reality through fibre optics',
